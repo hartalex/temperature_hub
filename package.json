@@ -1,0 +1,27 @@
+{
+  "name": "temperature_hub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"node api/index.js\" \"node index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hartalex/temperature_hub.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hartalex/temperature_hub/issues"
+  },
+  "homepage": "https://github.com/hartalex/temperature_hub#readme",
+  "devDependencies": {
+    "concurrently": "^3.3.0"
+  },
+  "dependencies": {
+    "es6-promise": "^4.0.5",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
