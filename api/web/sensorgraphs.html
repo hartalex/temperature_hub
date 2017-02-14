@@ -6,11 +6,11 @@
       google.charts.setOnLoadCallback(drawChart);
   
       function drawChart() {
-        fetch('http://35.184.122.134:8811/sensor/list', {mode: 'cors'}).then(function(res) {
+        fetch('/sensor/list', {mode: 'cors'}).then(function(res) {
 	       return res.json();
         }).then(function(sensorjson) {
 		sensorjson.forEach(function (sensor) {
-		fetch('http://35.184.122.134:8811/temp/'+sensor+'/list', {mode: 'cors'}).then(function(res) {
+		fetch('/temp/'+sensor+'/list', {mode: 'cors'}).then(function(res) {
 	         return res.json();
           }).then(function(json) {
     	  var arraydata = [['Time', sensor]];
