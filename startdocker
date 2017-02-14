@@ -1,0 +1,1 @@
+sudo docker run --name mongo -v /home/hartalex/datadir:/data/db -d -p 127.0.0.1:27017:27017 mongo
