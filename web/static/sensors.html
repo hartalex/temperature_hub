@@ -9,19 +9,33 @@
         fetch('http://dev.hartcode.com:8811/sensor/list', {mode: 'cors'}).then(function(res) {
 	       return res.json();
         }).then(function(sensorjson) {
-		sensorjson.forEach(function (sensor) {
-		fetch('http://dev.hartcode.com:8811/temp/'+sensor.sensorId+'/list', {mode: 'cors'}).then(function(res) {
+	  fetch('http://dev.hartcode.com:8811/temp/graph', {mode: 'cors'}).then(function(res) {
 	         return res.json();
           }).then(function(json) {
-          var sensorName = sensor.sensorId;
-          if ("name" in sensor) {
+
+    	  var arraydata = [];
+          var titleRow = ['Time']; 
+          sensorjson.forEach(function(sensor) {
+            var sensorName = sensor.sensorId;
+            if ("name" in sensor) {
 		sensorName = sensor.name;
-          }
-    	  var arraydata = [['Time', sensorName]];
-		  json.forEach(function (element)  {
-		  		arraydata.push([new Date(element.utc_timestamp), element.tempInFarenheit]);
-		  });
-		  var data = google.visualization.arrayToDataTable(arraydata);
+            }
+            titleRow.push(sensorName);
+          });
+           arraydata.push(titleRow);
+           json.forEach(function (element)  {
+           var arrayRow = [new Date(element._id.minute)];
+            sensorjson.forEach(function(sensor) {
+            element.results.forEach(function(temp) {
+                if (sensor.sensorId == temp.sensorId) {
+		arrayRow.push(temp.tempInFarenheit);
+                }
+            });
+            });
+            arraydata.push(arrayRow);
+	    });
+           console.log(arraydata);
+	    var data = google.visualization.arrayToDataTable(arraydata);
 		
           var options = {
             title: 'Temperatures',
@@ -37,7 +51,7 @@
           chart.draw(data, options);
 		  });
 		});
-		});
+		
       }
 	  
     </script>
