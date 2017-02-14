@@ -1,3 +1,5 @@
+const cors = require('cors');
+
 const service_list = require('./service_list');
 const service_add = require('./service_add');
 const service_del = require('./service_del');
@@ -15,6 +17,6 @@ module.exports = function(app) {
  app.post('/services/delete', jsonParser, service_del);
  app.post('/temp/add', jsonParser, temp_add);
  app.get('/temp/list', temp_list);
- app.get('/temp/:sensorId/list', temp_list);
- app.get('/sensor/list', sensor_list);
+ app.get('/temp/:sensorId/list', cors(), temp_list);
+ app.get('/sensor/list', cors(), sensor_list);
 }
