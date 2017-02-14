@@ -6,11 +6,11 @@
       google.charts.setOnLoadCallback(drawChart);
   
       function drawChart() {
-        fetch('/sensor/list', {mode: 'cors'}).then(function(res) {
+        fetch('http://dev.hartcode.com:8811/sensor/list', {mode: 'cors'}).then(function(res) {
 	       return res.json();
         }).then(function(sensorjson) {
 		sensorjson.forEach(function (sensor) {
-		fetch('/temp/'+sensor+'/list', {mode: 'cors'}).then(function(res) {
+		fetch('http://dev.hartcode.com:8811/temp/'+sensor+'/list', {mode: 'cors'}).then(function(res) {
 	         return res.json();
           }).then(function(json) {
     	  var arraydata = [['Time', sensor]];
