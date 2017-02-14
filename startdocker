@@ -1,3 +1,3 @@
 sudo docker run --name mongo -v /home/hartalex/datadir:/data/db --restart always -d -p 127.0.0.1:27017:27017 mongo
 sudo docker build -t temperature_hub:latest .
-sudo docker run --name temp_hub --restart always -d -p 80:80 -p 8811:8811 --network="host" temperature_hub
+sudo docker run --name temp_hub --restart always -d -p 80:80 -p 8811:8811 --network="host" temperature_hub:latest
