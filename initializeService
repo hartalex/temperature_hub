@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -X POST -d '{"name":"raspberry pi 1","url":"http://home.hartcode.com"}' http://localhost:8811/services/add
