@@ -5,4 +5,6 @@ const app = express();
 
 routes(app);
 
+app.use(express.static(__dirname + '/web/'));
+
 app.listen(port);
