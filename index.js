@@ -5,7 +5,7 @@ var task_is_running = false;
 var time_interval_in_milliseconds = 60 *1000;
 
 
-function pollForTemperatures(callback) {
+function pollForTemperatures() {
   var time = new Date();
   console.log("polling for temperatures");
   fetch('http://localhost:8811/services/list').then(function(response) {
@@ -35,14 +35,6 @@ function pollForTemperatures(callback) {
   }).catch(function(err) {
     console.log(err);
 });
-  callback();
 }
 
-setInterval(function(){
-    if(!task_is_running){
-        task_is_running = true;
-        pollForTemperatures(function(result){
-            task_is_running = false;
-        });
-    }
-}, time_interval_in_milliseconds);
+        pollForTemperatures();
