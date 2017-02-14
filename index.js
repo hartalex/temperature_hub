@@ -8,7 +8,7 @@ var time_interval_in_milliseconds = 60 *1000;
 function pollForTemperatures() {
   var time = new Date();
   console.log("polling for temperatures");
-  fetch('http://localhost:8811/services/list').then(function(response) {
+  fetch('http://localhost:80/services/list').then(function(response) {
     if (response.status >= 400) {
       throw new Error("Bad response from server");
     }
@@ -23,7 +23,7 @@ function pollForTemperatures() {
       }).then(function(sensorData) {
          sensorData.forEach(function(sensor) {
           sensor.utc_timestamp = time.toISOString();
-          fetch('http://localhost:8811/temp/add',{method: "POST",
+          fetch('http://localhost:80/temp/add',{method: "POST",
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'}, body:JSON.stringify(sensor)});  
