@@ -26,11 +26,13 @@
            json.forEach(function (element)  {
            var arrayRow = [new Date(element._id.minute)];
             sensorjson.forEach(function(sensor) {
+	     var sensorData = null;
             element.results.forEach(function(temp) {
                 if (sensor.sensorId == temp.sensorId) {
-		arrayRow.push(temp.tempInFarenheit);
+		  sensorData = temp.tempInFarenheit;
                 }
             });
+            arrayRow.push(sensorData);
             });
             arraydata.push(arrayRow);
 	    });
