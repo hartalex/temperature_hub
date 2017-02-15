@@ -22,7 +22,8 @@ This project currently contains 3 pieces, these may be seperated into seperate p
 
  * GET /services/list
    Returns an array of json objects for each service the polling application should check for new temperatures.
-   ``` [{ 
+   ```
+         [{ 
           "_id":""                             // database id
           "name":"Raspberry Pi - Living Room"  // Unique name for the service
           "url":"http://192.168.0.1:8833"      // url to the temperature_service running on the raspberry pi.
@@ -31,14 +32,16 @@ This project currently contains 3 pieces, these may be seperated into seperate p
   
  * POST /services/add
    Adds a new service to the system.
-   ```  {    
+   ```
+        {    
           "name":"Raspberry Pi - Living Room"  // Unique name for the service
           "url":"http://192.168.0.1:8833"      // url to the temperature_service running on the raspberry pi.
         }
    ```
  * POST /services/delete
    Removes the given service from the system
-   ```  {    
+   ```
+        {    
           "name":"Raspberry Pi - Living Room"  // Unique name for the service
           "url":"http://192.168.0.1:8833"      // url to the temperature_service running on the raspberry pi.
         }
@@ -46,21 +49,61 @@ This project currently contains 3 pieces, these may be seperated into seperate p
    
  * GET /sensor/list
    Returns an array of sensor objects.
-   ``` [{ 
+   ```
+       [{ 
           "sensorId":"28-01159010efff"         // Unique Id for this temperature sensor
           "name":"Living Room"                 // [Optional] Unique human readable name for the sensor if set using /sensor/add
-         }]
+       }]
    ```
  
  * POST /sensor/add
    Sets a human readable name for a sensor
-   ``` [{ 
+   ```
+        [{ 
           "sensorId":"28-01159010efff"         // Unique Id for this temperature sensor
           "name":"Living Room"                 // Unique name for the sensor if set using /sensor/add
          }]
    ```
  * GET /temp/list
+  Gets every temperature piece of data ever
+  ```
+        [{ 
+          "sensorId":"28-01159010efff"                // Unique Id for this temperature sensor
+          "temperatureInFarenheit": 70.012            // a number representing the current temperature in degrees farenheit.
+          "utc_timestamp":"YYYY-MM-DDTHH:mm:ss.sssZ"  // ISO date time string of temperature reading
+         }]
+   ```
   
  * GET /temp/{sensorId}/list
+  Gets the temperatures for a given sensorId
+  ```
+        [{ 
+          "sensorId":"28-01159010efff"                // Unique Id for this temperature sensor
+          "temperatureInFarenheit": 70.012            // a number representing the current temperature in degrees farenheit.
+          "utc_timestamp":"YYYY-MM-DDTHH:mm:ss.sssZ"  // ISO date time string of temperature reading
+         }]
+   ```
  * GET /temp/graph
+   Gets each temperature grouped by the minute
+   ```
+        [{ 
+          "_id":{"minute":"YYYY-MM-DDTHH:mm"},
+          "results: {
+             [{ "sensorId":"28-01159010efff"                // Unique Id for this temperature sensor
+                "temperatureInFarenheit": 70.012            // a number representing the current temperature in degrees farenheit.
+             }]
+          }
+        }]
+   ```
+ 
+ 
  * POST /temp/add
+  Adds a new temperature reading to the database
+  ```
+        { 
+          "sensorId":"28-01159010efff"                // Unique Id for this temperature sensor
+          "temperatureInFarenheit": 70.012            // a number representing the current temperature in degrees farenheit.
+          "utc_timestamp":"YYYY-MM-DDTHH:mm:ss.sssZ"  // ISO date time string of temperature reading
+         }
+   ```
+ 
