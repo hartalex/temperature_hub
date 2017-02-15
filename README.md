@@ -20,6 +20,7 @@ This project currently contains 3 pieces, these may be seperated into seperate p
 
 ## API Service Documentation
 
+### Services
  * GET /services/list
    Returns an array of json objects for each service the polling application should check for new temperatures.
    ```
@@ -46,7 +47,8 @@ This project currently contains 3 pieces, these may be seperated into seperate p
           "url":"http://192.168.0.1:8833"      // url to the temperature_service running on the raspberry pi.
         }
    ```
-   
+
+### Sensors
  * GET /sensor/list
    Returns an array of sensor objects.
    ```
@@ -64,6 +66,8 @@ This project currently contains 3 pieces, these may be seperated into seperate p
           "name":"Living Room"                 // Unique name for the sensor if set using /sensor/add
          }]
    ```
+   
+### Temperatures
  * GET /temp/list
   Gets every temperature piece of data ever
   ```
