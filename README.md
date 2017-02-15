@@ -10,6 +10,8 @@ This project currently contains 3 pieces, these may be seperated into seperate p
 * Polling Service Application
   This is node client program queries each raspberry pi service for the current temperatures and stores them in the database using the API service.
   This program is meant to be scheduled as a cron job to run every minute, hour, or however often you need.
+  
+  ![System](https://raw.githubusercontent.com/hartalex/temperature_hub/master/system.png)
 
 * Web site
   Has two pages with graphs of historical temperature data.
