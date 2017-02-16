@@ -7,8 +7,10 @@ var findTemperatures = function(db,query, callback) {
   // Get the temperatures collection 
   var collection = db.collection('temperatures');
   // Find some temperaturess 
+  var currentTime = new Date();
+  var last24Hours = new Date(currentTime - 86400 * 1000).toISOString();
   collection.aggregate([
-       {"$match" : { tempInFarenheit : {"$lt": 185} } },
+       {"$match" : { tempInFarenheit : {"$lt": 185}, utc_timestamp : { "$gt" : last24Hours } }},
        {"$group": {
         "_id": {
             "minute":  {"$substr" : ["$utc_timestamp", 0, 16]},
