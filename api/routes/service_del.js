@@ -1,68 +1,22 @@
-var MongoClient = require('mongodb').MongoClient;
-
-// Connection URL 
-var url = 'mongodb://localhost:27017/temphub';
-
-var findServiceByUrl = function(db, find, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  // Find some services 
-  collection.findOne({url:find.url},function(err, svc) {
-    if (err == null) {
-      callback(svc);
-    } else {
-      console.log("Error finding service in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
-
-var findServiceByName = function(db, find, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  // Find some services 
-  collection.findOne({name:find.name},function(err, svc) {
-    if (err == null) {
-      callback(svc);
-    } else {
-      console.log("Error finding service in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
-
-var deleteService = function(db, svc, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  collection.remove(svc, {w:1}, function(err, result) {
-    if (err == null) {
-      callback(result);
-    } else {
-      console.log("Error deleting services in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
+const db = require('../db/mongodb');
+const dburl = require('../db/url');
 
 module.exports = function(req, res) {
-// Use connect method to connect to the Server 
-MongoClient.connect(url, function(err, db) {
+// Use connect method to connect to the Server
+db(dburl, function(err, db) {
   if (err == null) {
   var svc = req.body;
     if (typeof svc === "undefined") {
       console.log("Error request body is undefined");
       res.json({result:"fail", reason:"Request Body is Undefined"});
-    } else { 
+    } else {
       if ("url" in svc) {
         if (typeof svc.url === "string") {
           if (svc.url.length > 0) {
             if ("name" in svc) {
               if (typeof svc.name === "string") {
                 if (svc.name.length > 0) {
-                      deleteService(db,svc, function(result) {
+                      deleteData(db,'services', svc, function(result) {
                         if (result != null && result.result.n > 0) {
                           console.log(result);
                           res.json({result:"ok"});

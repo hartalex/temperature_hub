@@ -1,45 +1,32 @@
-var MongoClient = require('mongodb').MongoClient;
+const db = require('../db/mongodb');
+const dburl = require('../db/url');
 
-// Connection URL 
-var url = 'mongodb://localhost:27017/temphub';
 
-var findTemperatures = function(db,query, callback) {
-  // Get the temperatures collection 
-  var collection = db.collection('temperatures');
-  // Find some temperaturess 
+var findTemperaturesLast24 = function(db, callback) {
   var currentTime = new Date();
   var last24Hours = new Date(currentTime - 86400 * 1000).toISOString();
-  collection.aggregate([
-       {"$match" : { tempInFarenheit : {"$lt": 185}, utc_timestamp : { "$gt" : last24Hours } }},
-       {"$group": {
-        "_id": {
-            "minute":  {"$substr" : ["$utc_timestamp", 0, 16]},
+  var query =
+  [
+    {"$match" : { tempInFarenheit : {"$lt": 185}, utc_timestamp : { "$gt" : last24Hours } }},
+    {"$group":
+      {
+        "_id":
+        {
+         "minute":  {"$substr" : ["$utc_timestamp", 0, 16]},
         },
-        "results":  { $push: { "tempInFarenheit":"$tempInFarenheit",
-                               "sensorId":"$sensorId" }}
+        "results":  { $push: { "tempInFarenheit":"$tempInFarenheit", "sensorId":"$sensorId" }}
       }
     },
-      {"$sort": { "_id.minute":1}}
-]).toArray(function(err, docs) {
-    if (err == null) {
-    callback(docs);
-    } else {
-    console.log("Error finding temperatures in mongo db");
-    console.log(err);
-    callback([]);
-    }
-  });
+    {"$sort": { "_id.minute":1}}
+  ];
+  queryAggregateData(db,query,'temperatures',callback);
 }
 
 module.exports = function(req, res) {
-// Use connect method to connect to the Server 
-MongoClient.connect(url, function(err, db) {
+// Use connect method to connect to the Server
+db(dburl, function(err, db) {
   if (err == null) {
-  var query = {};
-  if ("sensorId" in req.params) {
-    query = {sensorId:req.params.sensorId};
-  }
-  findTemperatures(db, query, function(temps) {
+  findTemperaturesLast24(db, function(temps) {
     res.json(temps);
     db.close();
   });
