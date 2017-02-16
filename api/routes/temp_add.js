@@ -1,17 +1,32 @@
-const db = require('../db/mongodb');
-const dburl = require('../db/url');
+var MongoClient = require('mongodb').MongoClient;
 
+// Connection URL 
+var url = 'mongodb://localhost:27017/temphub';
+
+var insertTemperature = function(db, temp, callback) {
+  // Get the temperaturess collection 
+  var collection = db.collection('temperatures');
+  collection.insert(temp, {w:1}, function(err, result) {
+    if (err == null) {
+      callback(result);
+    } else {
+      console.log("Error inserting temperatures in mongo db");
+      console.log(err);
+      callback(null);
+    }
+  });
+}
 
 module.exports = function(req, res) {
-// Use connect method to connect to the Server
-db(dburl, function(err, db) {
+// Use connect method to connect to the Server 
+MongoClient.connect(url, function(err, db) {
   if (err == null) {
   var temp = req.body;
   console.log(temp);
     if (typeof temp  === "undefined") {
       console.log("Error request body is undefined");
       res.json({result:"fail", reason:"Request Body is Undefined"});
-    } else {
+    } else { 
       if ("id" in temp) {
         if (typeof temp.id === "string") {
           if (temp.id.length > 0) {
@@ -26,7 +41,7 @@ db(dburl, function(err, db) {
 		}else {
 		  temperature.utc_timestamp = temp.utc_timestamp;
 		}
-                insertData(db,'temperatures', temperature, function(result) {
+                insertTemperature(db,temperature, function(result) {
                   if (result != null && result.result.n > 0) {
                     res.json({result:"ok"});
                   } else {
