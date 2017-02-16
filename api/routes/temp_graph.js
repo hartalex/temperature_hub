@@ -8,7 +8,8 @@ var findTemperatures = function(db,query, callback) {
   var collection = db.collection('temperatures');
   // Find some temperaturess 
   collection.aggregate([
-    { "$group": {
+       {"$match" : { tempInFarenheit : {"$lt": 185} } },
+       {"$group": {
         "_id": {
             "minute":  {"$substr" : ["$utc_timestamp", 0, 16]},
         },
