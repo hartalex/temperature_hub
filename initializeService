@@ -1,3 +1,10 @@
 curl -H "Content-Type: application/json" -X POST -d '{"name":"raspberry pi 1","url":"http://home.hartcode.com"}' http://localhost:8811/services/add
 curl -H "Content-Type: application/json" -X POST -d '{"name":"Basement","sensorId":"28-0415904bceff"}' http://localhost:8811/sensor/add
 curl -H "Content-Type: application/json" -X POST -d '{"name":"Living Room","sensorId":"28-0115902958ff"}' http://localhost:8811/sensor/add
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Fish Tank","sensorId":"28-01159010efff"}' http://localhost:8811/sensor/add
+
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Raspberry Pi Zero","url":"http://home.hartcode.com:8833"}' http://localhost:8811/services/add
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Bedroom","sensorId":"28-0315901f15ff"}' http://localhost:8811/sensor/add
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Outside","sensorId":"28-0315901df6ff"}' http://localhost:8811/sensor/add
