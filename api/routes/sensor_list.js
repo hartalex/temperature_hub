@@ -3,10 +3,10 @@ const dburl = require('../db/url');
 
 module.exports = function(req, res) {
 // Use connect method to connect to the Server
-  db(dburl, function(err, db) {
+  db.connect(dburl, function(err, dbobj) {
     if (err == null) {
-      querydistinctData(db,'sensorId','temperatures', function(temps) {
-        queryData(db,{},'sensors', function(sensors) {
+      db.querydistinctData(dbobj,'sensorId','temperatures', function(temps) {
+        db.queryData(dbobj,{},'sensors', function(sensors) {
           var array = [];
           temps.forEach(function (temp) {
             var obj = {sensorId:temp};
@@ -18,7 +18,7 @@ module.exports = function(req, res) {
             array.push(obj);
           });
           res.json(array);
-          db.close();
+          dbobj.close();
         });
       });
     } else {

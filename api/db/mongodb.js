@@ -1,10 +1,12 @@
 var MongoClient = require('mongodb').MongoClient;
 
-module.exports = function(url, callback) {
-  MongoClient.connect(url, callback);
-}
+module.exports =
+   {
+     connect : function(url, callback) {
+       MongoClient.connect(url, callback);
+     },
 
-var queryData = function(db, query, collection, callback) {
+   queryData : function(db, query, collection, callback) {
   var dbcollection = db.collection(collection);
   dbcollection.find(query).toArray(function(err, docs) {
     if (err == null) {
@@ -15,21 +17,21 @@ var queryData = function(db, query, collection, callback) {
       callback([]);
     }
   });
-}
+},
 
-var querydistinctData = function(db, query, collection, callback) {
+querydistinctData : function(db, query, collection, callback) {
   var dbcollection = db.collection(collection);
   dbcollection.find(query).toArray(function(err, docs) {
   var sensors = dbcollection.distinct(query).then(function(docs) {
     callback(docs);
-  }).catch( function(error) {
+  }).catch( function(error) {s
      console.log(error);
      callback([]);
   });
 });
-}
+},
 
-var queryOneData = function(db, find, collection, callback) {
+queryOneData : function(db, find, collection, callback) {
   var collection = db.collection(collection);
   collection.findOne(find,function(err, obj) {
     if (err == null) {
@@ -40,9 +42,9 @@ var queryOneData = function(db, find, collection, callback) {
       callback(null);
     }
   });
-}
+},
 
-var queryAggregateData = function(db, query, collection, callback) {
+ queryAggregateData : function(db, query, collection, callback) {
   var dbcollection = db.collection(collection);
   dbcollection.aggregate(query).toArray(function(err, docs) {
     if (err == null) {
@@ -53,10 +55,10 @@ var queryAggregateData = function(db, query, collection, callback) {
       callback([]);
     }
   });
-}
+},
 
 
-var insertData = function(db, collection, obj, callback) {
+ insertData : function(db, collection, obj, callback) {
   var dbcollection = db.collection(collection);
   dbcollection.insert(obj, {w:1}, function(err, result) {
     if (err == null) {
@@ -67,9 +69,9 @@ var insertData = function(db, collection, obj, callback) {
       callback(null);
     }
   });
-}
+},
 
-var deleteData = function(db, collection, obj, callback) {
+ deleteData : function(db, collection, obj, callback) {
   var dbcollection = db.collection(collection);
   dbcollection.remove(obj, {w:1}, function(err, result) {
     if (err == null) {
