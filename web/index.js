@@ -1,9 +1,9 @@
 const express = require('express')
-const sensors = require('./sensors')
+const temperatureGraph = require('./temperatureGraph')
 const cors = require('cors')
 const port = process.env.PORT || 80
 const app = express()
 
-app.get('/sensors', cors(), sensors)
+app.get('/', cors(), temperatureGraph)
 
 app.listen(port)
