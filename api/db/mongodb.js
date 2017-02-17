@@ -21,14 +21,12 @@ module.exports =
 
 querydistinctData : function(db, query, collection, callback) {
   var dbcollection = db.collection(collection);
-  dbcollection.find(query).toArray(function(err, docs) {
   var sensors = dbcollection.distinct(query).then(function(docs) {
     callback(docs);
   }).catch( function(error) {s
      console.log(error);
      callback([]);
   });
-});
 },
 
 queryOneData : function(db, find, collection, callback) {
