@@ -14,18 +14,18 @@ const jsonParser = bodyParser.json();
 
 module.exports = function(app) {
 
- // services
- app.get('/services/list', service_list);
- app.post('/services/add', jsonParser, service_add);
- app.post('/services/delete', jsonParser, service_del);
- 
- // temperatures 
- app.post('/temp/add', jsonParser, temp_add);
- app.get('/temp/list', temp_list);
- app.get('/temp/graph', cors(), temp_graph);
- app.get('/temp/:sensorId/list', cors(), temp_list);
+    // services
+    app.get('/services/list', service_list);
+    app.post('/services/add', jsonParser, service_add);
+    app.post('/services/delete', jsonParser, service_del);
 
- // sensors
- app.get('/sensor/list', cors(), sensor_list);
- app.post('/sensor/add', jsonParser, sensor_add);
+    // temperatures
+    app.post('/temp/add', jsonParser, temp_add);
+    app.get('/temp/list', temp_list);
+    app.get('/temp/graph', cors(), temp_graph);
+    app.get('/temp/:sensorId/list', cors(), temp_list);
+
+    // sensors
+    app.get('/sensor/list', cors(), sensor_list);
+    app.post('/sensor/add', jsonParser, sensor_add);
 }
