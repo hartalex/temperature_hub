@@ -3,11 +3,11 @@ const dburl = require('../db/url');
 
 module.exports = function(req, res) {
   // Use connect method to connect to the Server
-  db(dburl, function(err, db) {
+  db.connect(dburl, function(err, dbobj) {
   if (err == null) {
-    queryData(db, {}, 'services', function(svcs) {
+    db.queryData(dbobj, {}, 'services', function(svcs) {
       res.json(svcs);
-      db.close();
+      dbobj.close();
     });
   } else {
     console.log("Error connecting to mongo db");

@@ -4,7 +4,7 @@ const dburl = require('../db/url');
 
 module.exports = function(req, res) {
 // Use connect method to connect to the Server
-db(dburl, function(err, db) {
+db.connect(dburl, function(err, dbobj) {
   if (err == null) {
   var temp = req.body;
   console.log(temp);
@@ -26,14 +26,14 @@ db(dburl, function(err, db) {
 		}else {
 		  temperature.utc_timestamp = temp.utc_timestamp;
 		}
-                insertData(db,'temperatures', temperature, function(result) {
+                db.insertData(dbobj,'temperatures', temperature, function(result) {
                   if (result != null && result.result.n > 0) {
                     res.json({result:"ok"});
                   } else {
                     res.status(500);
                     res.json({result:"fail"});
                   }
-                  db.close();
+                  dbobj.close();
                 });
               } else {
                 console.log("Error t property is not a number");

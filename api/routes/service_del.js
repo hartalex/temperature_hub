@@ -3,7 +3,7 @@ const dburl = require('../db/url');
 
 module.exports = function(req, res) {
 // Use connect method to connect to the Server
-db(dburl, function(err, db) {
+db.connect(dburl, function(err, dbobj) {
   if (err == null) {
   var svc = req.body;
     if (typeof svc === "undefined") {
@@ -16,7 +16,7 @@ db(dburl, function(err, db) {
             if ("name" in svc) {
               if (typeof svc.name === "string") {
                 if (svc.name.length > 0) {
-                      deleteData(db,'services', svc, function(result) {
+                      db.deleteData(dbobj,'services', svc, function(result) {
                         if (result != null && result.result.n > 0) {
                           console.log(result);
                           res.json({result:"ok"});
@@ -24,7 +24,7 @@ db(dburl, function(err, db) {
 	                  res.status(500);
                           res.json({result:"fail"});
                         }
-                        db.close();
+                        dbobj.close();
                       });
                 } else {
                   console.log("Error name property cannot be empty");

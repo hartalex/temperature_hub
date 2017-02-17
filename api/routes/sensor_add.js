@@ -4,7 +4,7 @@ const dburl = require('../db/url');
 
 module.exports = function(req, res) {
 // Use connect method to connect to the Server
-db(dburl, function(err, db) {
+db.connect(dburl, function(err, dbobj) {
   if (err == null) {
   var svc = req.body;
     if (typeof svc === "undefined") {
@@ -18,11 +18,11 @@ db(dburl, function(err, db) {
               if (typeof svc.name === "string") {
                 if (svc.name.length > 0) {
                   console.log(svc);
-                  queryOneData(db, {sensorId:svc.sensorId}, 'sensors', function(result) {
+                  db.queryOneData(dbobj, {sensorId:svc.sensorId}, 'sensors', function(result) {
 		    if (result == null) {
-                      queryOneData(db, {name:svc.name},'sensors', function(result) {
+                      db.queryOneData(dbobj, {name:svc.name},'sensors', function(result) {
 		        if (result == null) {
-                          insertData(db,'sensors',svc, function(result) {
+                          db.insertData(dbobj,'sensors',svc, function(result) {
                             console.log(result);
                             if (result != null && result.result.n > 0) {
                               res.json({result:"ok"});
@@ -30,7 +30,7 @@ db(dburl, function(err, db) {
 	                            res.status(500);
                               res.json({result:"fail"});
                             }
-                            db.close();
+                            dbobj.close();
                           });
 	  	        } else {
                           console.log("Error name already exists");
