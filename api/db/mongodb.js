@@ -26,6 +26,7 @@ var querydistinctData = function(db, query, collection, callback) {
      console.log(error);
      callback([]);
   });
+});
 }
 
 var queryOneData = function(db, find, collection, callback) {
