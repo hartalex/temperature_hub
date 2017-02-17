@@ -1,10 +1,54 @@
 const db = require('../db/mongodb');
 const dburl = require('../db/url');
 
+var findSensorById = function(db, find, callback) {
+  // Get the sensors collection
+  var collection = db.collection('sensors');
+  // Find some sensors
+  collection.findOne({sensorId:find.sensorId},function(err, svc) {
+    if (err == null) {
+      callback(svc);
+    } else {
+      console.log("Error finding sensor in mongo db");
+      console.log(err);
+      callback(null);
+    }
+  });
+}
+
+var findSensorByName = function(db, find, callback) {
+  // Get the services collection
+  var collection = db.collection('sensors');
+  // Find some services
+  collection.findOne({name:find.name},function(err, svc) {
+    if (err == null) {
+      callback(svc);
+    } else {
+      console.log("Error finding sensor in mongo db");
+      console.log(err);
+      callback(null);
+    }
+  });
+}
+
+var insertSensor = function(db, svc, callback) {
+  // Get the services collection
+  var collection = db.collection('sensors');
+  // Find some services
+  collection.insert(svc, {w:1}, function(err, result) {
+    if (err == null) {
+      callback(result);
+    } else {
+      console.log("Error inserting services in mongo db");
+      console.log(err);
+      callback(null);
+    }
+  });
+}
 
 module.exports = function(req, res) {
 // Use connect method to connect to the Server
-db.connect(dburl, function(err, dbobj) {
+MongoClient.connect(url, function(err, db) {
   if (err == null) {
   var svc = req.body;
     if (typeof svc === "undefined") {
@@ -18,19 +62,19 @@ db.connect(dburl, function(err, dbobj) {
               if (typeof svc.name === "string") {
                 if (svc.name.length > 0) {
                   console.log(svc);
-                  db.queryOneData(dbobj, {sensorId:svc.sensorId}, 'sensors', function(result) {
+                  findSensorById(db, svc, function(result) {
 		    if (result == null) {
-                      db.queryOneData(dbobj, {name:svc.name},'sensors', function(result) {
+                      findSensorByName(db, svc, function(result) {
 		        if (result == null) {
-                          db.insertData(dbobj,'sensors',svc, function(result) {
+                          insertSensor(db,svc, function(result) {
                             console.log(result);
                             if (result != null && result.result.n > 0) {
                               res.json({result:"ok"});
                             } else {
-	                            res.status(500);
+	                      res.status(500);
                               res.json({result:"fail"});
                             }
-                            dbobj.close();
+                            db.close();
                           });
 	  	        } else {
                           console.log("Error name already exists");
