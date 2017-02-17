@@ -83,3 +83,4 @@ queryOneData : function(db, find, collection, callback) {
     }
   });
 }
+}
