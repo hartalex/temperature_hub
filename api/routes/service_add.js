@@ -1,62 +1,17 @@
-var MongoClient = require('mongodb').MongoClient;
 
-// Connection URL 
-var url = 'mongodb://localhost:27017/temphub';
+const db = require('../db/mongodb');
+const dburl = require('../db/url');
 
-var findServiceByUrl = function(db, find, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  // Find some services 
-  collection.findOne({url:find.url},function(err, svc) {
-    if (err == null) {
-      callback(svc);
-    } else {
-      console.log("Error finding service in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
-
-var findServiceByName = function(db, find, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  // Find some services 
-  collection.findOne({name:find.name},function(err, svc) {
-    if (err == null) {
-      callback(svc);
-    } else {
-      console.log("Error finding service in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
-
-var insertService = function(db, svc, callback) {
-  // Get the services collection 
-  var collection = db.collection('services');
-  // Find some services 
-  collection.insert(svc, {w:1}, function(err, result) {
-    if (err == null) {
-      callback(result);
-    } else {
-      console.log("Error inserting services in mongo db");
-      console.log(err);
-      callback(null);
-    }
-  });
-}
 
 module.exports = function(req, res) {
-// Use connect method to connect to the Server 
-MongoClient.connect(url, function(err, db) {
+// Use connect method to connect to the Server
+db.connect(dburl, function(err, dbobj) {
   if (err == null) {
   var svc = req.body;
     if (typeof svc === "undefined") {
       console.log("Error request body is undefined");
       res.json({result:"fail", reason:"Request Body is Undefined"});
-    } else { 
+    } else {
       if ("url" in svc) {
         if (typeof svc.url === "string") {
           if (svc.url.length > 0) {
@@ -64,11 +19,11 @@ MongoClient.connect(url, function(err, db) {
               if (typeof svc.name === "string") {
                 if (svc.name.length > 0) {
                   console.log(svc);
-                  findServiceByUrl(db, svc, function(result) {
+                  db.queryOneData(dbobj, {url:svc.url}, 'services', function(result) {
 		    if (result == null) {
-                      findServiceByName(db, svc, function(result) {
+                      db.queryOneData(dbobj, {name:svc.name}, 'services', function(result) {
 		        if (result == null) {
-                          insertService(db,svc, function(result) {
+                          db.insertData(dbobj,'services', svc, function(result) {
                             console.log(result);
                             if (result != null && result.result.n > 0) {
                               res.json({result:"ok"});
@@ -76,7 +31,7 @@ MongoClient.connect(url, function(err, db) {
 	                      res.status(500);
                               res.json({result:"fail"});
                             }
-                            db.close();
+                            dbobj.close();
                           });
 	  	        } else {
                           console.log("Error name already exists");

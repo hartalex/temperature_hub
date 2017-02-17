@@ -1,34 +1,17 @@
-var MongoClient = require('mongodb').MongoClient;
-
-// Connection URL 
-var url = 'mongodb://localhost:27017/temphub';
-
-var findTemperatures = function(db,query, callback) {
-  // Get the temperatures collection 
-  var collection = db.collection('temperatures');
-  // Find some temperaturess 
-  collection.find(query).toArray(function(err, docs) {
-    if (err == null) {
-    callback(docs);
-    } else {
-    console.log("Error finding temperatures in mongo db");
-    console.log(err);
-    callback([]);
-    }
-  });
-}
+const db = require('../db/mongodb');
+const dburl = require('../db/url');
 
 module.exports = function(req, res) {
-// Use connect method to connect to the Server 
-MongoClient.connect(url, function(err, db) {
+// Use connect method to connect to the Server
+db.connect(dburl, function(err, dbobj) {
   if (err == null) {
-  var query = {};
-  if ("sensorId" in req.params) {
-  query = {sensorId:req.params.sensorId};
-  }
-  findTemperatures(db, query, function(temps) {
+    var query = {};
+    if ("sensorId" in req.params) {
+      query = {sensorId:req.params.sensorId};
+    }
+    db.queryData(dbobj, query, 'temperatures', function(temps) {
     res.json(temps);
-    db.close();
+    dbobj.close();
   });
   } else {
   console.log("Error connecting to mongo db");
