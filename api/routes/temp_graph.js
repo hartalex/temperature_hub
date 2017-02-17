@@ -16,7 +16,7 @@ var findTemperaturesLast24 = function(dbobj, callback) {
       }
     },
     {"$sort": { "_id.minute":1}}
-  ];
+  ]);
   db.queryAggregateData(dbobj,query,'temperatures',callback);
 }
 
