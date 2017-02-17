@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint pollingService.js api/** web/**",
     "api": "node api/index.js >> /var/log/temp_api.log 2>&1",
     "web": "node web/index.js >> /var/log/temp_web.log 2>&1",
     "start": "concurrently \"npm run api\" \"npm run web\""

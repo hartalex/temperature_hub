@@ -1,31 +1,30 @@
-const cors = require('cors');
+const cors = require('cors')
 
-const service_list = require('./service_list');
-const service_add = require('./service_add');
-const service_del = require('./service_del');
-const temp_add = require('./temp_add');
-const temp_list = require('./temp_list');
-const temp_graph = require('./temp_graph');
-const sensor_list = require('./sensor_list');
-const sensor_add = require('./sensor_add');
+const serviceList = require('./service_list')
+const serviceAdd = require('./service_add')
+const serviceDel = require('./service_del')
+const tempAdd = require('./temp_add')
+const tempList = require('./temp_list')
+const tempGraph = require('./temp_graph')
+const sensorList = require('./sensor_list')
+const sensorAdd = require('./sensor_add')
 const bodyParser = require('body-parser')
 
-const jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json()
 
-module.exports = function(app) {
+module.exports = function (app) {
+  // services
+  app.get('/services/list', serviceList)
+  app.post('/services/add', jsonParser, serviceAdd)
+  app.post('/services/delete', jsonParser, serviceDel)
 
-    // services
-    app.get('/services/list', service_list);
-    app.post('/services/add', jsonParser, service_add);
-    app.post('/services/delete', jsonParser, service_del);
+  // temperatures
+  app.post('/temp/add', jsonParser, tempAdd)
+  app.get('/temp/list', tempList)
+  app.get('/temp/graph', cors(), tempGraph)
+  app.get('/temp/:sensorId/list', cors(), tempList)
 
-    // temperatures
-    app.post('/temp/add', jsonParser, temp_add);
-    app.get('/temp/list', temp_list);
-    app.get('/temp/graph', cors(), temp_graph);
-    app.get('/temp/:sensorId/list', cors(), temp_list);
-
-    // sensors
-    app.get('/sensor/list', cors(), sensor_list);
-    app.post('/sensor/add', jsonParser, sensor_add);
+  // sensors
+  app.get('/sensor/list', cors(), sensorList)
+  app.post('/sensor/add', jsonParser, sensorAdd)
 }
