@@ -35,9 +35,16 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
   ]
 }
 
+var findTemperaturesLastXDays = function (dbobj, x, callback) {
+  const currentTime = new Date()
+  const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
+  const timeStampCompareLength = 16
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures', callback)
+}
+
 var findTemperaturesLastXHours = function (dbobj, x, callback) {
   const currentTime = new Date()
-  const lastOldestTime = new Date(currentTime - 3600 * x * 1000).toISOString()
+  const lastOldestTime = new Date(currentTime - (3600 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures', callback)
 }
@@ -56,11 +63,40 @@ module.exports = function (req, res) {
           res.json(temps)
           dbobj.close()
         })
+      } else if (duration === '12h') {
+        findTemperaturesLastXHours(dbobj, 12, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
       } else if (duration === '24h') {
         findTemperaturesLastXHours(dbobj, 24, function (temps) {
           res.json(temps)
           dbobj.close()
         })
+      } else if (duration === '3d') {
+        findTemperaturesLastXDays(dbobj, 3, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '7d') {
+        findTemperaturesLastXDays(dbobj, 7, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '14d') {
+        findTemperaturesLastXDays(dbobj, 14, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '28d') {
+        findTemperaturesLastXDays(dbobj, 28, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else {
+        console.log('Duration could not be handled');
+        console.log(duration);
+        res.json([]);
       }
     } else {
       console.log('Error connecting to mongo db')
@@ -71,10 +107,11 @@ module.exports = function (req, res) {
 }
 
 function validateDuration (duration) {
-  var validDurations = ['1h', '24h', '3d', '7d']
+  const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d']
   var retval = validDurations[0]
-  if (validDurations.indexOf(duration) === -1) {
-    retval = duration
+  if (validDurations.indexOf(duration) != -1) {
+    retval = validDurations[validDurations.indexOf(duration)]
+    console.log('Duration is valid')
   }
   return retval
 }
