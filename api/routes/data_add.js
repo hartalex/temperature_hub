@@ -74,7 +74,7 @@ module.exports = function (req, res) {
               reason: 'Property id is not a string'
             })
           }
-        }
+        } else
         // door data
         if ('sensorId' in input) {
           if (typeof input.sensorId === 'string') {
