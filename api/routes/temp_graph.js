@@ -20,19 +20,19 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
         },
         'sensorId': '$sensorId'
       },
-       'tempInFarenheit': { $avg : '$tempInFarenheit'}
-      }
+      'tempInFarenheit': {$avg: '$tempInFarenheit'}
+    }
   },
   {
     '$group': {
-      '_id': { 'minute' : '$_id.minute' },
-      'results' : {
-         $push : {
-           'sensorId': '$_id.sensorId',
-           'tempInFarenheit': '$tempInFarenheit'
-         }
-       }
-     }
+      '_id': { 'minute': '$_id.minute' },
+      'results': {
+        $push: {
+          'sensorId': '$_id.sensorId',
+          'tempInFarenheit': '$tempInFarenheit'
+        }
+      }
+    }
   },
   {
     '$sort': {
@@ -46,10 +46,10 @@ var findTemperaturesLastXDays = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
   const timeStampCompareLength = 13
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures', 
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
   function (objs) {
     objs.forEach(function (obj) {
-      obj._id.minute += ':00' 
+      obj._id.minute += ':00'
     })
     callback(objs)
   })
