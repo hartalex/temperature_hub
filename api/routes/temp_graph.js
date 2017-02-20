@@ -42,6 +42,19 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
   ]
 }
 
+var findTemperaturesLastXMonths = function (dbobj, x, callback) {
+  const currentTime = new Date()
+  const lastOldestTime = new Date(currentTime - (3600 * 24 * 30 * x * 1000)).toISOString()
+  const timeStampCompareLength = 10
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
+  function (objs) {
+    objs.forEach(function (obj) {
+      obj._id.minute += 'T00:00'
+    })
+    callback(objs)
+  })
+}
+
 var findTemperaturesLastXDays = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
@@ -106,6 +119,26 @@ module.exports = function (req, res) {
           res.json(temps)
           dbobj.close()
         })
+      } else if (duration === '1m') {
+        findTemperaturesLastXMonths(dbobj, 1, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '3m') {
+        findTemperaturesLastXMonths(dbobj, 3, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '6m') {
+        findTemperaturesLastXMonths(dbobj, 6, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
+      } else if (duration === '12m') {
+        findTemperaturesLastXMonths(dbobj, 12, function (temps) {
+          res.json(temps)
+          dbobj.close()
+        })
       } else {
         console.log('Duration could not be handled')
         console.log(duration)
@@ -120,7 +153,7 @@ module.exports = function (req, res) {
 }
 
 function validateDuration (duration) {
-  const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d']
+  const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d', '1m', '3m', '6m', '12m']
   var retval = validDurations[0]
   if (validDurations.indexOf(duration) !== -1) {
     retval = validDurations[validDurations.indexOf(duration)]
