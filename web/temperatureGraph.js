@@ -2,13 +2,17 @@ require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 module.exports = function (req, res) {
+  var duration = '1hr'
+  if ('duration' in req.params) {
+    duration = req.params.duration
+  }
   fetch('http://localhost:8811/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
     return response.json()
   }).then(function (sensorjson) {
-    fetch('http://localhost:8811/temp/graph').then(function (response) {
+    fetch('http://localhost:8811/temp/' + duration + '/graph').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

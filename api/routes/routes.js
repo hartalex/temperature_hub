@@ -22,6 +22,7 @@ module.exports = function (app) {
   app.post('/temp/add', jsonParser, tempAdd)
   app.get('/temp/list', tempList)
   app.get('/temp/graph', cors(), tempGraph)
+  app.get('/temp/:duration/graph', cors(), tempGraph)
   app.get('/temp/:sensorId/list', cors(), tempList)
 
   // sensors

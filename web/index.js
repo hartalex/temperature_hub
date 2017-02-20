@@ -5,5 +5,6 @@ const port = process.env.PORT || 80
 const app = express()
 
 app.get('/', cors(), temperatureGraph)
+app.get('/:duration', cors(), temperatureGraph)
 
 app.listen(port)
