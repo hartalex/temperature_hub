@@ -94,9 +94,9 @@ module.exports = function (req, res) {
           dbobj.close()
         })
       } else {
-        console.log('Duration could not be handled');
-        console.log(duration);
-        res.json([]);
+        console.log('Duration could not be handled')
+        console.log(duration)
+        res.json([])
       }
     } else {
       console.log('Error connecting to mongo db')
@@ -109,7 +109,7 @@ module.exports = function (req, res) {
 function validateDuration (duration) {
   const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d']
   var retval = validDurations[0]
-  if (validDurations.indexOf(duration) != -1) {
+  if (validDurations.indexOf(duration) !== -1) {
     retval = validDurations[validDurations.indexOf(duration)]
     console.log('Duration is valid')
   }
