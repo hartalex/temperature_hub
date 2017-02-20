@@ -89,18 +89,22 @@ module.exports = function (req, res) {
                   } else {
                     data.utc_timestamp = input.utc_timestamp
                   }
-                  db.insertData(dbobj, 'doors', data, function (result) {
-                    if (result != null && result.result.n > 0) {
-                      res.json({
-                        result: 'ok'
-                      })
-                    } else {
-                      res.status(500)
-                      res.json({
-                        result: 'fail'
+                  db.queryLastData(dbobj, {sensorId: data.sensorId}, 'doors', function (existingData) {
+                    if (existingData == null || existingData.sensorId === data.sensorId && existingData.isOpen !== data.isOpen) {
+                      db.insertData(dbobj, 'doors', data, function (result) {
+                        if (result != null && result.result.n > 0) {
+                          res.json({
+                            result: 'ok'
+                          })
+                        } else {
+                          res.status(500)
+                          res.json({
+                            result: 'fail'
+                          })
+                        }
+                        dbobj.close()
                       })
                     }
-                    dbobj.close()
                   })
                 } else {
                   console.log('Error isOpen property is not a boolean')

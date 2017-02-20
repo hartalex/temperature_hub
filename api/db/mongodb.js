@@ -42,6 +42,19 @@ module.exports = {
     })
   },
 
+  queryLastData: function (db, query, collection, callback) {
+    var dbcollection = db.collection(collection)
+    dbcollection.find(query).sort({_id: 1}).limit(1).toArray(function (err, docs) {
+      if (err == null) {
+        callback(docs)
+      } else {
+        console.log('Error finding data in db')
+        console.log(err)
+        callback([])
+      }
+    })
+  },
+
   queryAggregateData: function (db, query, collection, callback) {
     var dbcollection = db.collection(collection)
     dbcollection.aggregate(query).toArray(function (err, docs) {
