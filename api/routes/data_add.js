@@ -104,6 +104,11 @@ module.exports = function (req, res) {
                         }
                         dbobj.close()
                       })
+                    } else {
+                      dbobj.close()
+                      res.json({
+                        result: 'ok'
+                      })
                     }
                   })
                 } else {
