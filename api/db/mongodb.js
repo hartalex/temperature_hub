@@ -65,7 +65,7 @@ module.exports = {
       if (err == null) {
         callback(docs)
       } else {
-        console.log('Error finding temperatures in mongo db')
+        console.log('Error finding data in mongo db')
         console.log(err)
         callback([])
       }

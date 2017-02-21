@@ -15,11 +15,17 @@ module.exports = function (req, res) {
       }).then(function (sensorjson) {
         var retval = []
         sensorjson.forEach(function (sensor) {
+          console.log(sensor)
           db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (temp) {
-            temp.sensorName = sensor.name
-            retval.push(temp)
+            if (temp != null) {
+              temp.sensorName = sensor.name
+              retval.push(temp)
+            } else {
+              console.log('Unable to find temperature for that sensor')
+            }
           })
         })
+        console.log(retval)
         res.json(retval)
       }).catch(function (err) {
         console.log(err)
