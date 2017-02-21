@@ -95,6 +95,5 @@ module.exports = {
         output.result = 'fail'
       }
     })
-  },
-  
+  }
 }
