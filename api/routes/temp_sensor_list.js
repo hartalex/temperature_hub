@@ -6,7 +6,11 @@ module.exports = function (req, res) {
   db.connect(dbUrl, function (err, dbobj) {
     if (err == null) {
       db.querydistinctData(dbobj, 'sensorId', 'temperatures', function (temps) {
+        console.log('temps:')
+        console.log(temps)
         db.queryData(dbobj, {}, 'sensors', function (sensors) {
+          console.log('sensors:')
+          console.log(sensors)
           var array = []
           for (var i = 0; i < temps.length; i++) {
             var obj = {
