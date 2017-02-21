@@ -11,26 +11,30 @@ module.exports = function (req, res) {
     return response.json()
   }).then(function (sensorjson) {
     var retval = []
-    Promise.all(sensorjson).then(sensor => {
-      console.log(sensor)
-      db.connect(dbUrl, function (err, dbobj) {
-        if (err == null) {
-          db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (temp) {
-            if (temp != null) {
-              temp.sensorName = sensor.name
-              retval.push(temp)
-            } else {
-              console.log('Unable to find temperature for that sensor')
-              console.log(sensor.sensorId)
-            }
-            dbobj.close()
-          })
-        } else {
-          console.log('Error connecting to mongo db')
-          console.log(err)
-        }
+
+    Promise.all(sensorjson.map(function (sensor) {
+      return new Promise(function (resolve, reject) {
+        db.connect(dbUrl, function (err, dbobj) {
+          if (err == null) {
+            db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (temp) {
+              if (temp != null) {
+                temp.sensorName = sensor.name
+                retval.push(temp)
+              } else {
+                console.log('Unable to find temperature for that sensor')
+                console.log(sensor.sensorId)
+              }
+              dbobj.close()
+              resolve()
+            })
+          } else {
+            console.log('Error connecting to mongo db')
+            console.log(err)
+          }
+        })
       })
-    }).then(function () {
+    })
+    ).then(function () {
       console.log(retval)
       res.json(retval)
     }).catch(function (err) {
