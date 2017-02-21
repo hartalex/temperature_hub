@@ -4,7 +4,7 @@ const db = require('../db/mongodb')
 const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
-  fetch('http://localhost:80/sensor/list').then(function (response) {
+  fetch('http://localhost:80/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }

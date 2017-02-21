@@ -51,7 +51,7 @@ This project currently contains 3 pieces, these may be seperated into seperate p
    ```
 
 ### Sensors
- * GET /sensor/list
+ * GET /temp/sensor/list
    Returns an array of sensor objects.
    ```
        [{
@@ -59,6 +59,15 @@ This project currently contains 3 pieces, these may be seperated into seperate p
           "name":"Living Room"                 // [Optional] Unique human readable name for the sensor if set using /sensor/add
        }]
    ```
+
+   * GET /door/sensor/list
+     Returns an array of sensor objects.
+     ```
+         [{
+            "sensorId":"gd-0000004"              // Unique Id for this door sensor
+            "name":"garage door"                 // [Optional] Unique human readable name for the sensor if set using /sensor/add
+         }]
+     ```
 
  * POST /sensor/add
    Sets a human readable name for a sensor

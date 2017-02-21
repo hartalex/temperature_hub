@@ -6,9 +6,10 @@ const dataAdd = require('./data_add')
 const tempList = require('./temp_list')
 const tempCurrent = require('./temp_current')
 const tempGraph = require('./temp_graph')
-const sensorList = require('./sensor_list')
+const tempSensorList = require('./temp_sensor_list')
 const sensorAdd = require('./sensor_add')
 const doorList = require('./door_list')
+const doorSensorList = require('./door_sensor_list')
 const bodyParser = require('body-parser')
 
 const jsonParser = bodyParser.json()
@@ -28,12 +29,13 @@ module.exports = function (app) {
   app.get('/temp/:duration/graph', cors(), tempGraph)
   app.get('/temp/:sensorId/list', cors(), tempList)
   app.get('/temp/current', cors(), tempCurrent)
+  app.get('/temp/sensor/list', cors(), tempSensorList)
 
   // sensors
-  app.get('/sensor/list', cors(), sensorList)
   app.post('/sensor/add', jsonParser, sensorAdd)
 
   // doors
   app.get('/door/list', cors(), doorList)
   app.get('/door/:sensorId/list', cors(), doorList)
+  app.get('/door/sensor/list', cors(), doorSensorList)
 }
