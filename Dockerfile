@@ -5,4 +5,4 @@ WORKDIR /root/temperature_hub
 RUN echo "* * * * *  node /root/temperature_hub/pollingService.js >> /var/log/tp.log 2>&1 " >> /etc/crontabs/root
 RUN npm install
 EXPOSE 80 8811
-ENTRYPOINT ["npm", "start", "&&", "crond", "-f"]
+ENTRYPOINT ["crond", "-f", "&&", "npm", "run", "api"]
