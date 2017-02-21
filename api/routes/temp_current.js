@@ -21,6 +21,7 @@ module.exports = function (req, res) {
               retval.push(temp)
             } else {
               console.log('Unable to find temperature for that sensor')
+              console.log(sensor.sensorId)
             }
             dbobj.close()
           })
