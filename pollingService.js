@@ -5,7 +5,7 @@ function pollForData () {
   const time = new Date()
   const timestring = time.toISOString()
   console.log('polling for temperatures')
-  fetch('http://localhost:8811/services/list').then(function (response) {
+  fetch('http://localhost:80/services/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
@@ -20,7 +20,7 @@ function pollForData () {
       }).then(function (sensorData) {
         sensorData.forEach(function (sensor) {
           sensor.utc_timestamp = timestring
-          fetch('http://localhost:8811/data/add', {
+          fetch('http://localhost:80/data/add', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
