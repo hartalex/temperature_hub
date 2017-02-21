@@ -4,6 +4,7 @@ const serviceAdd = require('./service_add')
 const serviceDel = require('./service_del')
 const dataAdd = require('./data_add')
 const tempList = require('./temp_list')
+const tempCurrent = require('./temp_current')
 const tempGraph = require('./temp_graph')
 const sensorList = require('./sensor_list')
 const sensorAdd = require('./sensor_add')
@@ -26,6 +27,7 @@ module.exports = function (app) {
   app.get('/temp/graph', cors(), tempGraph)
   app.get('/temp/:duration/graph', cors(), tempGraph)
   app.get('/temp/:sensorId/list', cors(), tempList)
+  app.get('/temp/current', cors(), tempCurrent)
 
   // sensors
   app.get('/sensor/list', cors(), sensorList)

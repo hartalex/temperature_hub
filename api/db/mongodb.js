@@ -48,7 +48,7 @@ module.exports = {
       if (err == null) {
         if (docs.length > 0) {
           callback(docs[0])
-	} else {
+        } else {
           callback(null)
         }
       } else {

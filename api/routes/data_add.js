@@ -89,7 +89,7 @@ module.exports = function (req, res) {
                   } else {
                     data.utc_timestamp = input.utc_timestamp
                   }
-                  db.queryLastData(dbobj, {sensorId: data.sensorId},{utc_timestamp: -1}, 'doors', function (existingData) {
+                  db.queryLastData(dbobj, {sensorId: data.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
                     console.log(existingData)
                     if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
                       db.insertData(dbobj, 'doors', data, function (result) {

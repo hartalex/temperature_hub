@@ -89,6 +89,16 @@ This project currently contains 3 pieces, these may be seperated into seperate p
           "utc_timestamp":"YYYY-MM-DDTHH:mm:ss.sssZ"  // ISO date time string of temperature reading
          }]
    ```
+  * GET /temp/current
+    Gets the last temperatures for all temperature sensors
+    ```
+          [{
+            "sensorId":"28-01159010efff"                // Unique Id for this temperature sensor
+            "sensorName":"Living Room"                  // Unique name for the sensor if set using /sensor/add
+            "temperatureInFarenheit": 70.012            // a number representing the current temperature in degrees farenheit.
+            "utc_timestamp":"YYYY-MM-DDTHH:mm:ss.sssZ"  // ISO date time string of temperature reading
+           }]
+     ```
  * GET /temp/graph
    Gets each temperature grouped by the minute
    ```
