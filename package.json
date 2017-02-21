@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "lint": "eslint pollingService.js api/** web/**",
     "api": "node api/index.js >> /var/log/temp_api.log 2>&1",
     "web": "node web/index.js >> /var/log/temp_web.log 2>&1",
@@ -33,6 +33,7 @@
     "eslint": "^3.16.0",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.2",
-    "eslint-plugin-standard": "^2.0.1"
+    "eslint-plugin-standard": "^2.0.1",
+    "mocha": "^3.2.0"
   }
 }

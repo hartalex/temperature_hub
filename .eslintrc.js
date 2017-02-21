@@ -4,5 +4,5 @@ module.exports = {
     "standard",
     "promise"
   ],
-  "globals": { "fetch": false }
+  "globals": { "fetch": false, "describe": false, "it": false }
 };
