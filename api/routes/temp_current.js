@@ -11,7 +11,7 @@ module.exports = function (req, res) {
     return response.json()
   }).then(function (sensorjson) {
     var retval = []
-    sensorjson.forEach(function (sensor) {
+    Promise.all(sensorjson).then(sensor => {
       console.log(sensor)
       db.connect(dbUrl, function (err, dbobj) {
         if (err == null) {
@@ -27,11 +27,14 @@ module.exports = function (req, res) {
         } else {
           console.log('Error connecting to mongo db')
           console.log(err)
-          res.json([])
         }
       })
+    }).then(function () {
       console.log(retval)
       res.json(retval)
+    }).catch(function (err) {
+      console.log(err)
+      res.json([])
     })
   }).catch(function (err) {
     console.log(err)
