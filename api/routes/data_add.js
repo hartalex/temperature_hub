@@ -5,9 +5,9 @@ module.exports = function (req, res) {
   data.init(require('../db/mongodb'))
   data.dataAdd(req.body, output)
   if (output.result === 'fail') {
-    res.statusCode(500)
+    res.status(500)
   } else {
-    res.statusCode(200)
+    res.status(200)
     res.json(output)
   }
 }
