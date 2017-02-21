@@ -42,15 +42,19 @@ module.exports = {
     })
   },
 
-  queryLastData: function (db, query, collection, callback) {
+  queryLastData: function (db, query, sort, collection, callback) {
     var dbcollection = db.collection(collection)
-    dbcollection.find(query).sort({_id: 1}).limit(1).toArray(function (err, docs) {
+    dbcollection.find(query).sort(sort).limit(1).toArray(function (err, docs) {
       if (err == null) {
-        callback(docs)
+        if (docs.length > 0) {
+          callback(docs[0])
+	} else {
+          callback(null)
+        }
       } else {
         console.log('Error finding data in db')
         console.log(err)
-        callback([])
+        callback(null)
       }
     })
   },
