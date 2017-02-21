@@ -46,6 +46,7 @@ module.exports = {
     var dbcollection = db.collection(collection)
     dbcollection.find(query).sort(sort).limit(1).toArray(function (err, docs) {
       if (err == null) {
+        console.log(docs)
         if (docs.length > 0) {
           callback(docs[0])
         } else {
