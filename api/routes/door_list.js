@@ -12,6 +12,9 @@ module.exports = function (req, res) {
         }
       }
       db.queryData(dbobj, query, 'doors', function (doors) {
+        for (var i = 0; i < doors.length; i++) {
+          delete doors[i]._id
+        }
         res.json(doors)
         dbobj.close()
       })

@@ -12,6 +12,9 @@ module.exports = function (req, res) {
         }
       }
       db.queryData(dbobj, query, 'temperatures', function (temps) {
+        for (var i = 0; i < temps.length; i++) {
+          delete temps[i]._id
+        }
         res.json(temps)
         dbobj.close()
       })

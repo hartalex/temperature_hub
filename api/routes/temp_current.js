@@ -19,6 +19,7 @@ module.exports = function (req, res) {
             db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (temp) {
               if (temp != null) {
                 temp.sensorName = sensor.name
+                delete temp._id
                 retval.push(temp)
               } else {
                 console.log('Unable to find temperature for that sensor')

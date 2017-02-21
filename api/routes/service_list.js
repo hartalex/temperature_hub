@@ -6,6 +6,9 @@ module.exports = function (req, res) {
   db.connect(dbUrl, function (err, dbobj) {
     if (err == null) {
       db.queryData(dbobj, {}, 'services', function (svcs) {
+        for (var i = 0; i < svcs.length; i++) {
+          delete svcs[i]._id
+        }
         res.json(svcs)
         dbobj.close()
       })
