@@ -8,17 +8,17 @@ module.exports = function (req, res) {
       db.querydistinctData(dbobj, 'sensorId', 'doors', function (temps) {
         db.queryData(dbobj, {}, 'sensors', function (sensors) {
           var array = []
-          temps.forEach(function (temp) {
+          for (var i = 0; i < temps.length; i++) {
             var obj = {
-              sensorId: temp
+              sensorId: temps[i]
             }
-            sensors.forEach(function (sensor) {
-              if (temp === sensor.sensorId) {
-                obj.name = sensor.name
+            for (var s = 0; s < sensors.length; s++) {
+              if (temps[i] === sensors[s].sensorId) {
+                obj.name = sensors[s].name
               }
-            })
+            }
             array.push(obj)
-          })
+          }
           res.json(array)
           dbobj.close()
         })
