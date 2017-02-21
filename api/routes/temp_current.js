@@ -4,18 +4,17 @@ const db = require('../db/mongodb')
 const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
-  // Use connect method to connect to the Server
-  db.connect(dbUrl, function (err, dbobj) {
-    if (err == null) {
-      fetch('http://localhost:8811/sensor/list').then(function (response) {
-        if (response.status >= 400) {
-          throw new Error('Bad response from server')
-        }
-        return response.json()
-      }).then(function (sensorjson) {
-        var retval = []
-        sensorjson.forEach(function (sensor) {
-          console.log(sensor)
+  fetch('http://localhost:8811/sensor/list').then(function (response) {
+    if (response.status >= 400) {
+      throw new Error('Bad response from server')
+    }
+    return response.json()
+  }).then(function (sensorjson) {
+    var retval = []
+    sensorjson.forEach(function (sensor) {
+      console.log(sensor)
+      db.connect(dbUrl, function (err, dbobj) {
+        if (err == null) {
           db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (temp) {
             if (temp != null) {
               temp.sensorName = sensor.name
@@ -23,19 +22,19 @@ module.exports = function (req, res) {
             } else {
               console.log('Unable to find temperature for that sensor')
             }
+            dbobj.close()
           })
-        })
-        console.log(retval)
-        res.json(retval)
-      }).catch(function (err) {
-        console.log(err)
-        res.json([])
+        } else {
+          console.log('Error connecting to mongo db')
+          console.log(err)
+          res.json([])
+        }
       })
-      dbobj.close()
-    } else {
-      console.log('Error connecting to mongo db')
+      console.log(retval)
+      res.json(retval)
+    }).catch(function (err) {
       console.log(err)
       res.json([])
-    }
+    })
   })
 }
