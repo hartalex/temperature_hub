@@ -32,9 +32,9 @@ module.exports = function (req, res) {
       })
       console.log(retval)
       res.json(retval)
-    }).catch(function (err) {
-      console.log(err)
-      res.json([])
     })
+  }).catch(function (err) {
+    console.log(err)
+    res.json([])
   })
 }
