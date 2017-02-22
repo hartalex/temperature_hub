@@ -3,8 +3,9 @@ const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
   // Use connect method to connect to the Server
-  db.connect(dbUrl, function (err, dbobj) {
-    if (err == null) {
+  var connectPromise = db.connect(dbUrl)
+  return connectPromise.then(function (dbobj) {
+    return new Promise(function (resolve, reject) {
       var query = {}
       if ('sensorId' in req.params) {
         query = {
@@ -15,13 +16,15 @@ module.exports = function (req, res) {
         for (var i = 0; i < doors.length; i++) {
           delete doors[i]._id
         }
-        res.json(doors)
         dbobj.close()
+        resolve(doors)
       })
-    } else {
-      console.log('Error connecting to mongo db')
+    }).then(function (result) {
+      res.json(result)
+    })
+    .catch(function (err) {
       console.log(err)
       res.json([])
-    }
+    })
   })
 }
