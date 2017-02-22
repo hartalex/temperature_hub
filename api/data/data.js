@@ -34,8 +34,10 @@ module.exports = {
                     var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
                     insertPromise.then(function (result) {
                       dbobj.close()
+                      console.log('object inserted')
                       resolve(result)
                     }).catch(function (err) {
+                      console.log('object not inserted')
                       dbobj.close()
                       reject(err)
                     })
@@ -107,15 +109,14 @@ module.exports = {
       })
     }).then(function (result) {
       return new Promise(function (resolve, reject) {
+        console.log('handle results')
+        console.log(result)
         if (result != null && result.result.n > 0) {
-          return {result: 'ok'}
+          resolve({result: 'ok'})
         } else {
           reject('result was not inserted to database')
         }
       })
-    })
-    .catch(function (err) {
-      return ({result: 'fail', reason: err})
     })
   }
 }

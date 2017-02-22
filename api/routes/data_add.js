@@ -10,6 +10,7 @@ module.exports = function (req, res) {
     } else {
       res.status(200)
     }
+    console.log('output')
     console.log(output)
     res.json(output)
   }).catch(function (err) {
