@@ -30,15 +30,21 @@ module.exports = {
                     } else {
                       temperature.utc_timestamp = input.utc_timestamp
                     }
-                    var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
-                    insertPromise.then(function (result) {
-                      dbobj.close()
-                      console.log('object inserted')
-                      resolve(result)
-                    }).catch(function (err) {
-                      console.log('object not inserted')
-                      dbobj.close()
-                      reject(err)
+                    db.queryLastData(dbobj, {sensorId: temperature.sensorId}, {utc_timestamp: -1}, 'temperatures', function (existingData) {
+                      if (existingData == null || (existingData != null && existingData.tempInFarenheit !== temperature.tempInFarenheit)) {
+                        var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
+                        insertPromise.then(function (result) {
+                          dbobj.close()
+                          resolve(result)
+                        }).catch(function (err) {
+                          dbobj.close()
+                          reject(err)
+                        })
+                      } else {
+                        console.log('data didnot change')
+                        dbobj.close()
+                        resolve({result: {n: 1}})
+                      }
                     })
                   } else {
                     dbobj.close()
