@@ -3,6 +3,7 @@ const dbUrl = require('../db/url')
 module.exports = {
   init: function (mydb) {
     this.db = mydb
+    return this
   },
   dataAdd: function (input, output) {
     output.result = 'fail'
