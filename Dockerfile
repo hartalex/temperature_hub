@@ -4,4 +4,4 @@ COPY . /root/temperature_hub/
 WORKDIR /root/temperature_hub
 RUN npm install
 EXPOSE 80
-ENTRYPOINT ["npm", "start", " >> ", "/var/log/temp_api.log", "2>&1"]
+ENTRYPOINT ["npm", "start"]
