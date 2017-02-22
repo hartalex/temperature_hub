@@ -82,73 +82,75 @@ module.exports = function (req, res) {
   }
   duration = validateDuration(duration)
   // Use connect method to connect to the Server
-  db.connect(dbUrl, function (err, dbobj) {
-    if (err == null) {
+  var connectPromise = db.connect(dbUrl)
+  connectPromise.then(function (dbobj) {
+    return new Promise(function (resolve, reject) {
       if (duration === '1h') {
         findTemperaturesLastXHours(dbobj, 1, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '12h') {
         findTemperaturesLastXHours(dbobj, 12, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '24h') {
         findTemperaturesLastXHours(dbobj, 24, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '3d') {
         findTemperaturesLastXDays(dbobj, 3, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '7d') {
         findTemperaturesLastXDays(dbobj, 7, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '14d') {
         findTemperaturesLastXDays(dbobj, 14, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '28d') {
         findTemperaturesLastXDays(dbobj, 28, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '1m') {
         findTemperaturesLastXMonths(dbobj, 1, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '3m') {
         findTemperaturesLastXMonths(dbobj, 3, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '6m') {
         findTemperaturesLastXMonths(dbobj, 6, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else if (duration === '12m') {
         findTemperaturesLastXMonths(dbobj, 12, function (temps) {
-          res.json(temps)
           dbobj.close()
+          resolve(temps)
         })
       } else {
-        console.log('Duration could not be handled')
-        console.log(duration)
-        res.json([])
+        dbobj.close()
+        reject('Duration could not be handled' + duration)
       }
-    } else {
-      console.log('Error connecting to mongo db')
+    }).then(function (result) {
+      res.json(result)
+    })
+    .catch(function (err) {
       console.log(err)
       res.json([])
-    }
+    })
   })
 }
 

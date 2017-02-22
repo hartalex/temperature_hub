@@ -3,8 +3,9 @@ const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
   // Use connect method to connect to the Server
-  db.connect(dbUrl, function (err, dbobj) {
-    if (err == null) {
+  var connectPromise = db.connect(dbUrl)
+  connectPromise.then(function (dbobj) {
+    return new Promise(function (resolve, reject) {
       db.querydistinctData(dbobj, 'sensorId', 'doors', function (temps) {
         db.queryData(dbobj, {}, 'sensors', function (sensors) {
           var array = []
@@ -19,14 +20,16 @@ module.exports = function (req, res) {
             }
             array.push(obj)
           }
-          res.json(array)
           dbobj.close()
+          resolve(array)
         })
       })
-    } else {
-      console.log('Error finding sensors in mongo db')
+    }).then(function (result) {
+      res.json(result)
+    })
+    .catch(function (err) {
       console.log(err)
       res.json([])
-    }
+    })
   })
 }

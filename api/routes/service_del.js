@@ -3,12 +3,14 @@ const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
   // Use connect method to connect to the Server
-  db.connect(dbUrl, function (err, dbobj) {
-    if (err == null) {
+  var connectPromise = db.connect(dbUrl)
+  connectPromise.then(function (dbobj) {
+    return new Promise(function (resolve, reject) {
       var svc = req.body
       if (typeof svc === 'undefined') {
         console.log('Error request body is undefined')
-        res.json({
+        dbobj.close()
+        reject({
           result: 'fail',
           reason: 'Request Body is Undefined'
         })
@@ -22,12 +24,13 @@ module.exports = function (req, res) {
                     db.deleteData(dbobj, 'services', svc, function (result) {
                       if (result != null && result.result.n > 0) {
                         console.log(result)
-                        res.json({
+                        dbobj.close()
+                        resolve({
                           result: 'ok'
                         })
                       } else {
-                        res.status(500)
-                        res.json({
+                        dbobj.close()
+                        reject({
                           result: 'fail'
                         })
                       }
@@ -35,60 +38,58 @@ module.exports = function (req, res) {
                     })
                   } else {
                     console.log('Error name property cannot be empty')
-                    res.status(500)
-                    res.json({
+                    dbobj.close()
+                    reject({
                       result: 'fail',
                       reason: 'Property name is an empty string'
                     })
                   }
                 } else {
                   console.log('Error name property is not a string')
-                  res.status(500)
-                  res.json({
+                  dbobj.close()
+                  reject({
                     result: 'fail',
                     reason: 'Property name is not a string'
                   })
                 }
               } else {
                 console.log('Error json object is missing the name property')
-                res.status(500)
-                res.json({
+                dbobj.close()
+                reject({
                   result: 'fail',
                   reason: 'Missing name property'
                 })
               }
             } else {
               console.log('Error url property cannot be empty')
-              res.status(500)
-              res.json({
+              dbobj.close()
+              reject({
                 result: 'fail',
                 reason: 'Property url is an empty string'
               })
             }
           } else {
             console.log('Error url property is not a string')
-            res.status(500)
-            res.json({
+            dbobj.close()
+            reject({
               result: 'fail',
               reason: 'Property url is not a string'
             })
           }
         } else {
           console.log('Error json object is missing the url property')
-          res.status(500)
-          res.json({
+          dbobj.close()
+          reject({
             result: 'fail',
             reason: 'Property url is missing'
           })
         }
       }
-    } else {
-      console.log('Error connecting to mongo db')
-      console.log(err)
+    }).then(function (result) {
+      res.json(result)
+    }).catch(function (err) {
       res.status(500)
-      res.json({
-        result: 'fail'
-      })
-    }
+      res.json(err)
+    })
   })
 }
