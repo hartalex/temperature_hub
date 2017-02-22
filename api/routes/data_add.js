@@ -1,7 +1,9 @@
-const data = require('../data/data').init(require('../db/mongodb'))
+const data = require('../data/data')
+const db = require('../db/mongodb')
 
 module.exports = function (req, res) {
   var output = {}
+  data.db = db
   data.dataAdd(req.body, output)
   if (output.result === 'fail') {
     res.status(500)

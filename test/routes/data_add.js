@@ -1,6 +1,8 @@
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
-const data = require('../../api/data/data').init(mockMongoDb)
+const data = require('../../api/data/data')
+
+data.db = mockMongoDb
 
 describe('data', function () {
   describe('#dataAdd(input, output)', function () {

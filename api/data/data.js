@@ -1,10 +1,7 @@
 const dbUrl = require('../db/url')
 
 module.exports = {
-  init: function (mydb) {
-    this.db = mydb
-    return this
-  },
+  db: {},
   dataAdd: function (input, output) {
     output.result = 'fail'
     var db = this.db
