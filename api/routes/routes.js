@@ -27,7 +27,7 @@ module.exports = function (app) {
   app.get('/temp/list', tempList)
   app.get('/temp/graph', cors(), tempGraph)
   app.get('/temp/:duration/graph', cors(), tempGraph)
-  app.get('/temp/:sensorId/list', cors(), tempList)
+  app.get('/temp/list/:sensorId', cors(), tempList)
   app.get('/temp/current', cors(), tempCurrent)
   app.get('/temp/sensor/list', cors(), tempSensorList)
 
@@ -36,6 +36,6 @@ module.exports = function (app) {
 
   // doors
   app.get('/door/list', cors(), doorList)
-  app.get('/door/:sensorId/list', cors(), doorList)
+  app.get('/door/list/:sensorId', cors(), doorList)
   app.get('/door/sensor/list', cors(), doorSensorList)
 }
