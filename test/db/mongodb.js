@@ -5,7 +5,10 @@ describe('mongodb', function () {
   describe('#connect()', function () {
     it('should return err because url is null', function () {
       var url = null
-      db.connect(url, function (err, dbobj) {
+      var promise = db.connect(url)
+      promise.then(function (dbobj) {
+        assert.notEqual(dbobj, null)
+      }).catch(function (err) {
         assert.notEqual(err, null)
       })
     })
@@ -13,6 +16,8 @@ describe('mongodb', function () {
     it('should return err because url is not a string', function () {
       var url = 0
       db.connect(url, function (err, dbobj) {
+        assert.notEqual(err, null)
+      }).catch(function (err) {
         assert.notEqual(err, null)
       })
     })
@@ -126,20 +131,26 @@ describe('mongodb', function () {
 
   describe('#insertData()', function () {
     it('db object is null should return empty array', function () {
-      db.insertData(null, null, null, function (result) {
+      db.insertData(null, null, null).then(function (result) {
         assert.deepEqual(result, null)
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
     it('collection object is null should return empty array', function () {
-      db.insertData({}, null, null, function (result) {
+      db.insertData({}, null, null).then(function (result) {
         assert.deepEqual(result, null)
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
     it('obj object is null should return empty array', function () {
-      db.insertData({}, {}, null, function (result) {
+      db.insertData({}, {}, null).then(function (result) {
         assert.deepEqual(result, null)
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
   })

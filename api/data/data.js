@@ -2,19 +2,21 @@ const dbUrl = require('../db/url')
 
 module.exports = {
   db: {},
-  dataAdd: function (input, output) {
-    output.result = 'fail'
+  dataAdd: function (input) {
     var db = this.db
+    const time = new Date()
   // Use connect method to connect to the Server
-    db.connect(dbUrl, function (err, dbobj) {
-      const time = new Date()
-      if (err == null) {
+    var connectPromise = db.connect(dbUrl)
+    return connectPromise.then(function (dbobj) {
+      return new Promise(function (resolve, reject) {
         if (typeof input === 'undefined') {
-          output.reason = 'Input is undefined'
+          dbobj.close()
+          reject('Input is undefined')
         } else if (input === null) {
-          output.reason = 'Input is null'
+          dbobj.close()
+          reject('Input is null')
         } else {
-      // temperatures
+          // temperatures
           if ('id' in input) {
             if (typeof input.id === 'string') {
               if (input.id.length > 0) {
@@ -28,23 +30,29 @@ module.exports = {
                     } else {
                       temperature.utc_timestamp = input.utc_timestamp
                     }
-                    db.insertData(dbobj, 'temperatures', temperature, function (result) {
+                    var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
+                    insertPromise.then(function (result) {
                       dbobj.close()
-                      if (result != null && result.result.n > 0) {
-                        output.result = 'ok'
-                      }
+                      resolve(result)
+                    }).catch(function (err) {
+                      dbobj.close()
+                      reject(err)
                     })
                   } else {
-                    output.reason = 'Property t is not a number'
+                    dbobj.close()
+                    reject('Property t is not a number')
                   }
                 } else {
-                  output.reason = 'Missing t property'
+                  dbobj.close()
+                  reject('Missing t property')
                 }
               } else {
-                output.reason = 'Property id is an empty string'
+                dbobj.close()
+                reject('Property id is an empty string')
               }
             } else {
-              output.reason = 'Property id is not a string'
+              dbobj.close()
+              reject('Property id is not a string')
             }
           } else if ('sensorId' in input) {
             if (typeof input.sensorId === 'string') {
@@ -61,37 +69,52 @@ module.exports = {
                     }
                     db.queryLastData(dbobj, {sensorId: data.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
                       if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
-                        db.insertData(dbobj, 'doors', data, function (result) {
+                        var insertPromise = db.insertData(dbobj, 'doors', data)
+                        insertPromise.then(function (result) {
                           dbobj.close()
-                          if (result != null && result.result.n > 0) {
-                            output.result = 'ok'
-                          }
+                          resolve(result)
+                        }).catch(function (err) {
+                          dbobj.close()
+                          reject(err)
                         })
                       } else {
                         dbobj.close()
-                        output.result = 'ok'
+                        resolve({result: {n: 1}})
                       }
                     })
                   } else {
-                    output.reason = 'Property isOpen is not a boolean'
+                    dbobj.close()
+                    reject('Property isOpen is not a boolean')
                   }
                 } else {
-                  output.reason = 'Property isOpen is missing'
+                  dbobj.close()
+                  reject('Property isOpen is missing')
                 }
               } else {
-                output.reason = 'Property sensorId is an empty string'
+                dbobj.close()
+                reject('Property sensorId is an empty string')
               }
             } else {
-              output.reason = 'Property sensorId is not a string'
+              dbobj.close()
+              reject('Property sensorId is not a string')
             }
           } else {
-            output.reason = 'Property id/sensorId is missing'
+            dbobj.close()
+            reject('Property id/sensorId is missing')
           }
         }
-      } else {
-        output.reason = 'Error connecting to mongo db'
-        output.result = 'fail'
-      }
+      })
+    }).then(function (result) {
+      return new Promise(function (resolve, reject) {
+        if (result != null && result.result.n > 0) {
+          return {result: 'ok'}
+        } else {
+          reject('result was not inserted to database')
+        }
+      })
+    })
+    .catch(function (err) {
+      return ({result: 'fail', reason: err})
     })
   }
 }

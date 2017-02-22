@@ -1,16 +1,24 @@
 var MongoClient = require('mongodb').MongoClient
 
 module.exports = {
-  connect: function (url, callback) {
-    if (url === null) {
-      callback('url cannot be null')
-    } else {
-      if (typeof url !== 'string') {
-        callback('url must be a string')
+  connect: function (url) {
+    return new Promise(function (resolve, reject) {
+      if (url === null) {
+        reject('url cannot be null')
       } else {
-        MongoClient.connect(url, callback)
+        if (typeof url !== 'string') {
+          reject('url must be a string')
+        } else {
+          MongoClient.connect(url, function (err, dbobj) {
+            if (err === null) {
+              resolve(dbobj)
+            } else {
+              reject(err)
+            }
+          })
+        }
       }
-    }
+    })
   },
 
   queryData: function (db, query, collection, callback) {
@@ -101,23 +109,25 @@ module.exports = {
     }
   },
 
-  insertData: function (db, collection, obj, callback) {
-    if (db === null || collection === null || obj === null) {
-      callback(null)
-    } else {
-      var dbcollection = db.collection(collection)
-      dbcollection.insert(obj, {
-        w: 1
-      }, function (err, result) {
-        if (err == null) {
-          callback(result)
-        } else {
-          console.log('Error inserting data in db')
-          console.log(err)
-          callback(null)
-        }
-      })
-    }
+  insertData: function (db, collection, obj) {
+    return new Promise(function (resolve, reject) {
+      if (db === null) {
+        reject('parameter db is null')
+      } else if (collection === null) {
+        reject('parameter collection is null')
+      } else if (obj === null) {
+        reject('parameter obj is null')
+      } else {
+        var dbcollection = db.collection(collection)
+        dbcollection.insert(obj, {w: 1}, function (err, result) {
+          if (err == null) {
+            resolve(result)
+          } else {
+            reject(err)
+          }
+        })
+      }
+    })
   },
 
   deleteData: function (db, collection, obj, callback) {
