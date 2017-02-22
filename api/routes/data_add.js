@@ -9,5 +9,6 @@ module.exports = function (req, res) {
   } else {
     res.status(200)
   }
+  console.log(output)
   res.json(output)
 }
