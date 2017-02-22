@@ -1,4 +1,4 @@
 git pull
 sudo docker rm -f temp_hub
 sudo docker build -t temperature_hub:latest .
-sudo docker run --name temp_hub --restart always -d -p 80:80 -p 8811:8811 -v /home/hartalex/logdir:/var/log --network="host" temperature_hub:latest
+sudo docker run --name temp_hub --restart always -d -p 80:80 -v /home/hartalex/logdir:/var/log --network="host" temperature_hub:latest

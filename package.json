@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint pollingService.js api/** web/**",
-    "api": "node api/index.js >> /var/log/temp_api.log 2>&1",
-    "web": "node web/index.js >> /var/log/temp_web.log 2>&1",
-    "start": "npm run api"
+    "lint": "eslint api/**",
+    "start": "node api/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +20,6 @@
   "homepage": "https://github.com/hartalex/temperature_hub#readme",
   "dependencies": {
     "body-parser": "^1.16.1",
-    "concurrently": "^3.3.0",
     "cors": "^2.8.1",
     "es6-promise": "^4.0.5",
     "express": "^4.14.1",
