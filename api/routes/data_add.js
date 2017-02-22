@@ -8,6 +8,6 @@ module.exports = function (req, res) {
     res.status(500)
   } else {
     res.status(200)
-    res.json(output)
   }
+  res.json(output)
 }
