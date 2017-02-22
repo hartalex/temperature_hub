@@ -7,18 +7,19 @@ describe('mongodb', function () {
       var url = null
       var promise = db.connect(url)
       promise.then(function (dbobj) {
-        assert.notEqual(dbobj, null)
+        assert.fail('failure was not caught')
       }).catch(function (err) {
-        assert.notEqual(err, null)
+        assert.equal(err, 'url cannot be null')
       })
     })
 
     it('should return err because url is not a string', function () {
       var url = 0
-      db.connect(url, function (err, dbobj) {
-        assert.notEqual(err, null)
+      var promise = db.connect(url)
+      promise.then(function (dbobj) {
+        assert.fail('failure was not caught')
       }).catch(function (err) {
-        assert.notEqual(err, null)
+        assert.equal(err, 'url must be a string')
       })
     })
   })
@@ -130,27 +131,27 @@ describe('mongodb', function () {
   })
 
   describe('#insertData()', function () {
-    it('db object is null should return empty array', function () {
+    it('db object is null should return null', function () {
       db.insertData(null, null, null).then(function (result) {
-        assert.deepEqual(result, null)
+        assert.fail('failure was not caught')
       }).catch(function (err) {
-        assert.notEqual(err, null)
+        assert.equal(err, 'parameter db is null')
       })
     })
 
     it('collection object is null should return empty array', function () {
       db.insertData({}, null, null).then(function (result) {
-        assert.deepEqual(result, null)
+        assert.fail('failure was not caught')
       }).catch(function (err) {
-        assert.notEqual(err, null)
+        assert.equal(err, 'parameter collection is null')
       })
     })
 
     it('obj object is null should return empty array', function () {
       db.insertData({}, {}, null).then(function (result) {
-        assert.deepEqual(result, null)
+        assert.fail('failure was not caught')
       }).catch(function (err) {
-        assert.notEqual(err, null)
+        assert.equal(err, 'parameter obj is null')
       })
     })
   })

@@ -13,6 +13,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         console.log(output)
         assert.equal(output.result, 'ok')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -22,6 +24,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property id/sensorId is missing')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -32,6 +36,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Missing t property')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -42,6 +48,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property id is not a string')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -52,6 +60,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property id is an empty string')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -62,6 +72,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property t is not a number')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -71,6 +83,8 @@ describe('data', function () {
         isOpen: false }
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'ok')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -80,6 +94,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property id/sensorId is missing')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -89,6 +105,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property isOpen is missing')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -99,6 +117,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property sensorId is not a string')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -109,6 +129,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property sensorId is an empty string')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -119,6 +141,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Property isOpen is not a boolean')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -127,6 +151,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Input is undefined')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
 
@@ -135,6 +161,8 @@ describe('data', function () {
       data.dataAdd(input).then(function (output) {
         assert.equal(output.result, 'fail')
         assert.equal(output.reason, 'Input is null')
+      }).catch(function (err) {
+        assert.notEqual(err, null)
       })
     })
   })
