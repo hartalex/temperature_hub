@@ -5,7 +5,7 @@
 	google.charts.setOnLoadCallback(drawChart);
 	function drawChart() {
 
-	var duration = '3d'
+	var duration = '1h'
 
   fetch('http://hub.hartcode.com/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
@@ -20,18 +20,32 @@
       return response.json()
     }).then(function (json) {
 
-	var arraydata = [];          var titleRow = ['Time '] ;
+	var arraydata = [];
+	var titleRow = ['Time'] ;
 	sensorjson.forEach(function(sensor) {
-	var sensorName = sensor.sensorId;
-	if ('name' in sensor) {sensorName = sensor.name;
-	}            titleRow.push(sensorName);
-    });           arraydata.push(titleRow) ;
+	  var sensorName = sensor.sensorId;
+	  if ('name' in sensor) {
+	    sensorName = sensor.name;
+	  }            titleRow.push(sensorName);
+    });
+	arraydata.push(titleRow) ;
+	var lastArrayRow = [null,null,null,null,null,null,null,null,null];
 	json.forEach(function (element)  {
-	var arrayRow = [new Date(element._id.minute)] ;
-	sensorjson.forEach(function(sensor) {  var tempData = null;
-	element.results.forEach(function(temp) {
-	if (sensor.sensorId == temp.sensorId) {tempData = temp.tempInFarenheit;}});  arrayRow.push(tempData);         }) ;
-	arraydata.push(arrayRow); }); var data = google.visualization.arrayToDataTable(arraydata) ;
+	  var arrayRow = [new Date(element._id.minute)] ;
+	  for(var i = 0; i< sensorjson.length; i++) {
+	    var sensor = sensorjson[i]
+
+	    var tempData = lastArrayRow[i+1];
+	    element.results.forEach(function(temp) {
+	      if (sensor.sensorId == temp.sensorId) {
+		    tempData = temp.tempInFarenheit;
+		  }
+		});
+		arrayRow.push(tempData);
+	  }
+	  arraydata.push(arrayRow);
+	  lastArrayRow = arrayRow;
+	}); var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
 	title: 'Temperatures',
 	curveType: 'function',
