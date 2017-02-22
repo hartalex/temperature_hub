@@ -8,6 +8,7 @@ module.exports = {
   // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
     return connectPromise.then(function (dbobj) {
+      console.log("we have a dbobj")
       return new Promise(function (resolve, reject) {
         if (typeof input === 'undefined') {
           dbobj.close()

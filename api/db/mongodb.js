@@ -111,6 +111,8 @@ module.exports = {
 
   insertData: function (db, collection, obj) {
     return new Promise(function (resolve, reject) {
+      console.log('inserting obj')
+      console.log(obj)
       if (db === null) {
         reject('parameter db is null')
       } else if (collection === null) {
