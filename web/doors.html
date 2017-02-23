@@ -5,7 +5,7 @@
 	google.charts.setOnLoadCallback(drawChart);
 	function drawChart() {
 
-	var duration = '12h'
+	var duration = '14d'
 
   fetch('http://hub.hartcode.com/door/sensor/list').then(function (response) {
     if (response.status >= 400) {
@@ -29,7 +29,7 @@
 	  }            titleRow.push(sensorName);
     });
 	arraydata.push(titleRow) ;
-	var lastArrayRow = [null,null,null,null,null,null,null,null,null];
+	var lastArrayRow = [null,0,0,0,0,0,0,0,0];
 	json.forEach(function (element)  {
 	  var arrayRow = [new Date(element._id.minute)] ;
 	  for(var i = 0; i< sensorjson.length; i++) {
@@ -38,17 +38,22 @@
 	    var tempData = lastArrayRow[i+1];
 	    element.results.forEach(function(temp) {
 	      if (sensor.sensorId == temp.sensorId) {
-		    tempData = temp.tempInFarenheit;
+        if (temp.isOpen == true) {
+          tempData = 1
+        } else {
+		      tempData = 0
+        }
 		  }
 		});
 		arrayRow.push(tempData);
 	  }
 	  arraydata.push(arrayRow);
 	  lastArrayRow = arrayRow;
-	}); var data = google.visualization.arrayToDataTable(arraydata) ;
+	});
+   var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
-	title: 'Temperatures',
-	curveType: 'function',
+	title: 'Doors',
+	curveType: 'none',
 	legend: { position: 'bottom'} };
 	var chartdiv = document.createElement('div');
 	chartdiv.setAttribute('style','width: 900px height: 500px');

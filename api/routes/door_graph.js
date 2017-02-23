@@ -17,7 +17,7 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
         },
         'sensorId': '$sensorId'
       },
-      'isOpen': {$max: '$isOpen'}
+      'isOpen': {$last: '$isOpen'}
     }
   },
   {
