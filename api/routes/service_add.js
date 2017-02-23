@@ -107,19 +107,19 @@ module.exports = function (req, res) {
           })
         }
       }
-    }).then(function (result) {
-      return new Promise(function (resolve, reject) {
-        console.log('handle results')
-        console.log(result)
-        if (result != null && result.result.n > 0) {
-          res.json({result: 'ok'})
-        } else {
-          reject('result was not inserted to database')
-        }
-      })
-    }).catch(function (err) {
-      res.status(500)
-      res.json(err)
     })
+  }).then(function (result) {
+    return new Promise(function (resolve, reject) {
+      console.log('handle results')
+      console.log(result)
+      if (result != null && result.result.n > 0) {
+        res.json({result: 'ok'})
+      } else {
+        reject('result was not inserted to database')
+      }
+    })
+  }).catch(function (err) {
+    res.status(500)
+    res.json(err)
   })
 }

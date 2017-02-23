@@ -28,12 +28,12 @@ module.exports = function (req, res) {
           resolve(array)
         })
       })
-    }).then(function (result) {
-      res.json(result)
     })
-    .catch(function (err) {
-      console.log(err)
-      res.json([])
-    })
+  }).then(function (result) {
+    res.json(result)
+  })
+  .catch(function (err) {
+    console.log(err)
+    res.json([])
   })
 }

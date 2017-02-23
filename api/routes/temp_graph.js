@@ -144,13 +144,13 @@ module.exports = function (req, res) {
         dbobj.close()
         reject('Duration could not be handled' + duration)
       }
-    }).then(function (result) {
-      res.json(result)
     })
-    .catch(function (err) {
-      console.log(err)
-      res.json([])
-    })
+  }).then(function (result) {
+    res.json(result)
+  })
+  .catch(function (err) {
+    console.log(err)
+    res.json([])
   })
 }
 

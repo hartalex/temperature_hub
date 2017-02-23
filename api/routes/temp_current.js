@@ -30,10 +30,10 @@ module.exports = function (req, res) {
           })
         })
       })
-    ).then(function () {
-      console.log(retval)
-      res.json(retval)
-    })
+      ).then(function () {
+        console.log(retval)
+        res.json(retval)
+      })
     }).catch(function (err) {
       console.log(err)
       res.json([])

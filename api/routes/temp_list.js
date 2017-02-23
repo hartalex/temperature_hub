@@ -19,12 +19,12 @@ module.exports = function (req, res) {
         dbobj.close()
         resolve(temps)
       })
-    }).then(function (result) {
-      res.json(result)
     })
-    .catch(function (err) {
-      console.log(err)
-      res.json([])
-    })
+  }).then(function (result) {
+    res.json(result)
+  })
+  .catch(function (err) {
+    console.log(err)
+    res.json([])
   })
 }

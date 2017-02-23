@@ -85,11 +85,11 @@ module.exports = function (req, res) {
           })
         }
       }
-    }).then(function (result) {
-      res.json(result)
-    }).catch(function (err) {
-      res.status(500)
-      res.json(err)
     })
+  }).then(function (result) {
+    res.json(result)
+  }).catch(function (err) {
+    res.status(500)
+    res.json(err)
   })
 }

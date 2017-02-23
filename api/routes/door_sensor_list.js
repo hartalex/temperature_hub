@@ -28,13 +28,14 @@ module.exports = function (req, res) {
           resolve(array)
         })
       })
-    }).then(function (result) {
-      console.log('success value')
-      res.json(result)
     })
-    .catch(function (err) {
-      console.log(err)
-      res.json([])
-    })
+  }).then(function (result) {
+    console.log('success value')
+    res.json(result)
+  })
+  .catch(function (err) {
+    console.log('error caught')
+    console.log(err)
+    res.json([])
   })
 }
