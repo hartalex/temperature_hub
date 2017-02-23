@@ -1,5 +1,6 @@
 const dbUrl = require('../db/url')
 const mongoDb = require('../db/mongodb')
+
 module.exports = {
   db: mongoDb,
   dataAdd: function (input) {

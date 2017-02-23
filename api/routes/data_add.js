@@ -1,8 +1,8 @@
-const data = require('../data/data')
+var realData = require('../data/data')
 
-module.exports = {
-  'data': data,
-  route: function (req, res, done) {
+module.exports = function () {
+  this.data = realData
+  this.route = function (req, res, done) {
     var mydata = this.data
     var dataAdd = mydata.dataAdd(req.body)
     dataAdd.then(function (output) {

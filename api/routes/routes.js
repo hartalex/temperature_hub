@@ -2,7 +2,7 @@ const cors = require('cors')
 const serviceList = require('./service_list')
 const serviceAdd = require('./service_add')
 const serviceDel = require('./service_del')
-const dataAdd = require('./data_add')
+const DataAdd = require('./data_add')
 const tempList = require('./temp_list')
 const tempCurrent = require('./temp_current')
 const tempGraph = require('./temp_graph')
@@ -22,7 +22,7 @@ module.exports = function (app) {
   app.post('/services/delete', jsonParser, serviceDel)
 
   // temp and door
-  app.post('/data/add', jsonParser, dataAdd.route)
+  app.post('/data/add', jsonParser, new DataAdd().route)
 
   // temperatures
   app.get('/temp/list', tempList)
