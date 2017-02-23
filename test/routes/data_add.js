@@ -7,7 +7,8 @@ const dataAdd = require('../../api/routes/data_add')
 describe('data_add', function () {
   describe('#function (req, res)', function () {
     it('dataAdd success', function (done) {
-      var req = {body: {}}
+      var req = {body: {},
+        data: mockDataSuccess}
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
@@ -23,7 +24,8 @@ describe('data_add', function () {
     })
 
     it('dataAdd failure', function (done) {
-      var req = {body: {}}
+      var req = {body: {},
+        data: mockDataFail}
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
@@ -36,7 +38,7 @@ describe('data_add', function () {
         } catch (err) {
           done(err)
         }
-      }, mockDataFail)
+      })
     })
 
     it('dataAdd no mock fail', function (done) {
