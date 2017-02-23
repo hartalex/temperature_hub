@@ -14,15 +14,8 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
       '_id': {
         'minute': {
           '$substr': ['$utc_timestamp', 0, timeStampCompareLength]
-        },
-        'sensorId': '$sensorId'
+        }
       },
-      'isOpen': {$last: '$isOpen'}
-    }
-  },
-  {
-    '$group': {
-      '_id': { 'minute': '$_id.minute' },
       'results': {
         $push: {
           'sensorId': '$_id.sensorId',
@@ -42,27 +35,15 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
 var finddoorsLastXMonths = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * 30 * x * 1000)).toISOString()
-  const timeStampCompareLength = 10
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
-  function (objs) {
-    objs.forEach(function (obj) {
-      obj._id.minute += 'T00:00'
-    })
-    callback(objs)
-  })
+  const timeStampCompareLength = 16
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors', callback)
 }
 
 var finddoorsLastXDays = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
-  const timeStampCompareLength = 13
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
-  function (objs) {
-    objs.forEach(function (obj) {
-      obj._id.minute += ':00'
-    })
-    callback(objs)
-  })
+  const timeStampCompareLength = 16
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors', callback)
 }
 
 var finddoorsLastXHours = function (dbobj, x, callback) {
