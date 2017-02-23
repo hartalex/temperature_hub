@@ -1,6 +1,6 @@
 var realData = require('../data/data')
 
-module.exports = function (req, res, data, done) {
+module.exports = function (req, res, done, data) {
   var mydata = data
   if (typeof mydata === 'undefined') {
     mydata = realData

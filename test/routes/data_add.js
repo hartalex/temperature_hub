@@ -11,7 +11,7 @@ describe('data_add', function () {
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      dataAdd(req, res, mockDataSuccess, function () {
+      dataAdd(req, res, function () {
         try {
           assert.equal(res.status.lastCall.arg, 200)
           assert.equal(res.json.lastCall.arg.result, 'ok')
@@ -19,7 +19,7 @@ describe('data_add', function () {
         } catch (err) {
           done(err)
         }
-      })
+      }, mockDataSuccess)
     })
 
     it('dataAdd failure', function (done) {
@@ -27,7 +27,7 @@ describe('data_add', function () {
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      dataAdd(req, res, mockDataFail, function () {
+      dataAdd(req, res, function () {
         try {
           assert.equal(res.status.lastCall.arg, 500)
           assert.equal(res.json.lastCall.arg.result, 'fail')
@@ -36,7 +36,7 @@ describe('data_add', function () {
         } catch (err) {
           done(err)
         }
-      })
+      }, mockDataFail)
     })
 
     it('dataAdd no mock fail', function (done) {
@@ -44,7 +44,7 @@ describe('data_add', function () {
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      dataAdd(req, res, undefined, function () {
+      dataAdd(req, res, function () {
         try {
           assert.equal(res.status.lastCall.arg, 500)
           assert.equal(res.json.lastCall.arg.result, 'fail')
