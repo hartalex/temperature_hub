@@ -5,7 +5,7 @@
 	google.charts.setOnLoadCallback(drawChart);
 	function drawChart() {
 
-	var duration = '14d'
+	var duration = '3d'
 
   fetch('http://hub.hartcode.com/door/sensor/list').then(function (response) {
     if (response.status >= 400) {
