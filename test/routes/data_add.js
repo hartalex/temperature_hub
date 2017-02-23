@@ -2,19 +2,16 @@ var assert = require('assert')
 var simple = require('simple-mock')
 var mockDataSuccess = require('../data/mock-data-success')
 var mockDataFail = require('../data/mock-data-fail')
-const DataAdd = require('../../api/routes/data_add')
+const dataAdd = require('../../api/routes/data_add')
 
 describe('data_add', function () {
   describe('#function (req, res)', function () {
     it('dataAdd success', function (done) {
-      var successdataAdd = new DataAdd()
-      // use mock data object setup to succeed
-      successdataAdd.data = mockDataSuccess
       var req = {body: {}}
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      successdataAdd.route(req, res, function () {
+      dataAdd(req, res, mockDataSuccess, function () {
         try {
           assert.equal(res.status.lastCall.arg, 200)
           assert.equal(res.json.lastCall.arg.result, 'ok')
@@ -26,14 +23,11 @@ describe('data_add', function () {
     })
 
     it('dataAdd failure', function (done) {
-      var faildataAdd = new DataAdd()
-      // use mock data object setup to fail
-      faildataAdd.data = mockDataFail
       var req = {body: {}}
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      faildataAdd.route(req, res, function () {
+      dataAdd(req, res, mockDataFail, function () {
         try {
           assert.equal(res.status.lastCall.arg, 500)
           assert.equal(res.json.lastCall.arg.result, 'fail')
@@ -46,13 +40,11 @@ describe('data_add', function () {
     })
 
     it('dataAdd no mock fail', function (done) {
-      var normalDataAdd = new DataAdd()
-      // normalDataAdd.data = require('../../api/data/data')
       var req = {body: {}}
       var res = {}
       simple.mock(res, 'status').returnWith(0)
       simple.mock(res, 'json').returnWith(0)
-      normalDataAdd.route(req, res, function () {
+      dataAdd(req, res, undefined, function () {
         try {
           assert.equal(res.status.lastCall.arg, 500)
           assert.equal(res.json.lastCall.arg.result, 'fail')
