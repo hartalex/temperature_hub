@@ -22,7 +22,7 @@ module.exports = function (app) {
   app.post('/services/delete', jsonParser, serviceDel)
 
   // temp and door
-  app.post('/data/add', jsonParser, dataAdd)
+  app.post('/data/add', jsonParser, dataAdd.route)
 
   // temperatures
   app.get('/temp/list', tempList)

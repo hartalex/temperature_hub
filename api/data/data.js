@@ -1,7 +1,7 @@
 const dbUrl = require('../db/url')
-
+const mongoDb = require('../db/mongodb')
 module.exports = {
-  db: {},
+  db: mongoDb,
   dataAdd: function (input) {
     var db = this.db
     const time = new Date()
@@ -115,8 +115,6 @@ module.exports = {
       })
     }).then(function (result) {
       return new Promise(function (resolve, reject) {
-        console.log('handle results')
-        console.log(result)
         if (result != null && result.result.n > 0) {
           resolve({result: 'ok'})
         } else {

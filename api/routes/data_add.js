@@ -1,16 +1,22 @@
 const data = require('../data/data')
-const db = require('../db/mongodb')
 
-module.exports = function (req, res) {
-  data.db = db
-  data.dataAdd(req.body).then(function (output) {
-    if (output.result === 'fail') {
-      res.status(500)
-    } else {
+module.exports = {
+  'data': data,
+  route: function (req, res, done) {
+    var mydata = this.data
+    var dataAdd = mydata.dataAdd(req.body)
+    dataAdd.then(function (output) {
       res.status(200)
-    }
-    res.json(output)
-  }).catch(function (err) {
-    res.json({result: 'fail', reason: err})
-  })
+      res.json(output)
+      if (done && typeof done === 'function') {
+        done()
+      }
+    }).catch(function (err) {
+      res.status(500)
+      res.json({result: 'fail', reason: err})
+      if (done && typeof done === 'function') {
+        done()
+      }
+    })
+  }
 }
