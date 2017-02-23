@@ -5,7 +5,7 @@
 	google.charts.setOnLoadCallback(drawChart);
 	function drawChart() {
 
-	var duration = '1h'
+	var duration = '12h'
 
   fetch('http://hub.hartcode.com/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
