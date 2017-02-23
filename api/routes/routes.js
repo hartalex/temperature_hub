@@ -9,6 +9,7 @@ const tempGraph = require('./temp_graph')
 const tempSensorList = require('./temp_sensor_list')
 const sensorAdd = require('./sensor_add')
 const doorList = require('./door_list')
+const doorGraph = require('./door_graph')
 const doorSensorList = require('./door_sensor_list')
 const bodyParser = require('body-parser')
 
@@ -36,6 +37,7 @@ module.exports = function (app) {
 
   // doors
   app.get('/door/list', cors(), doorList)
+  app.get('/door/:duration/graph', cors(), doorGraph)
   app.get('/door/list/:sensorId', cors(), doorList)
   app.get('/door/sensor/list', cors(), doorSensorList)
 }
