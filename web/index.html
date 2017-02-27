@@ -31,7 +31,7 @@
 	arraydata.push(titleRow) ;
 	var lastArrayRow = [null,null,null,null,null,null,null,null,null];
 	json.forEach(function (element)  {
-	  var arrayRow = [new Date(element._id.minute)] ;
+	  var arrayRow = [new Date(element._id.minute+':00.000Z')] ;
 	  for(var i = 0; i< sensorjson.length; i++) {
 	    var sensor = sensorjson[i]
 
