@@ -32,7 +32,12 @@
 	arraydata.push(titleRow) ;
 	var lastArrayRow = [null,null,null,null,null,null,null,null,null];
 	json.forEach(function (element)  {
-	  var arrayRow = [new Date(element._id.minute+':00.000Z')] ;
+    var datestring = element._id.minute
+    if (datestring.charAt(datestring.length - 1) !== 'Z')
+    {
+      datestring +=':00.000Z'
+    }
+	  var arrayRow = [new Date(datestring)] ;
 	  for(var i = 0; i< sensorjson.length; i++) {
 	    var sensor = sensorjson[i]
 
@@ -46,7 +51,11 @@
 	  }
 	  arraydata.push(arrayRow);
 	  lastArrayRow = arrayRow;
-	}); var data = google.visualization.arrayToDataTable(arraydata) ;
+	});
+  var arrayRow =JSON.parse(JSON.stringify(arraydata[arraydata.length-1]))
+  arrayRow[0] = new Date()
+  arraydata.push(arrayRow)
+  var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
 	title: 'Temperatures',
 	curveType: 'function',
@@ -87,7 +96,12 @@
 	arraydata.push(titleRow) ;
   var lastArrayRow = [null,0,0];
 	json.forEach(function (element)  {
-	  var arrayRow = [new Date(element._id.minute+':00.000Z')] ;
+    var datestring = element._id.minute
+    if (datestring.charAt(datestring.length - 1) !== 'Z')
+    {
+      datestring +=':00.000Z'
+    }
+	  var arrayRow = [new Date(datestring)] ;
 	  for(var i = 0; i< sensorjson.length; i++) {
 	    var sensor = sensorjson[i]
 
@@ -113,7 +127,9 @@
       lastArrayRow.push(arrayRow[i])
     }
   });
-  console.log(arraydata)
+  var arrayRow =JSON.parse(JSON.stringify(arraydata[arraydata.length-1]))
+  arrayRow[0] = new Date()
+  arraydata.push(arrayRow)
    var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
 	title: 'Doors',
