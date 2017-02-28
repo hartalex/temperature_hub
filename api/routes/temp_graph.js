@@ -48,10 +48,16 @@ var findTemperaturesLastXMonths = function (dbobj, x, callback) {
   const timeStampCompareLength = 10
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
   function (objs) {
-    objs.forEach(function (obj) {
-      obj._id.minute += 'T00:00'
-    })
-    callback(objs)
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+      objs[i]._id.minute += 'T00:00'
+    }
+    callback(firstObjects.concat(objs))
   })
 }
 
@@ -61,10 +67,16 @@ var findTemperaturesLastXDays = function (dbobj, x, callback) {
   const timeStampCompareLength = 13
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
   function (objs) {
-    objs.forEach(function (obj) {
-      obj._id.minute += ':00'
-    })
-    callback(objs)
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+      objs[i]._id.minute += ':00'
+    }
+    callback(firstObjects.concat(objs))
   })
 }
 
@@ -72,7 +84,18 @@ var findTemperaturesLastXHours = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures', callback)
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
+  function (objs) {
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+    }
+    callback(firstObjects.concat(objs))
+  })
 }
 
 module.exports = function (req, res) {

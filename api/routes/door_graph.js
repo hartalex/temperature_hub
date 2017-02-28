@@ -36,21 +36,57 @@ var finddoorsLastXMonths = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * 30 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors', callback)
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
+  function (objs) {
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+      objs[i]._id.minute
+    }
+    callback(firstObjects.concat(objs))
+  })
 }
 
 var finddoorsLastXDays = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors', callback)
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
+  function (objs) {
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+      objs[i]._id.minute
+    }
+    callback(firstObjects.concat(objs))
+  })
 }
 
 var finddoorsLastXHours = function (dbobj, x, callback) {
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
-  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors', callback)
+  db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
+  function (objs) {
+    var firstObjects = []
+    for (var i = 0; i < objs.length; i++) {
+      if (i === 0) {
+        var obj = JSON.parse(JSON.stringify(objs[i]))
+        obj._id.minute = lastOldestTime
+        firstObjects.push(obj)
+      }
+      objs[i]._id.minute
+    }
+    callback(firstObjects.concat(objs))
+  })
 }
 
 module.exports = function (req, res) {
