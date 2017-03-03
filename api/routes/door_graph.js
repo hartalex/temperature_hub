@@ -81,13 +81,16 @@ var finddoorsLastXDays = function (dbobj, x, callback) {
 }
 
 var finddoorsLastXHours = function (dbobj, x, callback) {
+  console.log('Call LastXHours')
   const currentTime = new Date()
   const lastOldestTime = new Date(currentTime - (3600 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'doors',
   function (objs) {
+    console.log('Received LastXHours')
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
+      console.log(objs[i])
       if (i === 0) {
         var obj = JSON.parse(JSON.stringify(objs[i]))
         obj._id.minute = lastOldestTime
