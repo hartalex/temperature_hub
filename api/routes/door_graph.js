@@ -46,9 +46,11 @@ var finddoorsLastXMonths = function (dbobj, x, callback) {
         for (var x = 0; x < obj.results.length; x++) {
           obj.results[x].isOpen = !(obj.results[x]).isOpen
         }
+        console.log('LastXMonths')
+        console.log(objs[i])
+        console.log(obj)
         firstObjects.push(obj)
       }
-      objs[i]._id.minute
     }
     callback(firstObjects.concat(objs))
   })
@@ -68,9 +70,11 @@ var finddoorsLastXDays = function (dbobj, x, callback) {
         for (var x = 0; x < obj.results.length; x++) {
           obj.results[x].isOpen = !(obj.results[x]).isOpen
         }
+        console.log('LastXDays')
+        console.log(objs[i])
+        console.log(obj)
         firstObjects.push(obj)
       }
-      objs[i]._id.minute
     }
     callback(firstObjects.concat(objs))
   })
@@ -90,9 +94,11 @@ var finddoorsLastXHours = function (dbobj, x, callback) {
         for (var x = 0; x < obj.results.length; x++) {
           obj.results[x].isOpen = !(obj.results[x]).isOpen
         }
+        console.log('LastXHours')
+        console.log(objs[i])
+        console.log(obj)
         firstObjects.push(obj)
       }
-      objs[i]._id.minute
     }
     callback(firstObjects.concat(objs))
   })
