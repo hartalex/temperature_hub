@@ -63,7 +63,9 @@ var finddoorsLastXDays = function (dbobj, x, callback) {
       if (i === 0) {
         var obj = JSON.parse(JSON.stringify(objs[i]))
         obj._id.minute = lastOldestTime
-        obj.isOpen = !obj.isOpen
+        for (var x = obj.results; x < obj.results.length; x++) {
+          obj.results[x].isOpen = !obj.results[x].isOpen
+        }
         firstObjects.push(obj)
       }
       objs[i]._id.minute
