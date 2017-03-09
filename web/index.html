@@ -1,11 +1,16 @@
 <html><head>
+  <meta charset="utf-8"/>
 <script type='text/javascript' src='fetch.js'></script>
 <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
     <script type='text/javascript'>
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
+  var fifteenMinutes = 60 * 1000 * 15;
+  var fiveMinutes = 60 * 1000 * 5;
+  var oneMinutes = 60 * 1000 * 1;
+  setInterval(drawChart, fiveMinutes);
 	function drawChart() {
-
+  var datetime = new Date()
 	var duration = '12h'
 
   fetch('http://hub.hartcode.com/temp/sensor/list').then(function (response) {
@@ -60,9 +65,16 @@
 	title: 'Temperatures',
 	curveType: 'function',
 	legend: { position: 'bottom'} };
-	var chartdiv = document.createElement('div');
-	chartdiv.setAttribute('style','width: 900px height: 500px');
-	document.body.appendChild(chartdiv);
+
+  var divId = 'temperature'
+	var chartdiv = document.getElementById(divId)
+  if (chartdiv == null) {
+    chartdiv = document.createElement('div');
+    chartdiv.setAttribute('style','width: 1000px; height: 400px');
+    chartdiv.id = divId
+    document.body.appendChild(chartdiv);
+  }
+
 	var chart = new google.visualization.LineChart(chartdiv);
 	chart.draw(data, options);
 	 }).catch(function (err) {
@@ -135,9 +147,16 @@
 	title: 'Doors',
 	curveType: 'none',
 	legend: { position: 'bottom'} };
-	var chartdiv = document.createElement('div');
-	chartdiv.setAttribute('style','width: 900px height: 500px');
-	document.body.appendChild(chartdiv);
+  var divId = 'door'
+	var chartdiv = document.getElementById(divId)
+  if (chartdiv == null) {
+    chartdiv = document.createElement('div');
+    chartdiv.id = divId
+    chartdiv.setAttribute('style','width: 1000px; height: 400px');
+    document.body.appendChild(chartdiv);
+  }
+
+
 	var chart = new google.visualization.LineChart(chartdiv);
 	chart.draw(data, options);
 	 }).catch(function (err) {
@@ -146,5 +165,15 @@
   }).catch(function (err) {
     console.log(err)
   })
+
+  var divId = 'updateTime'
+	var chartdiv = document.getElementById(divId)
+  if (chartdiv == null) {
+    chartdiv = document.createElement('div');
+    chartdiv.id = divId
+    document.body.appendChild(chartdiv);
+    chartdiv.setAttribute('style','text-align: right; width: 1000px');
+  }
+  chartdiv.innerHTML = datetime.toISOString()
 	}
 	</script> </head><body></body></html>
