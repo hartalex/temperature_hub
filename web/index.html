@@ -63,8 +63,11 @@
   var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
 	title: 'Temperatures',
+  backgroundColor: 'black',
 	curveType: 'function',
-	legend: { position: 'bottom'} };
+  vAxis: {textStyle: { color: 'white' }},
+  hAxis: {textStyle: { color: 'white' }},
+	legend: {textStyle: { color: 'white' }, position: 'bottom'} };
 
   var divId = 'temperature'
 	var chartdiv = document.getElementById(divId)
@@ -145,8 +148,11 @@
    var data = google.visualization.arrayToDataTable(arraydata) ;
 	var options = {
 	title: 'Doors',
-	curveType: 'none',
-	legend: { position: 'bottom'} };
+  backgroundColor: 'black',
+  curveType: 'function',
+  vAxis: {textStyle: { color: 'white' }},
+  hAxis: {textStyle: { color: 'white' }},
+  legend: {textStyle: { color: 'white' }, position: 'bottom'} };
   var divId = 'door'
 	var chartdiv = document.getElementById(divId)
   if (chartdiv == null) {
@@ -172,8 +178,8 @@
     chartdiv = document.createElement('div');
     chartdiv.id = divId
     document.body.appendChild(chartdiv);
-    chartdiv.setAttribute('style','text-align: right; width: 1000px');
+    chartdiv.setAttribute('style','color: white; text-align: right; width: 1000px');
   }
   chartdiv.innerHTML = datetime.toISOString()
 	}
-	</script> </head><body></body></html>
+	</script> </head><body style="background-color: black;"></body></html>
