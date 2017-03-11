@@ -12,14 +12,14 @@ var _webpack = require('webpack');
 
 var _webpack2 = _interopRequireDefault(_webpack);
 
-var _webpack3 = require('../../webpack.config');
+var _webpack3 = require('../webpack.config');
 
 var _webpack4 = _interopRequireDefault(_webpack3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var express = require('express');
-var routes = require('./routes/routes');
+var apiRoutes = require('../api/routes/routes');
 
 var port = process.env.PORT || 80;
 var app = express();
@@ -39,6 +39,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/', express.static('web'));
 
-routes(app);
+apiRoutes(app);
 
 app.listen(port);

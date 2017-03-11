@@ -6,9 +6,9 @@
   "scripts": {
     "test": "mocha",
     "clean": "rimraf build",
-    "build": "npm run clean && babel server.js -d build/ && webpack",
+    "build": "npm run clean && babel server.js -d build && babel web -d build/client && webpack",
     "lint": "eslint api/**",
-    "start": "node server.js"
+    "start": "node build/server.js"
   },
   "repository": {
     "type": "git",

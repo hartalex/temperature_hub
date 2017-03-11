@@ -1,9 +1,9 @@
 var express = require('express')
-var routes = require('./routes/routes')
+var apiRoutes = require('../api/routes/routes')
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpack from 'webpack'
-import config from '../../webpack.config'
+import config from '../webpack.config'
 const port = process.env.PORT || 80
 const app = express()
 
@@ -22,6 +22,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/', express.static('web'))
 
-routes(app)
+apiRoutes(app)
 
 app.listen(port)
