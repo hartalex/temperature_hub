@@ -1,10 +1,10 @@
-const express = require('express')
-const temperatureGraph = require('./temperatureGraph')
-const cors = require('cors')
-const port = process.env.PORT || 80
-const app = express()
+import { renderRoot } from './components/index.js'
+import React from 'react'
+import { render } from 'react-dom'
+// import Analytics from './components/analytics.js'
+// Analytics.analytics()
 
-app.get('/', cors(), temperatureGraph)
-app.get('/:duration', cors(), temperatureGraph)
-
-app.listen(port)
+var root = document.getElementById('root')
+if (root !== null) {
+  render(renderRoot(), root)
+}
