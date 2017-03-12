@@ -1,6 +1,7 @@
 import { renderRoot } from './components/index.js'
 import React from 'react'
 import { render } from 'react-dom'
+import 'whatwg-fetch'
 // import Analytics from './components/analytics.js'
 // Analytics.analytics()
 
