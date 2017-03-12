@@ -37,6 +37,7 @@
     "mongodb": "^2.2.24",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-google-charts": "^1.5.3",
     "resolve-url-loader": "^2.0.2",
     "rimraf": "^2.6.1",
     "style-loader": "^0.13.2",
