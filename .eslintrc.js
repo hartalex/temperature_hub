@@ -4,6 +4,7 @@ module.exports = {
     "standard",
     "promise",
     "react",
+    "jsx",
     "jsx-a11y",
     "import"
   ],

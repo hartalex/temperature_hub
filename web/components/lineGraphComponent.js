@@ -5,7 +5,6 @@ import Colors from '../colors'
 class LineGraphComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
-    var getDataFunc = getData
     this.state = {
       graph_id: graphId,
       options: {
@@ -28,7 +27,7 @@ class LineGraphComponent extends React.Component {
       }
     }
     var that = this
-    getDataFunc(props.duration, that)
+    getData(props.duration, that)
   }
   render () {
     var retval
