@@ -49,7 +49,7 @@ class TemperatureGraph extends LineGraphComponent {
           var arrayRow = JSON.parse(JSON.stringify(arraydata[arraydata.length - 1]))
           arrayRow[0] = new Date()
           arraydata.push(arrayRow)
-          that.setState({options: that.state.options, data: arraydata})
+          that.setState({options: that.state.options, data: {array: arraydata, lastUpdate: new Date().toISOString()}})
         })
       })
     })

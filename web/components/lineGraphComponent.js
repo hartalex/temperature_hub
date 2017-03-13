@@ -1,10 +1,13 @@
 import { Chart } from 'react-google-charts'
 import React from 'react'
 import Colors from '../colors'
+import Util from '../util'
 
 class LineGraphComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
+    var updateInterval = props.updateInterval * 60000
+    var renderInterval = 60000
     this.state = {
       graph_id: graphId,
       options: {
@@ -28,21 +31,30 @@ class LineGraphComponent extends React.Component {
     }
     var that = this
     getData(props.duration, that)
+    setInterval(() => {
+      getData(props.duration, that)
+    }, updateInterval)
+
+    setInterval(() => { that.setState(that.state) }, renderInterval)
   }
   render () {
     var retval
     if (this.state.data !== null) {
-      retval = (<Chart
+      const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      retval = (<div><Chart
         chartType='LineChart'
-        data={this.state.data}
+        data={this.state.data.array}
         options={this.state.options}
         graph_id={this.state.graph_id}
         width={this.state.style.width}
         height={this.state.style.height}
         legend_toggle
-      />)
+      />
+      <div style={{fontSize: '100%', textAlign: 'right', color: this.state.style.color}}>{updateTimeInMinutes}</div>
+      </div>
+    )
     } else {
-      retval = (<div style={this.state.style}>Loading Graph</div>)
+      retval = (<div style={this.state.style}>Fetching Data</div>)
     }
     return retval
   }
