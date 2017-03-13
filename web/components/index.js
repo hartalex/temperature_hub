@@ -7,8 +7,8 @@ export function renderRoot () {
     textAlign: 'center' }
   return (
     <div className='body' style={style}>
-      <DoorGraph duration='24h'/>
-      <TemperatureGraph duration='24h'/>
+      <DoorGraph title='Doors' duration='24h'/>
+      <TemperatureGraph title='Temperatures' duration='24h'/>
     </div>
   )
 }
