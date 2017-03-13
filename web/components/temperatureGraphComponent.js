@@ -2,12 +2,12 @@ import { Chart } from 'react-google-charts'
 import React from 'react'
 import Colors from '../colors'
 
-class DoorGraph extends React.Component {
+class TemperatureGraph extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       options: {
-        title: 'Doors',
+        title: 'Temperature',
         backgroundColor: Colors.Black,
         curveType: 'none',
         titleTextStyle: { color: Colors.White },
@@ -26,13 +26,13 @@ class DoorGraph extends React.Component {
       }
     }
     var that = this
-    fetch('http://hub.hartcode.com/door/sensor/list').then(function (response) {
+    fetch('http://hub.hartcode.com/temp/sensor/list').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
       return response.json()
     }).then(function (sensorjson) {
-      fetch('http://hub.hartcode.com/door/' + props.duration + '/graph').then(function (response) {
+      fetch('http://hub.hartcode.com/temp/' + props.duration + '/graph').then(function (response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')
         }
@@ -47,7 +47,7 @@ class DoorGraph extends React.Component {
           } titleRow.push(sensorName)
         })
         arraydata.push(titleRow)
-        var lastArrayRow = [null, 0, 0]
+        var lastArrayRow = [null, null, null, null, null, null, null, null, null]
         json.forEach(function (element) {
           var datestring = element._id.minute
           if (datestring.charAt(datestring.length - 1) !== 'Z') {
@@ -60,28 +60,18 @@ class DoorGraph extends React.Component {
             var tempData = lastArrayRow[i + 1]
             element.results.forEach(function (temp) {
               if (sensor.sensorId === temp.sensorId) {
-                if (temp.isOpen === true) {
-                  tempData = 1
-                } else {
-                  tempData = 0
-                }
+                tempData = temp.tempInFarenheit
               }
             })
             arrayRow.push(tempData)
           }
-          lastArrayRow[0] = new Date(new Date(arrayRow[0] - 60000).toISOString())
-
-          arraydata.push(lastArrayRow)
           arraydata.push(arrayRow)
-          lastArrayRow = []
-          for (var ix = 0; ix < arrayRow.length; ix++) {
-            lastArrayRow.push(arrayRow[ix])
-          }
+          lastArrayRow = arrayRow
         })
         var arrayRow = JSON.parse(JSON.stringify(arraydata[arraydata.length - 1]))
         arrayRow[0] = new Date()
         arraydata.push(arrayRow)
-      //  that.setState({options: that.state.options, data: arraydata})
+        that.setState({options: that.state.options, data: arraydata})
       })
     })
   }
@@ -92,15 +82,15 @@ class DoorGraph extends React.Component {
         chartType='LineChart'
         data={this.state.data}
         options={this.state.options}
-        graph_id='DoorGraph'
+        graph_id='TemperatureGraph'
         width={this.state.style.width}
         height={this.state.style.height}
         legend_toggle
       />)
     } else {
-      retval = (<div style={this.state.style}>Loading Temperature Graph</div>)
+      retval = (<div style={this.state.style}>Loading Door Graph</div>)
     }
     return retval
   }
 }
-export default DoorGraph
+export default TemperatureGraph
