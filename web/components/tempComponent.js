@@ -26,8 +26,13 @@ class TemperatureComponent extends React.Component {
     var that = this
 
     setInterval(() => {
+      if (new Date() - new Date(that.state.data.lastUpdate) > updateInterval) {
+        that.state.style.backgroundColor = Colors.Red
+      } else {
+        that.state.style.backgroundColor = Colors.Black
+      }
       that.setState(that.state)
-     }, renderInterval)
+    }, renderInterval)
 
     this.getData(props.sensorName, this)
     setInterval(() => { that.getData(props.sensorName, that) }, updateInterval)
@@ -46,7 +51,9 @@ class TemperatureComponent extends React.Component {
       for (var i = 0; i < currentjson.length; i++) {
         var sensor = currentjson[i]
         if (sensor.sensorName === sensorName) {
-          that.setState({data: { name: sensor.sensorName, temperature: sensor.tempInFarenheit, lastUpdate: sensor.utc_timestamp }})
+          that.state.data.temperature = sensor.tempInFarenheit
+          that.state.data.lastUpdate = new Date().toISOString()
+          that.setState(that.state)
         }
       }
     })

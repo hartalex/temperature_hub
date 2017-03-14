@@ -7,13 +7,13 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('style.css'),
-/*    new webpack.DefinePlugin({
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin()
-  */    // new CommonsChunkPlugin('commons.js',['index','contact','about','careers','hire','products','privacy','termsofuse','enduserlicenseagreement'])
+      // new CommonsChunkPlugin('commons.js',['index','contact','about','careers','hire','products','privacy','termsofuse','enduserlicenseagreement'])
   ],
   entry: {
     index: './web/index.js'
