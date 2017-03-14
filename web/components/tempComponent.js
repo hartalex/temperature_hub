@@ -36,8 +36,6 @@ class TemperatureComponent extends React.Component {
 
     this.getData(props.sensorName, this)
     setInterval(() => { that.getData(props.sensorName, that) }, updateInterval)
-    // var that = this
-    // getData(props.duration, that)
   }
   getData (sensorName, that) {
     console.log('here')
