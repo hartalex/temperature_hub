@@ -2,7 +2,7 @@ import DoorGraph from './doorGraphComponent.js'
 import TemperatureGraph from './temperatureGraphComponent.js'
 import Temperature from './tempComponent.js'
 import Weather from './weatherComponent.js'
-import Forecast3Day from './Forecast3DayComponent.js'
+import Forecast3Day from './forecast3DayComponent.js'
 import React from 'react'
 import Colors from '../colors'
 export function renderRoot () {
