@@ -6,7 +6,7 @@ import Util from '../util'
 class LineGraphComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
-    var updateInterval = props.updateInterval * 60000
+    var updateInterval = props.updateIntervalInMinutes * 60000
     var renderInterval = 60000
     this.state = {
       graph_id: graphId,
@@ -21,12 +21,13 @@ class LineGraphComponent extends React.Component {
       },
       data: null,
       style: {
-        width: '1000px',
-        height: '400px',
-        fontSize: '250%',
-        backgroundColor: Colors.Black,
+        width: '590px',
+        height: '200px',
+        border: '5px solid darkgray',
+        background: Colors.Black,
         textAlign: 'center',
-        color: Colors.White
+        color: Colors.White,
+        float: 'left'
       }
     }
     var that = this
@@ -41,16 +42,16 @@ class LineGraphComponent extends React.Component {
     var retval
     if (this.state.data !== null) {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
-      retval = (<div><Chart
+      retval = (<div style={this.state.style}><Chart
         chartType='LineChart'
         data={this.state.data.array}
         options={this.state.options}
         graph_id={this.state.graph_id}
         width={this.state.style.width}
-        height={this.state.style.height}
+        height='190px'
         legend_toggle
       />
-      <div style={{fontSize: '100%', textAlign: 'right', color: this.state.style.color}}>{updateTimeInMinutes}</div>
+      <div style={{fontSize: '50%', textAlign: 'right', color: this.state.style.color}}>{updateTimeInMinutes}</div>
       </div>
     )
     } else {

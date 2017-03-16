@@ -34,15 +34,15 @@ module.exports = {
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: ['file?hash=sha512&digest=hex&name=[hash].[ext]']
+        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
       },
       {
         test: /.*favicon\.(ico)$/i,
-        loaders: ['file?name=favicon.ico']
+        loaders: ['file-loader?name=favicon.ico']
       },
       {
         test: /.*\.(ttf|eot|woff|woff2|zip)$/i,
-        loaders: ['file?hash=sha512&digest=hex&name=[hash].[ext]']
+        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
       },
       {
         test: /\.js$/,
