@@ -19,7 +19,8 @@ class Forecast3DayComponent extends React.Component {
         background: Colors.Black,
         textAlign: 'center',
         float: 'left',
-        color: Colors.White
+        color: Colors.White,
+        fontSize: '14px'
       },
       innerStyle: {
         width: '140px',
@@ -114,8 +115,8 @@ class Forecast3DayComponent extends React.Component {
             <div key={obj.dt} style={this.state.innerStyle}>
             <div style={{padding: '5px 0', color: Colors.White}}>{obj.day}</div>
             <img src={weatherIcons(obj.icon)} />
-            <div style={{margin: 'auto', width: '50%'}}>
-              <div style={{color: temperatureColor(obj.temperature), fontSize: '300%', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
+            <div style={{margin: 'auto', width: '100px'}}>
+              <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
               <div style={{float: 'left', padding: '10px 2px'}}>
                 <div style={{color: temperatureColor(obj.temperatureMax)}}>{Math.trunc(obj.temperatureMax)}</div>
                 <div style={{color: temperatureColor(obj.temperatureMin)}}>{Math.trunc(obj.temperatureMin)}</div>
@@ -124,7 +125,7 @@ class Forecast3DayComponent extends React.Component {
             <div style={{color: Colors.White, clear: 'left'}}>{obj.weatherDescription}</div>
           </div>
           )}
-          <div style={{clear: 'left', color: Colors.White, fontSize: '50%', textAlign: 'right'}}>{updateTimeInMinutes}</div>
+          <div style={{clear: 'left', color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
         </div>)
     } else {
       retval = (<div style={this.state.style}>Fetching Data</div>)

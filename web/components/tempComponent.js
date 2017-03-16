@@ -18,7 +18,8 @@ class TemperatureComponent extends React.Component {
         background: Colors.Black,
         textAlign: 'center',
         float: 'left',
-        color: Colors.White
+        color: Colors.White,
+        fontSize: '14px'
       },
       innerStyle: {
         padding: '50px 0'
@@ -73,10 +74,10 @@ class TemperatureComponent extends React.Component {
       retval = (
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
-            <div style={{fontSize: '400%'}}>{Math.trunc(this.state.data.temperature)}</div>
+            <div style={{fontSize: '62px'}}>{Math.trunc(this.state.data.temperature)}</div>
             <div style={{color: Colors.White}} >{this.state.data.name}</div>
           </div>
-          <div style={{color: Colors.White, fontSize: '50%', textAlign: 'right'}}>{updateTimeInMinutes}</div>
+          <div style={{color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
         </div>)
     } else {
       retval = (<div style={this.state.style}>Fetching Data</div>)
