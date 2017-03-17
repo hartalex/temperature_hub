@@ -8,7 +8,7 @@ module.exports = function (req, res) {
   connectPromise.then(function (dbobj) {
     return new Promise(function (resolve, reject) {
       var menuItem = req.body
-      if (typeof svc === 'undefined') {
+      if (typeof menuItem === 'undefined') {
         console.log('Error request body is undefined')
         dbobj.close()
         reject({
