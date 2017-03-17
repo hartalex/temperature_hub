@@ -21,7 +21,7 @@ export function renderRoot () {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(json)
+        body: json
       })
       .then(function (res) { return res.json() })
       .then(function (data) { alert(JSON.stringify(data)) })
