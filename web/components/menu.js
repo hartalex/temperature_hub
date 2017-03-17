@@ -12,10 +12,16 @@ export function renderRoot () {
       secondOption: document.getElementById('secondOption').value,
       otherStuff: document.getElementById('otherStuff').value
     }
-    fetch('/menu/add',
+    var json = JSON.stringify(obj)
+    console.log(json)
+    fetch('menu/add',
       {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
         method: 'POST',
-        body: JSON.stringify(obj)
+        body: JSON.stringify(json)
       })
       .then(function (res) { return res.json() })
       .then(function (data) { alert(JSON.stringify(data)) })
