@@ -22,7 +22,8 @@ export function renderRoot () {
       <Forecast3Day zipCode='53012' updateIntervalInMinutes='60' />
       <Temperature sensorName='Outside' updateIntervalInMinutes='5'/>
       <Weather zipCode='53012' updateIntervalInMinutes='60' />
-      <Menu date='2017-03-17' updateIntervalInMinutes='60' />
+      <Menu day='Today' date={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)} updateIntervalInMinutes='60' />
+      <Menu day='Tomorrow' date={new Date((new Date().getTime() + 24 * 60 * 60 * 1000)- new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)} updateIntervalInMinutes='60' />
     </div>
   )
 }

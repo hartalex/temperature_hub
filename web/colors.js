@@ -5,4 +5,6 @@
     'Green': '#00FF00',
     'SoftRed': '#FFAAAA',
     'SoftBlue': '#AAAAFF',
-    'SoftGreen': '#AAFFAA'}
+    'SoftGreen': '#AAFFAA',
+    'SoftYellow': '#FFFFAA',
+    'Yellow': '#FFFF00'}
