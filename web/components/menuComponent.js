@@ -8,13 +8,19 @@ class MenuComponent extends React.Component {
     var renderInterval = 60000
     var backgroundColor = Colors.Black
     var foreColor = Colors.White
-    var day = new Date(props.date).getDay() + 1
-    console.log(day)
+    var date
+
+    if (props.date === 'Today') {
+      date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+    } else if (props.date === 'Tomorrow') {
+      date = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+    }
+
+    var day = new Date(date).getDay() + 1
     if (day >= 1 && day <= 5) {
       backgroundColor = Colors.SoftYellow
       foreColor = Colors.Black
     }
-    console.log(props.date)
     this.state = {
       data: null,
       style: {
@@ -32,7 +38,7 @@ class MenuComponent extends React.Component {
       }
     }
     this.state.data = {
-      date: '2017-03-17',
+      date: date,
       firstOption: 'No Lunch',
       secondOption: null,
       otherStuff: null,
@@ -42,14 +48,23 @@ class MenuComponent extends React.Component {
     var that = this
 
     setInterval(() => {
+      var date
+      if (props.date === 'Today') {
+        date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      } else if (props.date === 'Tomorrow') {
+        date = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      }
+      if (that.state.data.date !== date) {
+        that.state.data.date = date
+      }
       that.setState(that.state)
     }, renderInterval)
 
-    this.getData(props.date, this)
-    setInterval(() => { that.getData(props.date, that) }, updateInterval)
+    this.getData(this)
+    setInterval(() => { that.getData(that) }, updateInterval)
   }
-  getData (date, that) {
-    fetch('http://hub.hartcode.com/menu/list/' + date).then(function (response) {
+  getData (that) {
+    fetch('http://hub.hartcode.com/menu/list/' + that.state.data.date).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -57,7 +72,7 @@ class MenuComponent extends React.Component {
     }).then(function (currentjson) {
       for (var i = 0; i < currentjson.length; i++) {
         var menu = currentjson[i]
-        if (menu.date === date) {
+        if (menu.date === that.state.data.date) {
           that.state.data.date = menu.date
           that.state.data.firstOption = menu.firstOption
           that.state.data.secondOption = menu.secondOption
@@ -67,7 +82,7 @@ class MenuComponent extends React.Component {
           style.color = Colors.White
           that.state.style = style
         } else {
-          that.state.data.date = date
+          that.state.data.date = that.state.data.date
           that.state.data.firstOption = 'No Lunch'
           that.state.data.secondOption = null
           that.state.data.otherStuff = null
