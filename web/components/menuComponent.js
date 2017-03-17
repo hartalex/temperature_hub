@@ -28,6 +28,7 @@ class MenuComponent extends React.Component {
       firstOption: 'Something',
       secondOption: 'Something Else',
       otherStuff: 'Other Stuff',
+      day: 'Today',
       lastUpdate: '2017-01-01T00:00:00.000Z'
     }
     var that = this
@@ -56,13 +57,15 @@ class MenuComponent extends React.Component {
       return response.json()
     }).then(function (currentjson) {
       for (var i = 0; i < currentjson.length; i++) {
-        var sensor = currentjson[i]
-        if (sensor.sensorName === sensorName) {
-          that.state.data.temperature = sensor.tempInFarenheit
+        var menu = currentjson[i]
+        if (menu.date === date) {
+          that.state.data.date = menu.date
+          that.state.data.firstOption = menu.firstOption
+          that.state.data.secondOption = menu.secondOption
+          that.state.data.otherStuff = menu.otherStuff
+          that.state.data.day = 'Today'
           that.state.data.lastUpdate = new Date().toISOString()
-          var styleClone = JSON.parse(JSON.stringify(that.state.style))
-          styleClone.color = temperatureColor(that.state.data.temperature)
-          that.state.style = styleClone
+
           that.setState(that.state)
         }
       }
@@ -74,9 +77,12 @@ class MenuComponent extends React.Component {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
       retval = (
         <div style={this.state.style}>
+          <div style={{textAlign: 'left', color: Colors.White}}>Menu</div>
           <div style={this.state.innerStyle}>
-            <div style={{fontSize: '62px'}}>{Math.trunc(this.state.data.temperature)}</div>
-            <div style={{color: Colors.White}} >{this.state.data.name}</div>
+            <div style={{padding: '5px 0', color: Colors.White}}>{this.state.data.day}</div>
+            <div style={{color: Colors.White, clear: 'left'}}>{this.state.data.firstOption}</div>
+            <div style={{color: Colors.White, clear: 'left'}}>Or {this.state.data.secondOption}</div>
+            <div style={{color: Colors.White, clear: 'left'}}>{this.state.data.otherStuff}</div>
           </div>
           <div style={{color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
         </div>)

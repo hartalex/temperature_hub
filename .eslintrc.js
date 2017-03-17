@@ -13,7 +13,7 @@ module.exports = {
     'jsx-a11y',
     'import'
   ],
-  'globals': { 'fetch': false, 'describe': false, 'it': false },
+  'globals': { 'fetch': false, 'describe': false, 'it': false , 'alert': false},
   'rules': {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error'
