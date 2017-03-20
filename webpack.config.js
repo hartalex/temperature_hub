@@ -6,15 +6,22 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('style.css')
-    /* new webpack.DefinePlugin({
+    new ExtractTextPlugin('style.css'),
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin() */
-      // new CommonsChunkPlugin('commons.js',['index','contact','about','careers','hire','products','privacy','termsofuse','enduserlicenseagreement'])
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      // (the commons chunk name)
+
+      filename: 'commons.js'
+      // (the filename of the commons chunk)
+    })
   ],
+
   entry: {
     index: './web/index.js',
     menu: './web/menu.js'
