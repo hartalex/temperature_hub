@@ -3,6 +3,7 @@ import Colors from '../colors'
 import Util from '../util'
 import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
+import getWeekDay from '../weekDay.js'
 // 3 Day Forecast
 class Forecast3DayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -113,7 +114,7 @@ class Forecast3DayComponent extends React.Component {
           <div style={{textAlign: 'left', color: Colors.White}}>Forecast</div>
           {this.state.data.forecast.map((obj) =>
             <div key={obj.dt} style={this.state.innerStyle}>
-            <div style={{padding: '5px 0', color: Colors.White}}>{obj.day}</div>
+            <div style={{padding: '5px 0', color: Colors.White}}>{getWeekDay(new Date(parseInt(obj.dt * 1000)).getDay())}</div>
             <img src={weatherIcons(obj.icon)} />
             <div style={{margin: 'auto', width: '100px'}}>
               <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
