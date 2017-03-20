@@ -27,6 +27,7 @@ class MenuDayComponent extends React.Component {
     this.state = {
       data: null,
       style: {
+        height: '150px',
         width: '140px',
         background: backgroundColor,
         textAlign: 'center',
