@@ -20,6 +20,9 @@ class MenuDayComponent extends React.Component {
     }
 
     var day = new Date(date).getDay() + 1
+    if (day > 6) {
+      day = 0
+    }
     if (day >= 1 && day <= 5) {
       backgroundColor = Colors.SoftYellow
       foreColor = Colors.Black
@@ -39,7 +42,7 @@ class MenuDayComponent extends React.Component {
     }
     this.state.data = {
       date: date,
-      firstOption: 'No Lunch',
+      firstOption: null,
       secondOption: null,
       otherStuff: null,
       day: props.day,
@@ -56,6 +59,19 @@ class MenuDayComponent extends React.Component {
       } else if (props.day === 'NextDay') {
         date = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
       }
+      if (day > 6) {
+        day = 0
+      }
+      if (day >= 1 && day <= 5) {
+        backgroundColor = Colors.SoftYellow
+        foreColor = Colors.Black
+      } else {
+        backgroundColor = Colors.Black
+        foreColor = Colors.White
+      }
+      that.state.style.background - backgroundColor
+      that.state.style.color = foreColor
+
       if (that.state.data.date !== date) {
         that.state.data.date = date
       }
@@ -72,43 +88,51 @@ class MenuDayComponent extends React.Component {
       }
       return response.json()
     }).then(function (currentjson) {
-      for (var i = 0; i < currentjson.length; i++) {
-        var menu = currentjson[i]
-        if (menu.date === that.state.data.date) {
-          that.state.data.date = menu.date
-          that.state.data.firstOption = menu.firstOption
-          that.state.data.secondOption = menu.secondOption
-          that.state.data.otherStuff = menu.otherStuff
-          var style = JSON.parse(JSON.stringify(that.state.style))
-          style.backgroundColor = Colors.Black
-          style.color = Colors.White
-          that.state.style = style
-        } else {
-          that.state.data.date = that.state.data.date
-          that.state.data.firstOption = 'No Lunch'
-          that.state.data.secondOption = null
-          that.state.data.otherStuff = null
-          var day = new Date().getDay() + 1
-          if (day >= 1 && day <= 5) {
-            var styleClone = JSON.parse(JSON.stringify(that.state.style))
-            styleClone.backgroundColor = Colors.SoftYellow
-            styleClone.color = Colors.Black
-            that.state.style = styleClone
-          }
+      if (currentjson.length > 0) {
+        var menu = currentjson[0]
+        that.state.data.date = menu.date
+        that.state.data.firstOption = menu.firstOption
+        that.state.data.secondOption = menu.secondOption
+        that.state.data.otherStuff = menu.otherStuff
+        var style = JSON.parse(JSON.stringify(that.state.style))
+        style.backgroundColor = Colors.Black
+        style.color = Colors.White
+        that.state.style = style
+      } else {
+        that.state.data.firstOption = null
+        that.state.data.secondOption = null
+        that.state.data.otherStuff = null
+
+        var day = new Date(that.state.data.date).getDay() + 1
+        if (day > 6) {
+          day = 0
         }
-        that.state.data.lastUpdate = new Date().toISOString()
-        that.setState(that.state)
+        if (day >= 1 && day <= 5) {
+          var styleClone = JSON.parse(JSON.stringify(that.state.style))
+          styleClone.backgroundColor = Colors.SoftYellow
+          styleClone.color = Colors.Black
+          that.state.style = styleClone
+          that.state.data.firstOption = 'No Lunch'
+        }
       }
+      that.state.data.lastUpdate = new Date().toISOString()
+      that.setState(that.state)
     })
   }
   render () {
     var retval
     if (this.state.data !== null) {
+      var day = new Date(this.state.data.date).getDay() + 1
+      if (day > 6) {
+        day = 0
+      }
       retval = (
         <div style={this.state.style}>
-          <div style={{textAlign: 'center'}}>{getWeekDay(new Date(this.state.data.date).getDay() + 1)}</div>
+          <div style={{textAlign: 'center'}}>{getWeekDay(day)}</div>
           <ol style={{fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px'}}>
+          { this.state.data.firstOption !== null &&
           <li style={{fontSize: '12px', clear: 'left'}}>{this.state.data.firstOption}</li>
+          }
           { this.state.data.secondOption !== null &&
             <li style={{fontSize: '12px', padding: '5px 0', clear: 'left'}}>Or {this.state.data.secondOption}</li>
           }
