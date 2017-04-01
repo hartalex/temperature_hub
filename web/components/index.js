@@ -3,7 +3,6 @@ import TemperatureGraph from './temperatureGraphComponent.js'
 import Temperature from './tempComponent.js'
 import Menu from './menuComponent.js'
 import Forecast3Day from './forecast3DayComponent.js'
-import WeatherMapComponent from './weatherMapComponent.js'
 import React from 'react'
 import Colors from '../colors'
 export function renderRoot () {
@@ -18,7 +17,7 @@ export function renderRoot () {
       <Temperature sensorName='Basement' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Living Room' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Fish Tank' updateIntervalInMinutes='5'/>
-      <WeatherMapComponent />
+
       <Forecast3Day zipCode='53012' updateIntervalInMinutes='60' />
       <Temperature sensorName='Bedroom' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Outside' updateIntervalInMinutes='5'/>

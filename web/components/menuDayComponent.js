@@ -59,19 +59,6 @@ class MenuDayComponent extends React.Component {
       } else if (props.day === 'NextDay') {
         date = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
       }
-      var day = new Date(that.state.data.date).getDay() + 1
-      if (day > 6) {
-        day = 0
-      }
-      if (day >= 1 && day <= 5) {
-        backgroundColor = Colors.SoftYellow
-        foreColor = Colors.Black
-      } else {
-        backgroundColor = Colors.Black
-        foreColor = Colors.White
-      }
-      that.state.style.background - backgroundColor
-      that.state.style.color = foreColor
 
       if (that.state.data.date !== date) {
         that.state.data.date = date
