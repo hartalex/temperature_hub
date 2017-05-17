@@ -7,3 +7,9 @@ script:
     - yarn run build
 notifications:
     slack: hartcode:GqPCaLxnPqXfPJBMjJbEvG81
+addons:
+  code_climate:
+    repo_token: 6f1ad54db4b7278e83e68592bcbc67c149c9a3a41543adec8f640737f8e00b2d
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < lcov.info
