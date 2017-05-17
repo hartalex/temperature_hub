@@ -1,4 +1,4 @@
-![Travis](https://travis-ci.org/hartalex/temperature_hub.svg?branch=master)
+[![Build Status](https://travis-ci.org/hartalex/temperature_hub.svg?branch=master)](https://travis-ci.org/hartalex/temperature_hub)
 
 # Temperature_Hub
 
