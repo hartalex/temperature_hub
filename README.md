@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/hartalex/temperature_hub.svg?branch=master)](https://travis-ci.org/hartalex/temperature_hub)
 [![Code Climate](https://codeclimate.com/github/hartalex/temperature_hub/badges/gpa.svg)](https://codeclimate.com/github/hartalex/temperature_hub)
 [![Test Coverage](https://codeclimate.com/github/hartalex/temperature_hub/badges/coverage.svg)](https://codeclimate.com/github/hartalex/temperature_hub/coverage)
+![Dependencies](https://david-dm.org/hartalex/temperature_hub.svg)]
 
 # Temperature_Hub
 
