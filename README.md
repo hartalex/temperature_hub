@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hartalex/temperature_hub.svg?branch=master)](https://travis-ci.org/hartalex/temperature_hub)
+
 # Temperature_Hub
 
 This project currently contains 3 pieces, these may be seperated into seperate projects in the future.
