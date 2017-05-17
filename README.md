@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/hartalex/temperature_hub.svg?branch=master)](https://travis-ci.org/hartalex/temperature_hub)
+[![Code Climate](https://codeclimate.com/github/hartalex/temperature_hub/badges/gpa.svg)](https://codeclimate.com/github/hartalex/temperature_hub)
 
 # Temperature_Hub
 
