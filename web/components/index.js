@@ -6,6 +6,9 @@ import Forecast3Day from './forecast3DayComponent.js'
 import React from 'react'
 import Colors from '../colors'
 export function renderRoot () {
+  // TODO: make this a data point, I don't want to have to manually turn this off and again
+  var isSummer = true
+
   var style = { 'backgroundColor': Colors.Black,
     textAlign: 'center',
     fontFamily: 'Roboto'
@@ -21,7 +24,9 @@ export function renderRoot () {
       <Forecast3Day zipCode='53012' updateIntervalInMinutes='60' />
       <Temperature sensorName='Bedroom' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Outside' updateIntervalInMinutes='5'/>
-      <Menu />
+      { !isSummer &&
+        <Menu />
+      }
     </div>
   )
 }
