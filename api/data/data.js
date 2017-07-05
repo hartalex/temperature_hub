@@ -1,5 +1,28 @@
 const dbUrl = require('../db/url')
 const mongoDb = require('../db/mongodb')
+const config = require('../config')
+
+function insertTemperatures (db, dbobj, temperature, resolve, reject) {
+  var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
+  insertPromise.then(function (result) {
+    dbobj.close()
+    resolve(result)
+  }).catch(function (err) {
+    dbobj.close()
+    reject(err)
+  })
+}
+
+function insertData (db, dbobj, data, resolve, reject) {
+  var insertPromise = db.insertData(dbobj, 'doors', data)
+  insertPromise.then(function (result) {
+    dbobj.close()
+    resolve(result)
+  }).catch(function (err) {
+    dbobj.close()
+    reject(err)
+  })
+}
 
 module.exports = {
   db: mongoDb,
@@ -31,22 +54,19 @@ module.exports = {
                     } else {
                       temperature.utc_timestamp = input.utc_timestamp
                     }
-                    db.queryLastData(dbobj, {sensorId: temperature.sensorId}, {utc_timestamp: -1}, 'temperatures', function (existingData) {
-                      if (existingData == null || (existingData != null && existingData.tempInFarenheit !== temperature.tempInFarenheit)) {
-                        var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
-                        insertPromise.then(function (result) {
+                    if (config.NoDuplicateData && config.NoDuplicateData === true) {
+                      db.queryLastData(dbobj, {sensorId: temperature.sensorId}, {utc_timestamp: -1}, 'temperatures', function (existingData) {
+                        if (existingData == null || (existingData != null && existingData.tempInFarenheit !== temperature.tempInFarenheit)) {
+                          insertTemperatures(db, dbobj, temperature, resolve, reject)
+                        } else {
+                          console.log('data didnot change')
                           dbobj.close()
-                          resolve(result)
-                        }).catch(function (err) {
-                          dbobj.close()
-                          reject(err)
-                        })
-                      } else {
-                        console.log('data didnot change')
-                        dbobj.close()
-                        resolve({result: {n: 1}})
-                      }
-                    })
+                          resolve({result: {n: 1}})
+                        }
+                      })
+                    } else {
+                      insertTemperatures(db, dbobj, temperature, resolve, reject)
+                    }
                   } else {
                     dbobj.close()
                     reject('Property t is not a number')
@@ -76,22 +96,19 @@ module.exports = {
                     } else {
                       data.utc_timestamp = input.utc_timestamp
                     }
-                    db.queryLastData(dbobj, {sensorId: data.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
-                      if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
-                        var insertPromise = db.insertData(dbobj, 'doors', data)
-                        insertPromise.then(function (result) {
+                    if (config.NoDuplicateData && config.NoDuplicateData === true) {
+                      db.queryLastData(dbobj, {sensorId: data.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
+                        if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
+                          insertData(db, dbobj, data, resolve, reject)
+                        } else {
+                          console.log('data didnot change')
                           dbobj.close()
-                          resolve(result)
-                        }).catch(function (err) {
-                          dbobj.close()
-                          reject(err)
-                        })
-                      } else {
-                        console.log('data didnot change')
-                        dbobj.close()
-                        resolve({result: {n: 1}})
-                      }
-                    })
+                          resolve({result: {n: 1}})
+                        }
+                      })
+                    } else {
+                      insertData(db, dbobj, data, resolve, reject)
+                    }
                   } else {
                     dbobj.close()
                     reject('Property isOpen is not a boolean')
