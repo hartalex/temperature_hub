@@ -3,7 +3,7 @@ const config = require('./config')
 
 var greenlock = require('greenlock-express')
 
-export default function (app) {
+module.exports = function (app) {
   return greenlock.create({
     server: 'staging',
     email: config.email,
