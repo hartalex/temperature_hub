@@ -5,7 +5,6 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpack from 'webpack'
 import config from '../webpack.config'
-const port = process.env.PORT || 443
 const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20,9 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   app.use(webpackHotMiddleware(compiler))
 }
-app.use(greenlock.middleware())
 app.use('/', express.static('web'))
-
 apiRoutes(app)
 
-app.listen(port)
+greenlock(app).listen(80, 443)
