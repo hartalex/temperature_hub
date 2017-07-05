@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   app.use(webpackHotMiddleware(compiler))
 }
-app.use(greenlock)
+app.use(greenlock.middleware())
 app.use('/', express.static('web'))
 
 apiRoutes(app)

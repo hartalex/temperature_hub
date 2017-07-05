@@ -6,4 +6,5 @@ WORKDIR /root/temperature_hub
 RUN yarn
 RUN yarn build
 EXPOSE 80
+EXPOSE 443
 ENTRYPOINT ["yarn", "start"]

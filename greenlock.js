@@ -73,4 +73,4 @@ le.check({ domains: config.domains }).then(function (results) {
   })
 })
 
-module.exports = le.middleware()
+module.exports = le
