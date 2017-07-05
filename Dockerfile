@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:7.5
+FROM mhart/alpine-node:8.1.3
 RUN npm install --global yarn
 RUN mkdir /root/temperature_hub
 COPY . /root/temperature_hub/

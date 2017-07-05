@@ -1,6 +1,6 @@
 var express = require('express')
 var apiRoutes = require('../api/routes/routes')
-var greenlock = require('greenlock')
+var greenlock = require('./greenlock')
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpack from 'webpack'
