@@ -34,7 +34,7 @@ le = LE.create({
   },
   challengeType: 'http-01',                                // default to this challenge type
   agreeToTerms: leAgree,                                   // hook to allow user to view and accept LE TOS
-//, sni: require('le-sni-auto').create({})                // handles sni callback
+ // sni: require('le-sni-auto').create({}),                // handles sni callback
   debug: false
 //, log: function (debug) {console.log.apply(console, args);} // handles debug outputs
 })
@@ -57,7 +57,7 @@ le.check({ domains: config.domains }).then(function (results) {
 
     domains: config.domains,                                // CHANGE TO YOUR DOMAIN (list for SANS)
     email: config.email,                                 // CHANGE TO YOUR EMAIL
-    agreeTos: '',                                            // set to tosUrl string (or true) to pre-approve (and skip agreeToTerms)
+    agreeTos: 'true',                                            // set to tosUrl string (or true) to pre-approve (and skip agreeToTerms)
     rsaKeySize: 2048,                                        // 2048 or higher
     challengeType: 'http-01'                                // http-01, tls-sni-01, or dns-01
 
