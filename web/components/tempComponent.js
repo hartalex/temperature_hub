@@ -2,6 +2,7 @@ import React from 'react'
 import Colors from '../colors'
 import Util from '../util'
 import temperatureColor from '../temperatureColor'
+import PropTypes from 'prop-types'
 
 class TemperatureComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -10,7 +11,11 @@ class TemperatureComponent extends React.Component {
     var alertCheckInterval = updateInterval * 1.5
     var renderInterval = 60000
     this.state = {
-      data: null,
+      data: {
+        name: props.sensorName,
+        temperature: 0,
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      },
       style: {
         width: '140px',
         height: '200px',
@@ -24,10 +29,6 @@ class TemperatureComponent extends React.Component {
       innerStyle: {
         padding: '50px 0'
       }
-    }
-    this.state.data = {name: props.sensorName,
-      temperature: 0,
-      lastUpdate: '2017-01-01T00:00:00.000Z'
     }
     var that = this
 
@@ -85,4 +86,11 @@ class TemperatureComponent extends React.Component {
     return retval
   }
 }
+
+TemperatureComponent.propTypes = {
+  updateIntervalInMinutes: PropTypes.number,
+  sensorName: PropTypes.string
+}
+
+
 export default TemperatureComponent

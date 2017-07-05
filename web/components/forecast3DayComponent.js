@@ -4,6 +4,8 @@ import Util from '../util'
 import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
+import PropTypes from 'prop-types'
+
 // 3 Day Forecast
 class Forecast3DayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -12,7 +14,36 @@ class Forecast3DayComponent extends React.Component {
     var alertCheckInterval = updateInterval * 1.5
     var renderInterval = 60000
     this.state = {
-      data: null,
+      data: {
+        forecast:
+      [{
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '01d',
+        day: 'Today',
+        dt: '1489687200'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '01d',
+        day: 'Tomorrow',
+        dt: '1489770000'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '01d',
+        day: 'Next Day',
+        dt: '1489856400'
+      }
+      ],
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      },
       style: {
         width: '440px',
         height: '200px',
@@ -28,35 +59,6 @@ class Forecast3DayComponent extends React.Component {
         float: 'left',
         padding: '10px 0'
       }
-    }
-    this.state.data = { forecast:
-    [{
-      weatherDescription: 'Clear',
-      temperature: 30,
-      temperatureMin: 32,
-      temperatureMax: 34,
-      icon: '01d',
-      day: 'Today',
-      dt: '1489687200'
-    }, {
-      weatherDescription: 'Clear',
-      temperature: 30,
-      temperatureMin: 32,
-      temperatureMax: 34,
-      icon: '01d',
-      day: 'Tomorrow',
-      dt: '1489770000'
-    }, {
-      weatherDescription: 'Clear',
-      temperature: 30,
-      temperatureMin: 32,
-      temperatureMax: 34,
-      icon: '01d',
-      day: 'Next Day',
-      dt: '1489856400'
-    }
-    ],
-      lastUpdate: '2017-01-01T00:00:00.000Z'
     }
     var that = this
 
@@ -133,5 +135,9 @@ class Forecast3DayComponent extends React.Component {
     }
     return retval
   }
+}
+Forecast3DayComponent.propTypes = {
+  updateIntervalInMinutes: PropTypes.number,
+  zipCode: PropTypes.number
 }
 export default Forecast3DayComponent

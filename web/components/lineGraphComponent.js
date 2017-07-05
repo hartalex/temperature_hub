@@ -2,6 +2,7 @@ import { Chart } from 'react-google-charts'
 import React from 'react'
 import Colors from '../colors'
 import Util from '../util'
+import PropTypes from 'prop-types'
 
 class LineGraphComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -59,5 +60,11 @@ class LineGraphComponent extends React.Component {
     }
     return retval
   }
+}
+
+LineGraphComponent.propTypes = {
+  updateIntervalInMinutes: PropTypes.number,
+  title: PropTypes.string,
+  duration: PropTypes.number
 }
 export default LineGraphComponent

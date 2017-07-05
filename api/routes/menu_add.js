@@ -9,7 +9,6 @@ module.exports = function (req, res) {
     return new Promise(function (resolve, reject) {
       var menuItem = req.body
       if (typeof menuItem === 'undefined') {
-        console.log('Error request body is undefined')
         dbobj.close()
         reject({
           result: 'fail',
@@ -28,7 +27,6 @@ module.exports = function (req, res) {
                           if ('otherStuff' in menuItem) {
                             if (typeof menuItem.otherStuff === 'string') {
                               if (menuItem.otherStuff.length > 0) {
-                                console.log(menuItem)
                                 db.queryOneData(dbobj, {
                                   date: menuItem.date
                                 }, collection, function (result) {
@@ -36,15 +34,12 @@ module.exports = function (req, res) {
                                     var insertPromise = db.insertData(dbobj, collection, menuItem)
                                     insertPromise.then(function (result) {
                                       dbobj.close()
-                                      console.log('object inserted')
                                       resolve(result)
                                     }).catch(function (err) {
-                                      console.log('object not inserted')
                                       dbobj.close()
                                       reject(err)
                                     })
                                   } else {
-                                    console.log('Error menuItem already exists')
                                     dbobj.close()
                                     reject({
                                       result: 'fail',
@@ -53,7 +48,6 @@ module.exports = function (req, res) {
                                   }
                                 })
                               } else {
-                                console.log('Error otherStuff property cannot be empty')
                                 dbobj.close()
                                 reject({
                                   result: 'fail',
@@ -61,7 +55,6 @@ module.exports = function (req, res) {
                                 })
                               }
                             } else {
-                              console.log('Error otherStuff property is not a string')
                               dbobj.close()
                               reject({
                                 result: 'fail',
@@ -69,7 +62,6 @@ module.exports = function (req, res) {
                               })
                             }
                           } else {
-                            console.log('Error json object is missing the otherStuff property')
                             dbobj.close()
                             reject({
                               result: 'fail',
@@ -77,7 +69,6 @@ module.exports = function (req, res) {
                             })
                           }
                         } else {
-                          console.log('Error secondOption property cannot be empty')
                           dbobj.close()
                           reject({
                             result: 'fail',
@@ -85,7 +76,6 @@ module.exports = function (req, res) {
                           })
                         }
                       } else {
-                        console.log('Error secondOption property is not a string')
                         dbobj.close()
                         reject({
                           result: 'fail',
@@ -93,7 +83,6 @@ module.exports = function (req, res) {
                         })
                       }
                     } else {
-                      console.log('Error json object is missing the secondOption property')
                       dbobj.close()
                       reject({
                         result: 'fail',
@@ -101,7 +90,6 @@ module.exports = function (req, res) {
                       })
                     }
                   } else {
-                    console.log('Error firstOption property cannot be empty')
                     dbobj.close()
                     reject({
                       result: 'fail',
@@ -109,7 +97,6 @@ module.exports = function (req, res) {
                     })
                   }
                 } else {
-                  console.log('Error firstOption property is not a string')
                   dbobj.close()
                   reject({
                     result: 'fail',
@@ -117,7 +104,6 @@ module.exports = function (req, res) {
                   })
                 }
               } else {
-                console.log('Error json object is missing the firstOption property')
                 dbobj.close()
                 reject({
                   result: 'fail',
@@ -125,7 +111,6 @@ module.exports = function (req, res) {
                 })
               }
             } else {
-              console.log('Error date property cannot be empty')
               dbobj.close()
               reject({
                 result: 'fail',
@@ -133,7 +118,6 @@ module.exports = function (req, res) {
               })
             }
           } else {
-            console.log('Error date property is not a string')
             dbobj.close()
             reject({
               result: 'fail',
@@ -141,7 +125,6 @@ module.exports = function (req, res) {
             })
           }
         } else {
-          console.log('Error json object is missing the date property')
           dbobj.close()
           reject({
             result: 'fail',
@@ -152,8 +135,6 @@ module.exports = function (req, res) {
     })
   }).then(function (result) {
     return new Promise(function (resolve, reject) {
-      console.log('handle results')
-      console.log(result)
       if (result != null && result.result.n > 0) {
         res.json({result: 'ok'})
       } else {

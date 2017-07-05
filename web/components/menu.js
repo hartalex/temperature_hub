@@ -13,7 +13,6 @@ export function renderRoot () {
       otherStuff: document.getElementById('otherStuff').value
     }
     var json = JSON.stringify(obj)
-    console.log(json)
     fetch('menu/add',
       {
         headers: {

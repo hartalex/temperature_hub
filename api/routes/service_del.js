@@ -8,7 +8,6 @@ module.exports = function (req, res) {
     return new Promise(function (resolve, reject) {
       var svc = req.body
       if (typeof svc === 'undefined') {
-        console.log('Error request body is undefined')
         dbobj.close()
         reject({
           result: 'fail',
@@ -23,7 +22,6 @@ module.exports = function (req, res) {
                   if (svc.name.length > 0) {
                     db.deleteData(dbobj, 'services', svc, function (result) {
                       if (result != null && result.result.n > 0) {
-                        console.log(result)
                         dbobj.close()
                         resolve({
                           result: 'ok'
@@ -37,7 +35,6 @@ module.exports = function (req, res) {
                       dbobj.close()
                     })
                   } else {
-                    console.log('Error name property cannot be empty')
                     dbobj.close()
                     reject({
                       result: 'fail',
@@ -45,7 +42,6 @@ module.exports = function (req, res) {
                     })
                   }
                 } else {
-                  console.log('Error name property is not a string')
                   dbobj.close()
                   reject({
                     result: 'fail',
@@ -53,7 +49,6 @@ module.exports = function (req, res) {
                   })
                 }
               } else {
-                console.log('Error json object is missing the name property')
                 dbobj.close()
                 reject({
                   result: 'fail',
@@ -61,7 +56,6 @@ module.exports = function (req, res) {
                 })
               }
             } else {
-              console.log('Error url property cannot be empty')
               dbobj.close()
               reject({
                 result: 'fail',
@@ -69,7 +63,6 @@ module.exports = function (req, res) {
               })
             }
           } else {
-            console.log('Error url property is not a string')
             dbobj.close()
             reject({
               result: 'fail',
@@ -77,7 +70,6 @@ module.exports = function (req, res) {
             })
           }
         } else {
-          console.log('Error json object is missing the url property')
           dbobj.close()
           reject({
             result: 'fail',

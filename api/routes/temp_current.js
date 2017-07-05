@@ -21,9 +21,6 @@ module.exports = function (req, res) {
               temp.sensorName = sensor.name
               delete temp._id
               retval.push(temp)
-            } else {
-              console.log('Unable to find temperature for that sensor')
-              console.log(sensor.sensorId)
             }
             dbobj.close()
             resolve()
@@ -31,15 +28,12 @@ module.exports = function (req, res) {
         })
       })
       ).then(function () {
-        console.log(retval)
         res.json(retval)
       })
     }).catch(function (err) {
-      console.log(err)
       res.json([])
     })
   }).catch(function (err) {
-    console.log(err)
     res.json([])
   })
 }

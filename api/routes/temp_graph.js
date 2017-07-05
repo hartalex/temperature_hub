@@ -172,7 +172,6 @@ module.exports = function (req, res) {
     res.json(result)
   })
   .catch(function (err) {
-    console.log(err)
     res.json([])
   })
 }
@@ -182,7 +181,6 @@ function validateDuration (duration) {
   var retval = validDurations[0]
   if (validDurations.indexOf(duration) !== -1) {
     retval = validDurations[validDurations.indexOf(duration)]
-    console.log('Duration is valid')
   }
   return retval
 }

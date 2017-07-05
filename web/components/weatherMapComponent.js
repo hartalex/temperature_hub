@@ -4,7 +4,7 @@ import Colors from '../colors'
 class WeatherMapComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
-    var renderInterval = 60000 * 15   // 15 minutes
+    var renderInterval = 60000 * 15 // 15 minutes
     var originalMapUrl = 'http://images.intellicast.com/WxImages/1kmStormWatchLoop/msn_None_anim.gif?a='
     var originalWatchBoxesUrl = 'url(http://images.intellicast.com/WxImages/1kmWatchBoxes/msn.gif?a='
     this.state = {

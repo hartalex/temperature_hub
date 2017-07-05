@@ -3,6 +3,7 @@ import Colors from '../colors'
 import Util from '../util'
 import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
+import PropTypes from 'prop-types'
 // Current Weather
 class WeatherComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -11,7 +12,15 @@ class WeatherComponent extends React.Component {
     var alertCheckInterval = updateInterval * 1.5
     var renderInterval = 60000
     this.state = {
-      data: null,
+      data: {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '01d',
+        day: 'Now',
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      },
       style: {
         width: '140px',
         height: '200px',
@@ -25,15 +34,6 @@ class WeatherComponent extends React.Component {
       innerStyle: {
         padding: '10px 0'
       }
-    }
-    this.state.data = {
-      weatherDescription: 'Clear',
-      temperature: 30,
-      temperatureMin: 32,
-      temperatureMax: 34,
-      icon: '01d',
-      day: 'Now',
-      lastUpdate: '2017-01-01T00:00:00.000Z'
     }
     var that = this
 
@@ -104,4 +104,9 @@ class WeatherComponent extends React.Component {
     return retval
   }
 }
+WeatherComponent.propTypes = {
+  updateIntervalInMinutes: PropTypes.number,
+  zipCode: PropTypes.number
+}
+
 export default WeatherComponent

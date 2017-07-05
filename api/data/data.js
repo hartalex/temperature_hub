@@ -59,7 +59,6 @@ module.exports = {
                         if (existingData == null || (existingData != null && existingData.tempInFarenheit !== temperature.tempInFarenheit)) {
                           insertTemperatures(db, dbobj, temperature, resolve, reject)
                         } else {
-                          console.log('data didnot change')
                           dbobj.close()
                           resolve({result: {n: 1}})
                         }
@@ -101,7 +100,6 @@ module.exports = {
                         if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
                           insertData(db, dbobj, data, resolve, reject)
                         } else {
-                          console.log('data didnot change')
                           dbobj.close()
                           resolve({result: {n: 1}})
                         }

@@ -8,7 +8,6 @@ module.exports = function (req, res) {
     return new Promise(function (resolve, reject) {
       var svc = req.body
       if (typeof svc === 'undefined') {
-        console.log('Error request body is undefined')
         dbobj.close()
         reject({
           result: 'fail',
@@ -21,7 +20,6 @@ module.exports = function (req, res) {
               if ('name' in svc) {
                 if (typeof svc.name === 'string') {
                   if (svc.name.length > 0) {
-                    console.log(svc)
                     db.queryOneData(dbobj, {
                       url: svc.url
                     }, 'services', function (result) {
@@ -33,15 +31,12 @@ module.exports = function (req, res) {
                             var insertPromise = db.insertData(dbobj, 'services', svc)
                             insertPromise.then(function (result) {
                               dbobj.close()
-                              console.log('object inserted')
                               resolve(result)
                             }).catch(function (err) {
-                              console.log('object not inserted')
                               dbobj.close()
                               reject(err)
                             })
                           } else {
-                            console.log('Error name already exists')
                             dbobj.close()
                             reject({
                               result: 'fail',
@@ -50,7 +45,6 @@ module.exports = function (req, res) {
                           }
                         })
                       } else {
-                        console.log('Error url already exists')
                         dbobj.close()
                         reject({
                           result: 'fail',
@@ -59,7 +53,6 @@ module.exports = function (req, res) {
                       }
                     })
                   } else {
-                    console.log('Error name property cannot be empty')
                     dbobj.close()
                     reject({
                       result: 'fail',
@@ -67,7 +60,6 @@ module.exports = function (req, res) {
                     })
                   }
                 } else {
-                  console.log('Error name property is not a string')
                   dbobj.close()
                   reject({
                     result: 'fail',
@@ -75,7 +67,6 @@ module.exports = function (req, res) {
                   })
                 }
               } else {
-                console.log('Error json object is missing the name property')
                 dbobj.close()
                 reject({
                   result: 'fail',
@@ -83,7 +74,6 @@ module.exports = function (req, res) {
                 })
               }
             } else {
-              console.log('Error url property cannot be empty')
               dbobj.close()
               reject({
                 result: 'fail',
@@ -91,7 +81,6 @@ module.exports = function (req, res) {
               })
             }
           } else {
-            console.log('Error url property is not a string')
             dbobj.close()
             reject({
               result: 'fail',
@@ -99,7 +88,6 @@ module.exports = function (req, res) {
             })
           }
         } else {
-          console.log('Error json object is missing the url property')
           dbobj.close()
           reject({
             result: 'fail',
@@ -110,8 +98,6 @@ module.exports = function (req, res) {
     })
   }).then(function (result) {
     return new Promise(function (resolve, reject) {
-      console.log('handle results')
-      console.log(result)
       if (result != null && result.result.n > 0) {
         res.json({result: 'ok'})
       } else {

@@ -1,6 +1,7 @@
 import React from 'react'
 import Colors from '../colors'
 import getWeekDay from '../weekDay.js'
+import PropTypes from 'prop-types'
 
 class MenuDayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -28,7 +29,14 @@ class MenuDayComponent extends React.Component {
       foreColor = Colors.Black
     }
     this.state = {
-      data: null,
+      data: {
+        date: date,
+        firstOption: null,
+        secondOption: null,
+        otherStuff: null,
+        day: props.day,
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      },
       style: {
         height: '150px',
         width: '140px',
@@ -39,14 +47,6 @@ class MenuDayComponent extends React.Component {
         fontSize: '14px',
         padding: '10px 0'
       }
-    }
-    this.state.data = {
-      date: date,
-      firstOption: null,
-      secondOption: null,
-      otherStuff: null,
-      day: props.day,
-      lastUpdate: '2017-01-01T00:00:00.000Z'
     }
     var that = this
 
@@ -134,4 +134,10 @@ class MenuDayComponent extends React.Component {
     return retval
   }
 }
+MenuDayComponent.propTypes = {
+  updateIntervalInMinutes: PropTypes.number,
+  day: PropTypes.number,
+  date: PropTypes.string
+}
+
 export default MenuDayComponent

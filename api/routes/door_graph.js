@@ -82,7 +82,6 @@ var finddoorsLastXHours = function (dbobj, x, callback) {
   function (objs) {
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
-      console.log(objs[i])
       if (i === 0) {
         var obj = JSON.parse(JSON.stringify(objs[i]))
         obj._id.minute = lastOldestTime
@@ -170,7 +169,6 @@ module.exports = function (req, res) {
     res.json(result)
   })
   .catch(function (err) {
-    console.log(err)
     res.json([])
   })
 }

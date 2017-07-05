@@ -7,11 +7,7 @@ module.exports = function (req, res) {
   connectPromise.then(function (dbobj) {
     return new Promise(function (resolve, reject) {
       db.querydistinctData(dbobj, 'sensorId', 'temperatures', function (temps) {
-        console.log('temps:')
-        console.log(temps)
         db.queryData(dbobj, {}, 'sensors', function (sensors) {
-          console.log('sensors:')
-          console.log(sensors)
           var array = []
           for (var i = 0; i < temps.length; i++) {
             var obj = {
@@ -33,7 +29,6 @@ module.exports = function (req, res) {
     res.json(result)
   })
   .catch(function (err) {
-    console.log(err)
     res.json([])
   })
 }

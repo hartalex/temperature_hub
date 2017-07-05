@@ -22,48 +22,45 @@ module.exports = {
   },
 
   queryData: function (db, query, collection, callback) {
+    var empty = []
     if (db === null || query === null || collection === null) {
-      callback([])
+      callback(empty)
     } else {
       var dbcollection = db.collection(collection)
       dbcollection.find(query).toArray(function (err, docs) {
         if (err === null) {
           callback(docs)
         } else {
-          console.log('Error finding data in db')
-          console.log(err)
-          callback([])
+          callback(empty)
         }
       })
     }
   },
 
   querydistinctData: function (db, query, collection, callback) {
+    var empty = []
     if (db === null || query === null || collection === null) {
-      callback([])
+      callback(empty)
     } else {
       var dbcollection = db.collection(collection)
       dbcollection.distinct(query).then(function (docs) {
         callback(docs)
       }).catch(function (error) {
-        console.log('Error finding distinct data in db')
-        console.log(error)
-        callback([])
+        callback(empty)
       })
     }
   },
 
   queryOneData: function (db, query, collection, callback) {
+    var empty = []
     if (db === null || query === null || collection === null) {
-      callback([])
+      callback(empty)
     } else {
       var dbcollection = db.collection(collection)
       dbcollection.findOne(query, function (err, obj) {
         if (err == null) {
           callback(obj)
         } else {
-          console.log('Error finding one data in db')
-          console.log(err)
           callback(null)
         }
       })
@@ -71,21 +68,19 @@ module.exports = {
   },
 
   queryLastData: function (db, query, sort, collection, callback) {
+    var empty = []
     if (db === null || query === null || sort === null || collection === null) {
-      callback([])
+      callback(empty)
     } else {
       var dbcollection = db.collection(collection)
       dbcollection.find(query).sort(sort).limit(1).toArray(function (err, docs) {
         if (err == null) {
-          console.log(docs)
           if (docs.length > 0) {
             callback(docs[0])
           } else {
             callback(null)
           }
         } else {
-          console.log('Error finding data in db')
-          console.log(err)
           callback(null)
         }
       })
@@ -93,17 +88,16 @@ module.exports = {
   },
 
   queryAggregateData: function (db, query, collection, callback) {
+    var empty = []
     if (db === null || query === null || collection === null) {
-      callback([])
+      callback(empty)
     } else {
       var dbcollection = db.collection(collection)
       dbcollection.aggregate(query).toArray(function (err, docs) {
         if (err == null) {
           callback(docs)
         } else {
-          console.log('Error finding data in mongo db')
-          console.log(err)
-          callback([])
+          callback(empty)
         }
       })
     }
@@ -141,8 +135,6 @@ module.exports = {
         if (err == null) {
           callback(result)
         } else {
-          console.log('Error deleting data in db')
-          console.log(err)
           callback(null)
         }
       })
