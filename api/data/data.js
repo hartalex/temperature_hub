@@ -1,6 +1,6 @@
 const dbUrl = require('../db/url')
 const mongoDb = require('../db/mongodb')
-const config = require('../config')
+const config = require('../../config')
 
 function insertTemperatures (db, dbobj, temperature, resolve, reject) {
   var insertPromise = db.insertData(dbobj, 'temperatures', temperature)
