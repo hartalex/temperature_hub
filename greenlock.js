@@ -12,7 +12,7 @@ module.exports = function (app) {
   debug: true
   }
   if (config.greenlock_staging == false) {
-    retval.server = 'https://acme-v01.api.letsencrypt.org/directory'
+    retval.server = 'production'
   }
   console.log(retval)
   return greenlock.create(retval)
