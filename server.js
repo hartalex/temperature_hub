@@ -22,10 +22,11 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/', express.static('web'))
 apiRoutes(app)
 
-const lex = greenlock(app)
+var lex = greenlock()
+console.log(lex.httpsOptions)
 
 // redirect http to https
-require('http').createServer(lex.middleware(require('redirect-https')())).listen(80);
+require('http').createServer(lex.middleware(require('redirect-https')())).listen(80)
 
 // serve app on https
-require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443);
+require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443)
