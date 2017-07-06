@@ -8,10 +8,12 @@ module.exports = function (app) {
   server: 'staging',
   approveDomains: config.greenlock_domains,
   email: config.greenlock_email,
-  agreeTos: true
+  agreeTos: true,
+  debug: true
   }
   if (config.greenlock_staging == false) {
     retval.server = 'https://acme-v01.api.letsencrypt.org/directory'
   }
+  console.log(retval)
   return greenlock.create(retval)
 }

@@ -23,7 +23,6 @@ app.use('/', express.static('web'))
 apiRoutes(app)
 
 var lex = greenlock()
-console.log(lex.httpsOptions)
 
 // redirect http to https
 require('http').createServer(lex.middleware(require('redirect-https')())).listen(80)
