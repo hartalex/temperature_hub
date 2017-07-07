@@ -72,11 +72,16 @@ class TemperatureComponent extends React.Component {
     var retval
     if (this.state.data !== null) {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      const temp = Math.trunc(this.state.data.temperature);
+      const tempDecimal = Math.trunc((this.state.data.temperature - temp) * 100);
       retval = (
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
-            <div style={{fontSize: '62px'}}>{Math.trunc(this.state.data.temperature)}</div>
-            <div style={{color: Colors.White}} >{this.state.data.name}</div>
+            <div style={{margin: 'auto', width: '100px'}}>
+              <div style={{fontSize: '62px', float: 'left', padding: '0px 0px 0px 20px'}}>{temp}</div>
+              <div style={{float: 'left', padding: '44px 2px 0px 0px'}}>{tempDecimal}</div>
+            </div>
+            <div style={{clear: 'both', color: Colors.White}} >{this.state.data.name}</div>
           </div>
           <div style={{color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
         </div>)
