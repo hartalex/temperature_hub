@@ -119,7 +119,7 @@ class Forecast3DayComponent extends React.Component {
             <div style={{padding: '5px 0', color: Colors.White}}>{getWeekDay(new Date(parseInt(obj.dt * 1000)).getDay())}</div>
             <img src={weatherIcons(obj.icon)} />
             <div style={{margin: 'auto', width: '100px'}}>
-              <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left', padding: '0px 0px 0px 20px'}}>{Math.trunc(obj.temperature)}</div>
+              <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
               <div style={{float: 'left', padding: '10px 2px'}}>
                 <div style={{color: temperatureColor(obj.temperatureMax)}}>{Math.trunc(obj.temperatureMax)}</div>
                 <div style={{color: temperatureColor(obj.temperatureMin)}}>{Math.trunc(obj.temperatureMin)}</div>

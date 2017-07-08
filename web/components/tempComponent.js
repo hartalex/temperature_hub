@@ -78,7 +78,7 @@ class TemperatureComponent extends React.Component {
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
             <div style={{margin: 'auto', width: '100px'}}>
-              <div style={{fontSize: '62px', float: 'left', padding: '0px 0px 0px 20px'}}>{temp}</div>
+              <div style={{fontSize: '62px', float: 'left'}}>{temp}</div>
               <div style={{float: 'left', padding: '44px 2px 0px 0px'}}>{tempDecimal}</div>
             </div>
             <div style={{clear: 'both', color: Colors.White}} >{this.state.data.name}</div>
