@@ -69,7 +69,7 @@ class MoonComponent extends React.Component {
       }
       return response.json()
     }).then(function (currentjson) {
-        var moonData = currentjson.moon_phase
+        var moonData = currentjson
         that.state.data.percentIlluminated = moonData.percentIlluminated
         that.state.data.ageOfMoon = moonData.ageOfMoon
         that.state.data.phaseofMoon = moonData.phaseofMoon
