@@ -4,7 +4,6 @@ import Util from '../util'
 import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
-const config = require('../../config.js')
 
 // Current Weather
 class WeatherComponent extends React.Component {
@@ -52,11 +51,11 @@ class WeatherComponent extends React.Component {
       that.setState(that.state)
     }, renderInterval)
 
-    this.getData(props.zipCode, this)
-    setInterval(() => { that.getData(props.zipCode, that) }, updateInterval)
+    this.getData(this)
+    setInterval(() => { that.getData(that) }, updateInterval)
   }
-  getData (zipCode, that) {
-    fetch('http://api.openweathermap.org/data/2.5/weather?zip=' + zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key).then(function (response) {
+  getData (that) {
+    fetch('http://hub.hartcode.com/forecast').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -107,8 +106,7 @@ class WeatherComponent extends React.Component {
   }
 }
 WeatherComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
-  zipCode: PropTypes.number
+  updateIntervalInMinutes: PropTypes.number
 }
 
 export default WeatherComponent

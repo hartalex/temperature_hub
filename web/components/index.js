@@ -6,7 +6,7 @@ import Forecast3Day from './forecast3DayComponent.js'
 import Moon from './moonComponent.js'
 import React from 'react'
 import Colors from '../colors'
-import config from '../../config'
+
 export function renderRoot () {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
   var isSummer = true
@@ -23,10 +23,10 @@ export function renderRoot () {
       <Temperature sensorName='Living Room' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Fish Tank' updateIntervalInMinutes='5'/>
 
-      <Forecast3Day zipCode={config.zipCode} updateIntervalInMinutes='60' />
+      <Forecast3Day updateIntervalInMinutes='60' />
       <Temperature sensorName='Bedroom' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Outside' updateIntervalInMinutes='5'/>
-      <Moon zipCode='53012'  updateIntervalInMinutes='60' />
+      <Moon updateIntervalInMinutes='60' />
       { !isSummer &&
         <Menu />
       }

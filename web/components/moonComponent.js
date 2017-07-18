@@ -59,10 +59,10 @@ class MoonComponent extends React.Component {
       that.setState(that.state)
     }, renderInterval)
 
-    this.getData(props.zipCode, this)
-    setInterval(() => { that.getData(props.zipCode, that) }, updateInterval)
+    this.getData(this)
+    setInterval(() => { that.getData(that) }, updateInterval)
   }
-  getData (zipCode, that) {
+  getData (that) {
     fetch('http://hub.hartcode.com/moonPhases').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
@@ -123,8 +123,7 @@ class MoonComponent extends React.Component {
 }
 
 MoonComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
-  zipCode: PropTypes.number
+  updateIntervalInMinutes: PropTypes.number
 }
 
 

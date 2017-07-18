@@ -5,7 +5,6 @@ import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
-const config = require('../../config.js')
 
 // 3 Day Forecast
 class Forecast3DayComponent extends React.Component {
@@ -76,11 +75,11 @@ class Forecast3DayComponent extends React.Component {
       that.setState(that.state)
     }, renderInterval)
 
-    this.getData(props.zipCode, this)
-    setInterval(() => { that.getData(props.zipCode, that) }, updateInterval)
+    this.getData(this)
+    setInterval(() => { that.getData(that) }, updateInterval)
   }
-  getData (zipCode, that) {
-    fetch('http://api.openweathermap.org/data/2.5/forecast/daily?zip=' + zipCode + ',us&cnt=3&units=imperial&APPID=' + config.openweathermap_key).then(function (response) {
+  getData (that) {
+    fetch('http://hub.hartcode.com/forecast').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -138,7 +137,6 @@ class Forecast3DayComponent extends React.Component {
   }
 }
 Forecast3DayComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
-  zipCode: PropTypes.number
+  updateIntervalInMinutes: PropTypes.number
 }
 export default Forecast3DayComponent
