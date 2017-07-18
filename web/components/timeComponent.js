@@ -20,7 +20,7 @@ class TimeComponent extends React.Component {
       that.state.data.name = props.name
     }
     if (that.state.data.hour > 12) {
-      that.state.data.hour -= 12
+      that.state.data.hour = that.state.data.hour - 12
       that.state.data.pmam = 'pm'
     }
     that.setState(that.state)

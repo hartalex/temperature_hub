@@ -5,7 +5,7 @@ const forecast = require('../../test/data/wunderground-api/mock-api-response-for
 
 module.exports = function (req, res) {
   if (config.wunderground_key === '') {
-    res.json(forecast)
+    res.json(forecast.forecast)
   } else {
     fetch('http://api.wunderground.com/api/' + config.wunderground_key + '/forecast/q/' + config.zipCode + '.json').then(function (response) {
       if (response.status >= 400) {

@@ -1,7 +1,6 @@
 import React from 'react'
 import Colors from '../colors'
 import Util from '../util'
-import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
