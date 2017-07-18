@@ -36,19 +36,20 @@ class TimeComponent extends React.Component {
     }
     return retval
   }
-  componentDidUpdate(prevProps, prevState) {
-   var data = prevState.data
-   if (prevProps.name !== data.name ||
-       prevProps.hour !== data.hour ||
-       prevProps.minute !== data.minute ||
-       prevProps.pmam !== data.pmam) {
-      data.hour = prevProps.hour
-      data.minute = prevProps.minute
-      data.pmam = prevProps.pmam
-      data.name = prevProps.name
+
+componentWillReceiveProps(nextProps) {
+   var data = this.state.data
+   if (nextProps.name !== data.name ||
+       nextProps.hour !== data.hour ||
+       nextProps.minute !== data.minute) {
+      data.hour = nextProps.hour
+      data.minute = nextProps.minute
+      data.name = nextProps.name
       if (data.hour > 12) {
         data.hour = data.hour - 12
         data.pmam = 'pm'
+      } else {
+        data.pmam = 'am'
       }
       this.setState({data: data})
     }
