@@ -85,14 +85,17 @@ class Forecast3DayComponent extends React.Component {
       }
       return response.json()
     }).then(function (currentjson) {
-      if (currentjson.list) {
+      if (currentjson.simpleforecast) {
+        if (currentjson.simpleforecast.forecastday) {
         for (var i = 0; i < 3; i++) {
-          that.state.data.forecast[i].weatherDescription = currentjson.list[i].weather[0].description
-          that.state.data.forecast[i].icon = currentjson.list[i].weather[0].icon
-          that.state.data.forecast[i].temperature = currentjson.list[i].temp.day
-          that.state.data.forecast[i].temperatureMin = currentjson.list[i].temp.min
-          that.state.data.forecast[i].temperatureMax = currentjson.list[i].temp.max
-          that.state.data.forecast[i].dt = currentjson.list[i].dt
+
+          that.state.data.forecast[i].weatherDescription = currentjson.simpleforecast.forecastday[i].conditions
+          that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url
+          that.state.data.forecast[i].temperature = currentjson.simpleforecast.forecastday[i].temp.day
+          that.state.data.forecast[i].temperatureMin = currentjson.simpleforecast.forecastday[i].low.fahrenheit
+          that.state.data.forecast[i].temperatureMax = currentjson.simpleforecast.forecastday[i].high.fahrenheit
+          that.state.data.forecast[i].dt = currentjson.simpleforecast.forecastday[i].date.epoch
+          that.state.data.forecast[i].pop = currentjson.simpleforecast.forecastday[i].pop
         }
         that.state.data.forecast[0].day = 'Today'
         that.state.data.forecast[1].day = 'Tomorrow'
@@ -105,6 +108,7 @@ class Forecast3DayComponent extends React.Component {
         that.state.style = styleCloneBad
       }
       that.setState(that.state)
+    }
     })
   }
   render () {
@@ -117,7 +121,7 @@ class Forecast3DayComponent extends React.Component {
           {this.state.data.forecast.map((obj) =>
             <div key={obj.dt} style={this.state.innerStyle}>
             <div style={{padding: '5px 0', color: Colors.White}}>{getWeekDay(new Date(parseInt(obj.dt * 1000)).getDay())}</div>
-            <img src={weatherIcons(obj.icon)} />
+            <img src={obj.icon} />
             <div style={{margin: 'auto', width: '100px'}}>
               <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
               <div style={{float: 'left', padding: '10px 2px'}}>
@@ -126,6 +130,7 @@ class Forecast3DayComponent extends React.Component {
               </div>
             </div>
             <div style={{color: Colors.White, clear: 'left'}}>{obj.weatherDescription}</div>
+            <div style={{color: Colors.White, clear: 'left'}}>{obj.pop}%</div>
           </div>
           )}
           <div style={{clear: 'left', color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
