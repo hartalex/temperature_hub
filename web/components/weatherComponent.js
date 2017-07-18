@@ -4,6 +4,8 @@ import Util from '../util'
 import weatherIcons from '../weatherIcons'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
+const config = require('../../config.js')
+
 // Current Weather
 class WeatherComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -54,7 +56,7 @@ class WeatherComponent extends React.Component {
     setInterval(() => { that.getData(props.zipCode, that) }, updateInterval)
   }
   getData (zipCode, that) {
-    fetch('http://api.openweathermap.org/data/2.5/weather?zip=' + zipCode + ',us&units=imperial&APPID=ff0a82517e493281a9716e1e350d1ebf').then(function (response) {
+    fetch('http://api.openweathermap.org/data/2.5/weather?zip=' + zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

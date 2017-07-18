@@ -13,6 +13,7 @@ const doorGraph = require('./door_graph')
 const doorSensorList = require('./door_sensor_list')
 const menuAdd = require('./menu_add')
 const menuList = require('./menu_list')
+const moonPhases = require('./moonPhases')
 const bodyParser = require('body-parser')
 
 const jsonParser = bodyParser.json()
@@ -46,4 +47,7 @@ module.exports = function (app) {
   // menu
   app.post('/menu/add', jsonParser, menuAdd)
   app.get('/menu/list/:date', cors(), menuList)
+
+  // moon
+  app.get('/moonPhases', cors(), moonPhases)
 }
