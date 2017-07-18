@@ -20,7 +20,7 @@ class Forecast3DayComponent extends React.Component {
         temperature: 30,
         temperatureMin: 32,
         temperatureMax: 34,
-        icon: '01d',
+        icon: '',
         day: 'Today',
         dt: '1489687200'
       }, {
@@ -28,7 +28,7 @@ class Forecast3DayComponent extends React.Component {
         temperature: 30,
         temperatureMin: 32,
         temperatureMax: 34,
-        icon: '01d',
+        icon: '',
         day: 'Tomorrow',
         dt: '1489770000'
       }, {
@@ -36,7 +36,7 @@ class Forecast3DayComponent extends React.Component {
         temperature: 30,
         temperatureMin: 32,
         temperatureMax: 34,
-        icon: '01d',
+        icon: '',
         day: 'Next Day',
         dt: '1489856400'
       }
@@ -90,9 +90,8 @@ class Forecast3DayComponent extends React.Component {
 
           that.state.data.forecast[i].weatherDescription = currentjson.simpleforecast.forecastday[i].conditions
           that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url
-          that.state.data.forecast[i].temperature = currentjson.simpleforecast.forecastday[i].temp.day
-          that.state.data.forecast[i].temperatureMin = currentjson.simpleforecast.forecastday[i].low.fahrenheit
           that.state.data.forecast[i].temperatureMax = currentjson.simpleforecast.forecastday[i].high.fahrenheit
+          that.state.data.forecast[i].temperatureMin = currentjson.simpleforecast.forecastday[i].low.fahrenheit
           that.state.data.forecast[i].dt = currentjson.simpleforecast.forecastday[i].date.epoch
           that.state.data.forecast[i].pop = currentjson.simpleforecast.forecastday[i].pop
         }
@@ -121,12 +120,9 @@ class Forecast3DayComponent extends React.Component {
             <div key={obj.dt} style={this.state.innerStyle}>
             <div style={{padding: '5px 0', color: Colors.White}}>{getWeekDay(new Date(parseInt(obj.dt * 1000)).getDay())}</div>
             <img src={obj.icon} />
-            <div style={{margin: 'auto', width: '100px'}}>
-              <div style={{color: temperatureColor(obj.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(obj.temperature)}</div>
-              <div style={{float: 'left', padding: '10px 2px'}}>
-                <div style={{color: temperatureColor(obj.temperatureMax)}}>{Math.trunc(obj.temperatureMax)}</div>
-                <div style={{color: temperatureColor(obj.temperatureMin)}}>{Math.trunc(obj.temperatureMin)}</div>
-              </div>
+            <div style={{margin: 'auto', width: '100px', fontSize: '25px'}}>
+                <div style={{float: 'left', paddingLeft: '20px', color: temperatureColor(obj.temperatureMin)}}>{Math.trunc(obj.temperatureMin)}</div>
+                <div style={{float: 'left', paddingLeft: '10px', color: temperatureColor(obj.temperatureMax)}}>{Math.trunc(obj.temperatureMax)}</div>
             </div>
             <div style={{color: Colors.White, clear: 'left'}}>{obj.weatherDescription}</div>
             <div style={{color: Colors.White, clear: 'left'}}>{obj.pop}%</div>

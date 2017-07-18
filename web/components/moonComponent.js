@@ -15,19 +15,19 @@ class MoonComponent extends React.Component {
       data: {
         percentIlluminated:0,
         ageOfMoon:0,
-        phaseofMoon:'Silly',
+        phaseofMoon:'',
         sunrise: {
-          hour:0,
-          minute:0},
+          hour:'00',
+          minute:'00'},
         sunset: {
-          hour:0,
-          minute:0},
+          hour:'00',
+          minute:'00'},
         moonrise: {
-          hour:0,
-          minute:0},
+          hour:'00',
+          minute:'00'},
         moonset: {
-          hour:0,
-          minute:0},
+          hour:'00',
+          minute:'00'},
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
@@ -82,6 +82,7 @@ class MoonComponent extends React.Component {
         that.state.data.moonset.hour = moonData.moonset.hour
         that.state.data.moonset.minute = moonData.moonset.minute
         that.state.data.lastUpdate = new Date().toISOString()
+
         var styleClone = JSON.parse(JSON.stringify(that.state.style))
         that.state.style = styleClone
         that.setState(that.state)
