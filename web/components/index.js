@@ -9,7 +9,7 @@ import Colors from '../colors'
 
 export function renderRoot () {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
-  var isSummer = true
+  var isSummer = false
 
   var style = { 'backgroundColor': Colors.Black,
     textAlign: 'center',
@@ -26,6 +26,7 @@ export function renderRoot () {
       <Forecast3Day updateIntervalInMinutes='60' />
       <Temperature sensorName='Bedroom' updateIntervalInMinutes='5'/>
       <Temperature sensorName='Outside' updateIntervalInMinutes='5'/>
+      <Temperature sensorName='Garage' updateIntervalInMinutes='5'/>
       <Moon updateIntervalInMinutes='60' />
       { !isSummer &&
         <Menu />
