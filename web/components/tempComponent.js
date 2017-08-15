@@ -30,40 +30,42 @@ class TemperatureComponent extends React.Component {
         padding: '50px 0'
       }
     }
-    var that = this
-
     setInterval(() => {
-      if (new Date() - new Date(that.state.data.lastUpdate) > alertCheckInterval) {
-        var style = JSON.parse(JSON.stringify(that.state.style))
-        style.backgroundColor = Colors.Red
-        that.state.style = style
-      } else if (that.state.style.backgroundColor !== Colors.Black) {
-        var styleClone = JSON.parse(JSON.stringify(that.state.style))
-        styleClone.backgroundColor = Colors.Black
-        that.state.style = styleClone
-      }
-      that.setState(that.state)
+      this.reRender(alertCheckInterval)
     }, renderInterval)
-
     this.getData(props.sensorName, this)
-    setInterval(() => { that.getData(props.sensorName, that) }, updateInterval)
+    setInterval(() => { this.getData(props.sensorName, this) }, updateInterval)
   }
-  getData (sensorName, that) {
+  reRender(alertCheckInterval) {
+    var newState = this.state
+    if (new Date() - new Date(this.state.data.lastUpdate) > alertCheckInterval) {
+      var style = JSON.parse(JSON.stringify(this.state.style))
+      style.backgroundColor = Colors.Red
+      newState.style = style
+    } else if (this.state.style.backgroundColor !== Colors.Black) {
+      var styleClone = JSON.parse(JSON.stringify(this.state.style))
+      styleClone.backgroundColor = Colors.Black
+      newState.style = styleClone
+    }
+    this.setState(newState)
+  }
+  getData (sensorName, obj) {
     fetch('http://hub.hartcode.com/temp/current').then(function (response) {
       if (response.status >= 400) {
-        throw new Error('Bad response from server')
+        throw new Error('Bad response from server, ' + response.status)
       }
       return response.json()
     }).then(function (currentjson) {
       for (var i = 0; i < currentjson.length; i++) {
         var sensor = currentjson[i]
         if (sensor.sensorName === sensorName) {
-          that.state.data.temperature = sensor.tempInFarenheit
-          that.state.data.lastUpdate = new Date().toISOString()
-          var styleClone = JSON.parse(JSON.stringify(that.state.style))
-          styleClone.color = temperatureColor(that.state.data.temperature)
-          that.state.style = styleClone
-          that.setState(that.state)
+          var newState = obj.state
+          newState.data.temperature = sensor.tempInFarenheit
+          newState.data.lastUpdate = new Date().toISOString()
+          var styleClone = JSON.parse(JSON.stringify(newState.style))
+          styleClone.color = temperatureColor(newState.data.temperature)
+          newState.style = styleClone
+          obj.setState(newState)
         }
       }
     })
