@@ -7,4 +7,4 @@ RUN yarn
 RUN yarn build
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["yarn", "start"]
+ENTRYPOINT ["yarn", "start", ">>", "/var/log/temp_hub.log", "2>&1"]
