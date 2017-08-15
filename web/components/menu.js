@@ -31,7 +31,7 @@ export function renderRoot () {
     <div className='body' style={style}>
       <form action={'#'}>
       <ul style={{textAlign: 'right'}}>
-      <li>Date: <input type="text" id="date" /></li>
+      <li>Date (YYYY-MM-DD): <input type="text" id="date" /></li>
       <li>(First Option) <input type="text" id="firstOption" /></li>
       <li>Or (Second Option)<input type="text" id="secondOption" /></li>
       <li>(Other Stuff)<input type="text" id="otherStuff"/></li>
