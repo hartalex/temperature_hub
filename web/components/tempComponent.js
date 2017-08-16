@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import Colors from '../colors'
 import Util from '../util'
@@ -5,7 +6,17 @@ import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
 
 class TemperatureComponent extends React.Component {
-  constructor (props, graphId, getData) {
+  state: {
+    data: {
+      name: string,
+      temperature: number,
+      lastUpdate: string
+    },
+    style: {},
+    innerStyle: {}
+  }
+
+  constructor (props: {  updateIntervalInMinutes: number, sensorName: string}) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
     var alertCheckInterval = updateInterval * 1.5
@@ -36,7 +47,7 @@ class TemperatureComponent extends React.Component {
     this.getData(props.sensorName, this)
     setInterval(() => { this.getData(props.sensorName, this) }, updateInterval)
   }
-  reRender(alertCheckInterval) {
+  reRender(alertCheckInterval: number) {
     var newState = this.state
     if (new Date() - new Date(this.state.data.lastUpdate) > alertCheckInterval) {
       var style = JSON.parse(JSON.stringify(this.state.style))
@@ -49,7 +60,7 @@ class TemperatureComponent extends React.Component {
     }
     this.setState(newState)
   }
-  getData (sensorName, obj) {
+  getData (sensorName: string, obj) {
     fetch('http://hub.hartcode.com/temp/current').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server, ' + response.status)

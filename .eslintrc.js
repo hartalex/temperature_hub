@@ -1,5 +1,5 @@
 module.exports = {
-  'extends': ['standard', 'eslint:recommended', 'plugin:react/recommended'],
+  'extends': ['standard', 'eslint:recommended', 'plugin:react/recommended', 'plugin:flowtype/recommended'],
   'parserOptions': {
     'ecmaFeatures': {
       'jsx': true
@@ -11,7 +11,8 @@ module.exports = {
     'react',
     'jsx',
     'jsx-a11y',
-    'import'
+    'import',
+    'flowtype'
   ],
   'globals': { 'fetch': false, 'describe': false, 'it': false , 'alert': false},
   'rules': {
