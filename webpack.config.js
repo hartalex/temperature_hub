@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const path = require('path')
-// const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
@@ -23,8 +22,9 @@ module.exports = {
   ],
 
   entry: {
-    index: './web/index.js',
-    menu: './web/menu.js'
+    'index': './src/client/index.js',
+    'menu': './src/client/menu.js',
+	  
   //  css: [
           //  './src/client/css/main.css',
   //  ]

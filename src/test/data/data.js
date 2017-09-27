@@ -1,6 +1,6 @@
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
-const data = require('../../api/data/data')
+const data = require('../../server/api/data/data')
 
 data.db = mockMongoDb
 

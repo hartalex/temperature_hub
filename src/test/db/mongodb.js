@@ -1,5 +1,5 @@
 var assert = require('assert')
-var db = require('../../api/db/mongodb')
+var db = require('../../server/api/db/mongodb')
 
 describe('mongodb', function () {
   describe('#connect()', function () {

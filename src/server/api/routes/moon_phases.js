@@ -1,19 +1,16 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const config = require('../../config.js')
-const weather = require('../../test/data/openweathermap-api/mock-api-response-weather.json')
 
 module.exports = function (req, res) {
-  if (config.openweathermap_key === '') {
-    res.json(weather)
-  } else {
-    fetch('http://api.openweathermap.org/data/2.5/weather?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key).then(function (response) {
+  if (config.wunderground_key !== '') {
+    fetch('http://api.wunderground.com/api/' + config.wunderground_key + '/astronomy/q/' + config.zipCode + '.json').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
       return response.json()
     }).then(function (resu) {
-      res.json(resu)
+      res.json(resu.moon_phase)
     }).catch(function (err) {
       res.json({})
     })

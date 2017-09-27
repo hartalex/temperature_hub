@@ -2,7 +2,7 @@ var assert = require('assert')
 var simple = require('simple-mock')
 var mockDataSuccess = require('../data/mock-data-success')
 var mockDataFail = require('../data/mock-data-fail')
-const dataAdd = require('../../api/routes/data_add')
+const dataAdd = require('../../server/api/routes/data_add')
 
 describe('data_add', function () {
   describe('#function (req, res)', function () {
