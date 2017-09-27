@@ -2,6 +2,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpack from 'webpack'
 import config from '../../webpack.config'
+import path from 'path'
 var express = require('express')
 var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
@@ -24,4 +25,5 @@ if (process.env.NODE_ENV !== 'production') {
 apiRoutes(app)
 webRoutes(app)
 
+app.use(express.static(path.join(__dirname, '/../client/')))
 app.listen(80)
