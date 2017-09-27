@@ -8,4 +8,4 @@ WORKDIR /root/temperature_hub
 RUN npm install 
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["npm","run", "start", ">>", "/var/log/temp_hub.log", "2>&1"]
+ENTRYPOINT ["npm","run", "prodstart", ">>", "/var/log/temp_hub.log", "2>&1"]
