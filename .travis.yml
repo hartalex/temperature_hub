@@ -1,11 +1,24 @@
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+    - node_modules
 language: node_js
 node_js:
   - "node"
 script:
-    - yarn run lint
-    - yarn run test
-    - yarn run coverage
-    - yarn run build
+  - npm run lint
+  - npm run test
+  - npm run coverage
+  - npm run build
+  - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key -iv $encrypted_71512d77c8b2_iv -in client-secret.json.enc -out client-secret.json -d
+  - if [ ! -d ${HOME}/google-cloud-sdk ]; then
+      rm -rf $HOME/google-cloud-sdk;
+      export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
+      curl https://sdk.cloud.google.com | bash;
+    fi
+  - gcloud auth activate-service-account --key-file client-secret.json
+  - docker build -t gcr.io/hartonline-cloud/temperature_hub:$TRAVIS_BRANCH-$TRAVIS_TAG-$TRAVIS_COMMIT .
+  - gcloud docker -- push gcr.io/hartonline-cloud/temperature_hub:$TRAVIS_BRANCH-$TRAVIS_TAG-$TRAVIS_COMMIT
 notifications:
     slack: hartcode:GqPCaLxnPqXfPJBMjJbEvG81
 addons:
