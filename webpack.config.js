@@ -1,21 +1,18 @@
 const webpack = require('webpack')
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('style.css'),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
+    new UglifyJSPlugin(),
+    new CommonsChunkPlugin({
       name: 'commons',
       // (the commons chunk name)
-
+      chunks: ['index', 'menu'],
       filename: 'commons.js'
       // (the filename of the commons chunk)
     })
@@ -24,11 +21,6 @@ module.exports = {
   entry: {
     'index': './src/client/index.js',
     'menu': './src/client/menu.js',
-	  
-  //  css: [
-          //  './src/client/css/main.css',
-  //  ]
-    //  favicon: './src/client/images/favicon.ico'
   },
   output: {
     path: path.join(__dirname, '/build/client'),
@@ -55,7 +47,10 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          presets: ['react']
+        }
       }
     ]
   }

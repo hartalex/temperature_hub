@@ -1,1 +1,9 @@
-{ "presets": ["latest","react"] }
+{
+  "presets": [ "react",
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ]
+}
