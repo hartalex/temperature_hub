@@ -1,0 +1,5 @@
+hartweb:
+  hosts:
+    hub.cloud.hartcode.com:
+  vars:  
+    ansible_ssh_private_key_file: ansible
