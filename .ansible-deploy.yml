@@ -23,6 +23,7 @@
         volumes:
           - "/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js"
           - "/home/hartalex/temp_hub/logdir:/var/log"
+        network_mode: host
     - name: restart mongo 
       become: true
       docker_container:
@@ -36,6 +37,7 @@
           - "127.0.0.1:27017:27017"
         volumes:
           - "/home/hartalex/mongodb/datadir:/data/db"
+        network_mode: host
     - wait_for: timeout=5
     - name: Get JSON from page
       uri: url="http://127.0.0.1:80/info" return_content=yes
