@@ -1,4 +1,8 @@
 FROM mhart/alpine-node:8
+ARG COMMIT=local
+ARG TAG=local
+ENV COMMIT ${COMMIT}
+ENV TAG ${TAG}
 ENV NODE_ENV production
 RUN mkdir -p /root/temperature_hub/build
 COPY ./build /root/temperature_hub/build

@@ -11,7 +11,7 @@
     - name: restart hartcode.com
       become: true
       docker_container:
-        name: "temperature_hub"
+        name: "temp_hub"
         image: "gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}"
         state: started
         restart: yes
@@ -20,6 +20,9 @@
         ports:
           - "80:80"
           - "443:443"
+        volumes:
+          - "/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js"
+          - "/home/hartalex/temp_hub/logdir:/var/log"
     - wait_for: timeout=5
     - name: Get JSON from page
       uri: url="http://127.0.0.1:80/info" return_content=yes

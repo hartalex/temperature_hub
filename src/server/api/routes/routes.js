@@ -1,3 +1,4 @@
+import info from './info'
 const cors = require('cors')
 const serviceList = require('./service_list')
 const serviceAdd = require('./service_add')
@@ -16,7 +17,6 @@ const menuList = require('./menu_list')
 const moonPhases = require('./moon_phases')
 const forecast = require('./forecast')
 const weather = require('./weather')
-
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
@@ -58,4 +58,6 @@ module.exports = function (app) {
 
   // weather
   app.get('/weather', cors(), weather)
+
+  app.get('/info', info)
 }
