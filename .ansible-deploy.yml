@@ -8,7 +8,7 @@
     - name: get latest container
       become: true
       command: "gcloud docker -- pull gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}"
-    - name: restart hartcode.com
+    - name: restart hub.hartcode.com
       become: true
       docker_container:
         name: "temp_hub"
@@ -23,6 +23,19 @@
         volumes:
           - "/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js"
           - "/home/hartalex/temp_hub/logdir:/var/log"
+    - name: restart mongo 
+      become: true
+      docker_container:
+        name: "mongo"
+        image: "mongo:latest"
+        state: started
+        restart: yes
+        recreate: yes
+        restart_policy: always
+        ports:
+          - "127.0.0.1:27017:27017"
+        volumes:
+          - "/home/hartalex/mongodb/datadir:/data/db"
     - wait_for: timeout=5
     - name: Get JSON from page
       uri: url="http://127.0.0.1:80/info" return_content=yes
