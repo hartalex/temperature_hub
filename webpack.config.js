@@ -2,13 +2,16 @@ const webpack = require('webpack')
 const path = require('path')
 const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('style.css'),
-    new UglifyJSPlugin(),
+    new webpack.DefinePlugin({
+        'process.env': {
+         NODE_ENV: JSON.stringify('production')
+         }
+    }),
     new CommonsChunkPlugin({
       name: 'commons',
       // (the commons chunk name)
