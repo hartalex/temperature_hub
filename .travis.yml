@@ -41,6 +41,7 @@ jobs:
         - ./updateDepends.sh
         - npm run lint
         - npm run test
+        - npm run coverage
         - npm install -g codeclimate-test-reporter
         - codeclimate-test-reporter < lcov.info
         - npm run build
