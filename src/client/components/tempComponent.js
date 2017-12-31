@@ -14,7 +14,8 @@ class TemperatureComponent extends React.Component {
       data: {
         name: props.sensorName,
         temperature: 0,
-        lastUpdate: '2017-01-01T00:00:00.000Z'
+        lastUpdate: '2017-01-01T00:00:00.000Z',
+        outdated: true
       },
       style: {
         width: '140px',
@@ -60,8 +61,14 @@ class TemperatureComponent extends React.Component {
         var sensor = currentjson[i]
         if (sensor.sensorName === sensorName) {
           var newState = obj.state
-          newState.data.temperature = sensor.tempInFarenheit
+          newState.data.outdated = sensor.outdated
+          if (!sensor.outdated) {
+            newState.data.temperature = sensor.tempInFarenheit
+          } else {
+            newState.data.temperature = 0
+          }
           newState.data.lastUpdate = new Date().toISOString()
+
           var styleClone = JSON.parse(JSON.stringify(newState.style))
           styleClone.color = temperatureColor(newState.data.temperature)
           newState.style = styleClone
@@ -74,8 +81,12 @@ class TemperatureComponent extends React.Component {
     var retval
     if (this.state.data !== null) {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
-      const temp = Math.trunc(this.state.data.temperature);
-      const tempDecimal = Math.trunc((this.state.data.temperature - temp) * 100);
+      var temp = Math.trunc(this.state.data.temperature)
+      var tempDecimal = Math.abs(Math.trunc((this.state.data.temperature - temp) * 100))
+      if (this.state.data.temperature === 0) {
+        temp = '--'
+        tempDecimal = '--'
+      }
       retval = (
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
