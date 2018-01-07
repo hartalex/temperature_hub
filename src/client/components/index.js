@@ -11,10 +11,10 @@ export function renderRoot () {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
   var isSummer = false
 
-  var style = { 'backgroundColor': Colors.Black,
+  var style = {
     textAlign: 'center',
-    fontFamily: 'Roboto'
-  }
+    fontFamily: 'Roboto',
+    }
   return (
     <div className='body' style={style}>
       <DoorGraph title='Doors' duration='24h' updateIntervalInMinutes='5'/>
