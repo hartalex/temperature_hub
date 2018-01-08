@@ -1,5 +1,7 @@
 import info from './info'
 const cors = require('cors')
+const bodyParser = require('body-parser')
+
 const serviceList = require('./service_list')
 const serviceAdd = require('./service_add')
 const serviceDel = require('./service_del')
@@ -17,7 +19,9 @@ const menuList = require('./menu_list')
 const moonPhases = require('./moon_phases')
 const forecast = require('./forecast')
 const weather = require('./weather')
-const bodyParser = require('body-parser')
+const memoryAdd = require('./memory_add')
+const memoryList = require('./memory_list')
+
 const jsonParser = bodyParser.json()
 
 module.exports = function (app) {
@@ -58,6 +62,10 @@ module.exports = function (app) {
 
   // weather
   app.get('/weather', cors(), weather)
+
+  // memory
+  app.post('/memory/add', jsonParser, memoryAdd)
+  app.get('/memory/list/:date', cors(), memoryList)
 
   app.get('/info', info)
 }

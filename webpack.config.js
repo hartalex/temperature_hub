@@ -15,7 +15,7 @@ module.exports = {
     new CommonsChunkPlugin({
       name: 'commons',
       // (the commons chunk name)
-      chunks: ['index', 'menuEntry'],
+      chunks: ['index', 'menuEntry', 'memoryEntry'],
       filename: 'commons.js'
       // (the filename of the commons chunk)
     })
@@ -24,6 +24,7 @@ module.exports = {
   entry: {
     'index': './src/client/index.js',
     'menuEntry': './src/client/menuEntry.js',
+    'memoryEntry': './src/client/memoryEntry.js',
   },
   output: {
     path: path.join(__dirname, '/build/client'),

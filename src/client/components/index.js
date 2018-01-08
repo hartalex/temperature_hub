@@ -4,8 +4,9 @@ import Temperature from './tempComponent.js'
 import Menu from './menuComponent.js'
 import Forecast3Day from './forecast3DayComponent.js'
 import Moon from './moonComponent.js'
+import Memory from './memoryComponent.js'
+
 import React from 'react'
-import Colors from '../colors'
 
 export function renderRoot () {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
@@ -30,6 +31,9 @@ export function renderRoot () {
       <Moon updateIntervalInMinutes='60' />
       { !isSummer &&
         <Menu />
+      }
+      { !isSummer &&
+        <Memory />
       }
     </div>
   )
