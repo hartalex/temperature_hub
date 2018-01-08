@@ -4,6 +4,7 @@ import Util from '../util'
 import PropTypes from 'prop-types'
 import moonIcons from '../moonIcons'
 import Time from './timeComponent.js'
+import ClientConfig from '../config.js'
 
 class MoonComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -63,7 +64,7 @@ class MoonComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch('http://hub.hartcode.com/moonPhases').then(function (response) {
+    fetch(ClientConfig.hub_api_url + '/moonPhases').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

@@ -1,17 +1,18 @@
 import LineGraphComponent from './lineGraphComponent'
+import ClientConfig from '../config.js'
 
 class DoorGraph extends LineGraphComponent {
   constructor (props) {
     super(props,
       'DoorGraph',
     function (duration, that) {
-      fetch('http://hub.hartcode.com/door/sensor/list').then(function (response) {
+      fetch(ClientConfig.hub_api_url + '/door/sensor/list').then(function (response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')
         }
         return response.json()
       }).then(function (sensorjson) {
-        fetch('http://hub.hartcode.com/door/' + duration + '/graph').then(function (response) {
+        fetch(ClientConfig.hub_api_url + '/door/' + duration + '/graph').then(function (response) {
           if (response.status >= 400) {
             throw new Error('Bad response from server')
           }

@@ -1,4 +1,6 @@
 import React from 'react'
+import ClientConfig from '../config.js'
+
 export function renderRoot () {
   var style = {
     textAlign: 'center',
@@ -12,7 +14,7 @@ export function renderRoot () {
       secondMemory: document.getElementById('secondMemory').value,
     }
     var json = JSON.stringify(obj)
-    fetch('memory/add',
+    fetch(ClientConfig.hub_api_url + '/memory/add',
       {
         headers: {
           'Accept': 'application/json',

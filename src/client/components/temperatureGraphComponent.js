@@ -1,17 +1,18 @@
 import LineGraphComponent from './lineGraphComponent'
+import ClientConfig from '../config.js'
 
 class TemperatureGraph extends LineGraphComponent {
   constructor (props) {
     super(props,
       'TemperatureGraph',
     function (duration, that) {
-      fetch('http://hub.hartcode.com/temp/sensor/list').then(function (response) {
+      fetch(ClientConfig.hub_api_url + '/temp/sensor/list').then(function (response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')
         }
         return response.json()
       }).then(function (sensorjson) {
-        fetch('http://hub.hartcode.com/temp/' + props.duration + '/graph').then(function (response) {
+        fetch(ClientConfig.hub_api_url + '/temp/' + props.duration + '/graph').then(function (response) {
           if (response.status >= 400) {
             throw new Error('Bad response from server')
           }

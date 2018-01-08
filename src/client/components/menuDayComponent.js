@@ -2,6 +2,7 @@ import React from 'react'
 import Colors from '../colors'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
+import ClientConfig from '../config.js'
 
 class MenuDayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -70,7 +71,7 @@ class MenuDayComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch('http://hub.hartcode.com/menu/list/' + that.state.data.date).then(function (response) {
+    fetch(ClientConfig.hub_api_url + '/menu/list/' + that.state.data.date).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

@@ -3,6 +3,7 @@ import Colors from '../colors'
 import Util from '../util'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
+import ClientConfig from '../config.js'
 
 class TemperatureComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -51,7 +52,7 @@ class TemperatureComponent extends React.Component {
     this.setState(newState)
   }
   getData (sensorName, obj) {
-    fetch('http://hub.hartcode.com/temp/current').then(function (response) {
+    fetch(ClientConfig.hub_api_url + '/temp/current').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server, ' + response.status)
       }

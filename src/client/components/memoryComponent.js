@@ -1,6 +1,7 @@
 import React from 'react'
 import Colors from '../colors'
 import PropTypes from 'prop-types'
+import ClientConfig from '../config.js'
 
 class MemoryComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -21,14 +22,14 @@ class MemoryComponent extends React.Component {
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
-        height: '150px',
-        width: '140px',
+        width: '440px',
+        height: '200px',
+        border: '5px solid darkgray',
         background: backgroundColor,
         textAlign: 'center',
         float: 'left',
         color: foreColor,
-        fontSize: '14px',
-        padding: '10px 0'
+        fontSize: '14px'
       }
     }
     var that = this
@@ -46,7 +47,7 @@ class MemoryComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch('http://hub.hartcode.com/memory/list/' + that.state.data.date).then(function (response) {
+    fetch(ClientConfig.hub_api_url + '/memory/list/' + that.state.data.date).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -78,6 +79,7 @@ class MemoryComponent extends React.Component {
       }
       retval = (
         <div style={this.state.style}>
+          <div style={{textAlign: 'center'}}>Memory</div>
           <ol style={{fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px'}}>
           { this.state.data.firstMemory !== null &&
           <li style={{fontSize: '12px', clear: 'left'}}>{this.state.data.firstMemory}</li>

@@ -4,6 +4,7 @@ import Util from '../util'
 import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
+import ClientConfig from '../config.js'
 
 // 3 Day Forecast
 class Forecast3DayComponent extends React.Component {
@@ -78,7 +79,7 @@ class Forecast3DayComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch('http://hub.hartcode.com/forecast').then(function (response) {
+    fetch(ClientConfig.hub_api_url + '/forecast').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
