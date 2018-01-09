@@ -102,14 +102,14 @@ class MoonComponent extends React.Component {
               <div style={{float: 'left', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.data.percentIlluminated}% </div>
               <div style={{float: 'left'}}> Age {this.state.data.ageOfMoon}</div>
 
-              <div style={{clear: 'both', fontSize: '10px', float: 'left', textAlign: 'center', paddingTop: '20px'}}>
-                <div style={{width: '65px', fontSize: '12px'}}>Sun</div>
+              <div style={{clear: 'both', fontSize: '8px', float: 'left', textAlign: 'center', paddingTop: '20px'}}>
+                <div style={{width: '65px', fontSize: '10px'}}>Sun</div>
                 <Time name='rise' hour={this.state.data.sunrise.hour} minute={this.state.data.sunrise.minute}/>
                 <Time name='set' hour={this.state.data.sunset.hour} minute={this.state.data.sunset.minute}/>
               </div>
 
-              <div style={{float: 'left', fontSize: '10px', textAlign: 'center', paddingTop: '20px'}}>
-                <div style={{width: '65px', fontSize: '12px'}}>Moon</div>
+              <div style={{float: 'left', fontSize: '8px', textAlign: 'center', paddingTop: '20px'}}>
+                <div style={{width: '65px', fontSize: '10px'}}>Moon</div>
                 <Time name='rise' hour={this.state.data.moonrise.hour} minute={this.state.data.moonrise.minute}/>
                 <Time name='set' hour={this.state.data.moonset.hour} minute={this.state.data.moonset.minute}/>
               </div>
