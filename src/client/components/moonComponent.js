@@ -10,6 +10,9 @@ class MoonComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
+    if (updateInterval === 0) {
+      updateInterval = 60000
+    }
     var alertCheckInterval = updateInterval * 1.5
     var renderInterval = 60000
     this.state = {

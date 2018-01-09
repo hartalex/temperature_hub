@@ -9,6 +9,9 @@ class LineGraphComponent extends React.Component {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
     var renderInterval = 60000
+    if (updateInterval === 0) {
+      updateInterval = 60000
+    }
     this.state = {
       graph_id: graphId,
       options: {

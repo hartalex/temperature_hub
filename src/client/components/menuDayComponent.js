@@ -12,7 +12,9 @@ class MenuDayComponent extends React.Component {
     var backgroundColor = Colors.Black
     var foreColor = Colors.White
     var date
-
+    if (updateInterval === 0) {
+      updateInterval = 60000
+    }
     if (props.day === 'Today') {
       date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
     } else if (props.day === 'Tomorrow') {

@@ -33,7 +33,7 @@ export function renderRoot () {
         <Menu />
       }
       { !isSummer &&
-        <Memory />
+        <Memory updateIntervalInMinutes='60' />
       }
     </div>
   )
