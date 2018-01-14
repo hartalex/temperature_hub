@@ -5,7 +5,7 @@ import Menu from './menuComponent.js'
 import Forecast3Day from './forecast3DayComponent.js'
 import Moon from './moonComponent.js'
 import Memory from './memoryComponent.js'
-import Image from './imageComponent.js'
+import Stream from './streamComponent.js'
 
 import React from 'react'
 
@@ -36,7 +36,7 @@ export function renderRoot () {
       { !isSummer &&
         <Memory updateIntervalInMinutes='60' />
       }
-      <Image name='3D Printer' updateIntervalInMinutes='1' />
+      <Stream name='3D Printer' />
     </div>
   )
 }
