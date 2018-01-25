@@ -1,5 +1,8 @@
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
+var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
+var mockMongoDbTemp = require('../db/mock-mongodb-temp')
+var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
 const data = require('../../server/api/data/data')
 
 data.db = mockMongoDb
@@ -28,7 +31,7 @@ describe('data', function () {
         id: 'test'
       }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Missing t property')
+        assert.equal(err, 'Property t is missing')
       })
     })
 
@@ -124,5 +127,128 @@ describe('data', function () {
         assert.equal(err, 'Input is null')
       })
     })
+    
+    it('menuAdd success', function () {
+      var input = {
+        date: '2017',
+        firstOption: ' ',
+        secondOption: ' ',
+        otherStuff: ' '}
+      return data.menuAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('dataAdd door fail duplicate', function () {
+      var input = {
+        sensorId: 'test',
+        isOpen: false }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDbDoorClosed
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('dataAdd door fail duplicate', function () {
+      var input = {
+        sensorId: 'test',
+        isOpen: false }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDbDoorClosed
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(output.reason, 'duplicate')
+      })
+    })
+    
+    it('dataAdd door success duplicate config', function () {
+      var input = {
+        sensorId: 'test',
+        isOpen: false }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDb
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('dataAdd door success utc_timestamp', function () {
+      var input = {
+        sensorId: 'test',
+        utc_timestamp: 'timestamp',
+        isOpen: false }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDb
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('dataAdd temp fail duplicate', function () {
+      var input = {
+        id: 'test',
+        t: 0 }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDbTemp
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(output.reason, 'duplicate')
+      })
+    })
+    
+    it('dataAdd temp success duplicate config', function () {
+      var input = {
+        id: 'test',
+        t: 0 }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDb
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('dataAdd temp success utc_timestamp', function () {
+      var input = {
+        id: 'test',
+        utc_timestamp: 'timestamp',
+        t: 0 }
+      data.config.NoDuplicateData = true
+      data.db = mockMongoDb
+      return data.dataAdd(input).then(function (output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+    
+    it('menuAdd menuItem fail duplicate', function () {
+      var input = {
+        date: 'test',
+        firstOption: ' ',
+        secondOption: ' ',
+        otherStuff: ' ' }
+      data.db = mockMongoDbTemp
+      return data.menuAdd(input).then(function (output) {
+        assert.failure('should have errored')
+      }).catch(function (err) { 
+        assert.equal(err, 'menuItem already exists')  
+      })
+    })
+    
+    it('menuAdd menuItem fail db error', function () {
+      var input = {
+        date: 'test',
+        firstOption: ' ',
+        secondOption: ' ',
+        otherStuff: ' ' }
+      data.db = mockMongoDbThrowInsertError
+      return data.menuAdd(input).then(function (output) {
+        assert.failure('should have errored')
+      }).catch(function (err) { 
+        assert.equal(err, 'db error')  
+      })
+    })
+    
+    
+    
   })
 })
