@@ -1,5 +1,5 @@
 const db = require('../db/mongodb')
-const durational_req_res = require('durational_req_res')
+const durational_req_res = require('./durational_req_res')
 
 function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
   return [{
