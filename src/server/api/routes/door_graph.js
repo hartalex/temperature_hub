@@ -1,5 +1,5 @@
 const db = require('../db/mongodb')
-const duration_req_res = require(duration_req_res)
+const durational_req_res = require('durational_req_res')
 
 function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
   return [{
@@ -96,4 +96,4 @@ var finddoorsLastXHours = function (dbobj, x, callback) {
 }
 
 
-module.exports = duration_req_res(finddoorsLastXHours, finddoorsLastXDays, finddoorsLastXMonths)
+module.exports = durational_req_res(finddoorsLastXHours, finddoorsLastXDays, finddoorsLastXMonths)

@@ -1,4 +1,5 @@
 git pull
+sudo npm run build
 sudo docker build -t temperature_hub:latest .
 sudo docker rm -f temp_hub
-sudo docker run --name temp_hub --restart always -d -v /home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js -v /home/hartalex/temp_hub/logdir:/var/log -p 80:80 -p 443:443 --network="host" gcr.io/hartonline-cloud/temperature_hub:master--d0b875f6e990737a11891aafa0a1c076bde76e39
+sudo docker run --name temp_hub --restart always -d -v /home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js -v /home/hartalex/temp_hub/logdir:/var/log -p 80:80 -p 443:443 --network="host" temperature_hub
