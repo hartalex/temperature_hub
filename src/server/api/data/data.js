@@ -18,7 +18,6 @@ module.exports = {
   config: configImport,
   menuAdd: function (input) {
     var db = this.db
-    var config = this.config
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
     return connectPromise.then(function (dbobj) {
