@@ -1,4 +1,5 @@
 require('./db/mongodb')
 require('./data/data')
+require('./data/validation')
 require('./routes/data_add')
 require('./routes/menu_add')

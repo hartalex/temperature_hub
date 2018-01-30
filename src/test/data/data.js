@@ -127,7 +127,8 @@ describe('data', function () {
         assert.equal(err, 'Input is null')
       })
     })
-    
+  })
+  describe('#menuAdd(input)', function () {
     it('menuAdd success', function () {
       var input = {
         date: '2017',
@@ -138,7 +139,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('dataAdd door fail duplicate', function () {
       var input = {
         sensorId: 'test',
@@ -149,7 +150,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('dataAdd door fail duplicate', function () {
       var input = {
         sensorId: 'test',
@@ -161,7 +162,7 @@ describe('data', function () {
         assert.equal(output.reason, 'duplicate')
       })
     })
-    
+
     it('dataAdd door success duplicate config', function () {
       var input = {
         sensorId: 'test',
@@ -172,7 +173,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('dataAdd door success utc_timestamp', function () {
       var input = {
         sensorId: 'test',
@@ -184,7 +185,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('dataAdd temp fail duplicate', function () {
       var input = {
         id: 'test',
@@ -196,7 +197,7 @@ describe('data', function () {
         assert.equal(output.reason, 'duplicate')
       })
     })
-    
+
     it('dataAdd temp success duplicate config', function () {
       var input = {
         id: 'test',
@@ -207,7 +208,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('dataAdd temp success utc_timestamp', function () {
       var input = {
         id: 'test',
@@ -219,7 +220,7 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
-    
+
     it('menuAdd menuItem fail duplicate', function () {
       var input = {
         date: 'test',
@@ -229,11 +230,11 @@ describe('data', function () {
       data.db = mockMongoDbTemp
       return data.menuAdd(input).then(function (output) {
         assert.failure('should have errored')
-      }).catch(function (err) { 
-        assert.equal(err, 'menuItem already exists')  
+      }).catch(function (err) {
+        assert.equal(err, 'menuItem already exists')
       })
     })
-    
+
     it('menuAdd menuItem fail db error', function () {
       var input = {
         date: 'test',
@@ -243,12 +244,9 @@ describe('data', function () {
       data.db = mockMongoDbThrowInsertError
       return data.menuAdd(input).then(function (output) {
         assert.failure('should have errored')
-      }).catch(function (err) { 
-        assert.equal(err, 'db error')  
+      }).catch(function (err) {
+        assert.equal(err, 'db error')
       })
     })
-    
-    
-    
   })
 })
