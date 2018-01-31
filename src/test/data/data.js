@@ -40,7 +40,7 @@ describe('data', function () {
         id: 6,
         t: 50 }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property id is not a string')
+        assert.equal(err, 'id is not a string')
       })
     })
 
@@ -49,7 +49,7 @@ describe('data', function () {
         id: '',
         t: 50 }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property id is an empty string')
+        assert.equal(err, 'id is an empty string')
       })
     })
 
@@ -58,7 +58,7 @@ describe('data', function () {
         id: 'test',
         t: 'test' }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property t is not a number')
+        assert.equal(err, 't is not a number')
       })
     })
 
@@ -92,7 +92,7 @@ describe('data', function () {
         sensorId: 2,
         isOpen: false }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property sensorId is not a string')
+        assert.equal(err, 'sensorId is not a string')
       })
     })
 
@@ -101,7 +101,7 @@ describe('data', function () {
         sensorId: '',
         isOpen: false }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property sensorId is an empty string')
+        assert.equal(err, 'sensorId is an empty string')
       })
     })
 
@@ -110,7 +110,7 @@ describe('data', function () {
         sensorId: 'test',
         isOpen: 7 }
       return data.dataAdd(input).catch(function (err) {
-        assert.equal(err, 'Property isOpen is not a boolean')
+        assert.equal(err, 'isOpen is not a boolean')
       })
     })
 

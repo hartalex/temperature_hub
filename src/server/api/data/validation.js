@@ -17,6 +17,24 @@ module.exports = {
       }
     }) // Promise
   }, // isTypeString
+  isTypeNumber: function(val, valueName) {
+    return new Promise(function (resolve, reject) {
+      if (val !== null && typeof val === 'number') {
+        resolve()
+      } else {
+        reject(valueName + ' is not a number')
+      }
+    }) // Promise
+  }, // isTypeNumber
+  isTypeBoolean: function(val, valueName) {
+    return new Promise(function (resolve, reject) {
+      if (val !== null && typeof val === 'boolean') {
+        resolve()
+      } else {
+        reject(valueName + ' is not a boolean')
+      }
+    }) // Promise
+  }, // isTypeBoolean
   isNotNull: function(val, valueName) {
     return new Promise(function (resolve, reject) {
       if (val !== null) {

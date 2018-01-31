@@ -59,6 +59,55 @@ describe('validation', function () {
     }) // it should succeed because isTypeString
   }) // describe #isTypeString
 
+  describe('#isTypeNumber()', function () {
+    it('should reject because null not isTypeNumber', function () {
+      return validation.isTypeNumber(null, 'null')
+      .then(function () {
+        assert.fail('failure was not caught')
+      }).catch(function (err) {
+        assert.equal(err, 'null is not a number')
+      })
+    }) // it should reject because null not isTypeNumber
+
+    it('should succeed because isTypeNumber', function () {
+      return validation.isTypeNumber(0, 'number')
+    }) // it should succeed because isTypeNumber
+
+    it('should fail because undefined not isTypeNumber', function () {
+      return validation.isTypeNumber(undefined, 'undefined')
+      .then(function () {
+        assert.fail('failure was not caught')
+      }).catch(function (err) {
+        assert.equal(err, 'undefined is not a number')
+      })
+    }) // it should fail because undefined not isTypeNumber
+  }) // describe #isTypeNumber
+
+  describe('#isTypeBoolean()', function () {
+    it('should reject because null not isTypeBoolean', function () {
+      return validation.isTypeBoolean(null, 'null')
+      .then(function () {
+        assert.fail('failure was not caught')
+      }).catch(function (err) {
+        assert.equal(err, 'null is not a boolean')
+      })
+    }) // it should reject because null not isTypeBoolean
+
+    it('should succeed because isTypeBoolean', function () {
+      return validation.isTypeBoolean(false, 'boolean')
+    }) // it should succeed because isTypeNumber
+
+    it('should fail because undefined not isTypeBoolean', function () {
+      return validation.isTypeBoolean(undefined, 'undefined')
+      .then(function () {
+        assert.fail('failure was not caught')
+      }).catch(function (err) {
+        assert.equal(err, 'undefined is not a boolean')
+      })
+    }) // it should fail because undefined not isTypeBoolean
+  }) // describe #isTypeBoolean
+
+
   describe('#isNotNull()', function () {
     it('should reject because null is Null', function () {
       return validation.isNotNull(null, 'null')
