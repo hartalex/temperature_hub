@@ -11,7 +11,6 @@ module.exports = {
     simple.mock(this, 'queryLastData').callbackWith(null)
     simple.mock(this, 'queryAggregateData').callbackWith(null)
     simple.mock(this, 'insertData').resolveWith({n: 1})
-
     simple.mock(this, 'deleteData').callbackWith({n: 1})
     return this
   }

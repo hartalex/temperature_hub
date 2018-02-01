@@ -1,5 +1,6 @@
 var assert = require('assert')
 var db = require('../../server/api/db/mongodb')
+var mockDB = require('./mock-db')
 
 describe('mongodb', function () {
   describe('#connect()', function () {
@@ -154,6 +155,11 @@ describe('mongodb', function () {
         assert.equal(err, 'parameter obj is null')
       })
     })
+    it('db mocked to no error should return empty obj', function () {
+      db.insertData(mockDB.insert(), {}, {}, function (result) {
+        assert.deepEqual(result, {})
+      })
+    })
   })
 
   describe('#deleteData()', function () {
@@ -172,6 +178,11 @@ describe('mongodb', function () {
     it('obj object is null should return empty array', function () {
       db.deleteData({}, {}, null, function (result) {
         assert.deepEqual(result, null)
+      })
+    })
+    it('db mocked to no error should return empty obj', function () {
+      db.deleteData(mockDB.remove(), {}, {}, function (result) {
+        assert.deepEqual(result, {})
       })
     })
   })

@@ -2,6 +2,8 @@ const dbUrl = require('../db/url')
 const mongoDb = require('../db/mongodb')
 const configImport = require('../../config')
 const validation = require('./validation')
+const temperatureModel = require('./models/temperatureModel')
+const doorModel = require('./models/doorModel')
 
 module.exports = {
   db: mongoDb,
@@ -40,15 +42,18 @@ module.exports = {
       }).then(function() {
           return db.insertData(dbobj, collection, input)
       }).then(function (result) {
+        dbobj.close()
           return new Promise(function (resolve, reject) {
-              dbobj.close()
               if (result != null && result.n > 0) {
                 resolve({result: 'ok'})
               } else {
                 reject('error end of promise')
               }
           })// Promise
-        }) // Inner Promise Chain
+        }).catch( function(err) { // Inner Promise Chain
+          dbobj.close()
+          throw err
+        })
       })
   },
   dataAdd: function (input) {
@@ -61,22 +66,17 @@ module.exports = {
       .then(function (dbobj) { return validation.isNotUndefined(input, 'Input')
       .then(function() { return validation.isNotNull(input, 'Input')
     }).then(function() {
+      if (!('utc_timestamp' in input)) {
+        input.utc_timestamp = time.toISOString()
+      }
       var retval
       if ('id' in input) {
         retval= validation.isTypeString(input.id, 'id')
         .then(function() { return validation.stringHasLength(input.id, 'id')
         }).then(function() { return validation.hasProperty(input, 't')
-      }).then(function() { return validation.isTypeNumber(input.t, 't')
-        }).then(function() {
-                        var temperature = {}
-                        temperature.sensorId = input.id
-                        temperature.tempInFarenheit = input.t
-                        if (!('utc_timestamp' in input)) {
-                          temperature.utc_timestamp = time.toISOString()
-                        } else {
-                          temperature.utc_timestamp = input.utc_timestamp
-                        }
-                        return new Promise(function (resolve) {
+        }).then(function() { return validation.isTypeNumber(input.t, 't')
+        }).then(function() { return temperatureModel(input)
+        }).then(function(temperature) { return new Promise(function (resolve) {
                         if (config.NoDuplicateData && config.NoDuplicateData === true) {
                           db.queryLastData(dbobj, {sensorId: temperature.sensorId}, {utc_timestamp: -1}, 'temperatures', function (existingData) {
                             if (existingData == null || (existingData != null && existingData.tempInFarenheit !== temperature.tempInFarenheit)) {
@@ -105,19 +105,11 @@ module.exports = {
             .then(function() { return validation.stringHasLength(input.sensorId, 'sensorId')
           }).then(function() { return validation.hasProperty(input, 'isOpen')
           }).then(function() { return validation.isTypeBoolean(input.isOpen, 'isOpen')
-          }).then(function() {
-                    var data = {}
-                    data.sensorId = input.sensorId
-                    data.isOpen = input.isOpen
-                    if (!('utc_timestamp' in input)) {
-                      data.utc_timestamp = time.toISOString()
-                    } else {
-                      data.utc_timestamp = input.utc_timestamp
-                    }
-                    return new Promise(function (resolve) {
+          }).then(function() {return doorModel(input)
+          }).then(function(door) { return new Promise(function (resolve) {
                     if (config.NoDuplicateData && config.NoDuplicateData === true) {
-                      db.queryLastData(dbobj, {sensorId: data.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
-                        if (existingData == null || (existingData != null && existingData.isOpen !== data.isOpen)) {
+                      db.queryLastData(dbobj, {sensorId: door.sensorId}, {utc_timestamp: -1}, 'doors', function (existingData) {
+                        if (existingData == null || (existingData != null && existingData.isOpen !== door.isOpen)) {
                           resolve({})
                         } else {
                           resolve({n: 1, reason: 'duplicate'})
@@ -133,7 +125,7 @@ module.exports = {
                         resolve(result)
                       })
                     } else {
-                      retval = db.insertData(dbobj, 'doors', data)
+                      retval = db.insertData(dbobj, 'doors', door)
                     }
                     return retval
                   })
@@ -141,9 +133,9 @@ module.exports = {
           } else {
             throw 'Property id/sensorId is missing'
           }
-          dbobj.close()
           return retval;
         }).then(function (result) {
+          dbobj.close()
           return new Promise(function (resolve, reject) {
               if (result != null && result.n > 0 ) {
                 var retval = {result: 'ok'}
@@ -155,6 +147,9 @@ module.exports = {
                 reject('error end of promise')
               }
           })// Promise
+      }).catch( function(err) { // Inner Promise Chain
+        dbobj.close()
+        throw err
       })
 
     })
