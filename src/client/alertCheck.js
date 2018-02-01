@@ -1,4 +1,4 @@
-import Colors from '../colors'
+import Colors from './colors'
 
 module.exports = function(that, alertCheckInterval) {
   if (new Date() - new Date(that.state.data.lastUpdate) > alertCheckInterval) {
