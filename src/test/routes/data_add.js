@@ -13,6 +13,10 @@ describe('data_add', function () {
     it('dataAdd failure', function (done) {
        doTest(done, dataAdd, {body: {}, data: mockDataFail}, {status:500, result: 'fail', reason: 'mock error'})
     })
+    
+    it('dataAdd failure', function (done) {
+       doTest(done, dataAdd, {body: null}, {status:500, result: 'fail', reason: 'Input is null'})
+    })
   
   })
 })

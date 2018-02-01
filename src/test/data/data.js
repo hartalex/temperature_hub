@@ -3,6 +3,7 @@ var mockMongoDb = require('../db/mock-mongodb')
 var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
 var mockMongoDbTemp = require('../db/mock-mongodb-temp')
 var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
+var mockMongoDbBadReturn = require('../db/mock-mongodb-bad-return')
 const data = require('../../server/api/data/data')
 
 data.db = mockMongoDb
@@ -220,6 +221,19 @@ describe('data', function () {
         assert.equal(output.result, 'ok')
       })
     })
+    it('dataAdd temp success bad db return data', function () {
+      var input = {
+        id: 'test',
+        utc_timestamp: 'timestamp',
+        t: 0 }
+      data.db = mockMongoDbBadReturn
+      return data.dataAdd(input).then(function (output) {
+        /* istanbul ignore next */
+        assert.failure('should have errored')
+      }).catch(function (err) {
+        assert.equal(err, 'error end of promise')
+      })
+    })
 
     it('menuAdd menuItem fail duplicate', function () {
       var input = {
@@ -229,6 +243,7 @@ describe('data', function () {
         otherStuff: ' ' }
       data.db = mockMongoDbTemp
       return data.menuAdd(input).then(function (output) {
+        /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function (err) {
         assert.equal(err, 'menuItem already exists')
@@ -243,9 +258,24 @@ describe('data', function () {
         otherStuff: ' ' }
       data.db = mockMongoDbThrowInsertError
       return data.menuAdd(input).then(function (output) {
+        /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function (err) {
         assert.equal(err, 'db error')
+      })
+    })
+    it('menuAdd menuItem success bad db return data', function () {
+      var input = {
+        date: 'test',
+        firstOption: ' ',
+        secondOption: ' ',
+        otherStuff: ' ' }
+      data.db = mockMongoDbBadReturn
+      return data.menuAdd(input).then(function (output) {
+        /* istanbul ignore next */
+        assert.failure('should have errored')
+      }).catch(function (err) {
+        assert.equal(err, 'error end of promise')
       })
     })
   })

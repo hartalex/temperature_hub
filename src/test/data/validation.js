@@ -6,6 +6,7 @@ describe('validation', function () {
     it('should reject because null not isTypeObject', function () {
       return validation.isTypeObject(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is not an object')
@@ -19,6 +20,7 @@ describe('validation', function () {
     it('should fail because undefined not isTypeObject', function () {
       return validation.isTypeObject(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is not an object')
@@ -30,6 +32,7 @@ describe('validation', function () {
     it('should reject because null not isTypeString', function () {
       return validation.isTypeString(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is not a string')
@@ -39,6 +42,7 @@ describe('validation', function () {
     it('should fail because object is not isTypeString', function () {
       return validation.isTypeString({}, 'object')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'object is not a string')
@@ -48,6 +52,7 @@ describe('validation', function () {
     it('should fail because undefined not isTypeString', function () {
       return validation.isTypeString(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is not a string')
@@ -63,6 +68,7 @@ describe('validation', function () {
     it('should reject because null not isTypeNumber', function () {
       return validation.isTypeNumber(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is not a number')
@@ -76,6 +82,7 @@ describe('validation', function () {
     it('should fail because undefined not isTypeNumber', function () {
       return validation.isTypeNumber(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is not a number')
@@ -87,6 +94,7 @@ describe('validation', function () {
     it('should reject because null not isTypeBoolean', function () {
       return validation.isTypeBoolean(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is not a boolean')
@@ -100,6 +108,7 @@ describe('validation', function () {
     it('should fail because undefined not isTypeBoolean', function () {
       return validation.isTypeBoolean(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is not a boolean')
@@ -112,6 +121,7 @@ describe('validation', function () {
     it('should reject because null is Null', function () {
       return validation.isNotNull(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is null')
@@ -139,6 +149,7 @@ describe('validation', function () {
     it('should succeed because undefined not is Undefined', function () {
       return validation.isNotUndefined(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is undefined')
@@ -150,6 +161,7 @@ describe('validation', function () {
     it('should fail because null is an empty string', function () {
       return validation.stringHasLength(null, 'null')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'null is an empty string')
@@ -159,6 +171,7 @@ describe('validation', function () {
     it('should fail because object is an empty string', function () {
       return validation.stringHasLength({}, 'object')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'object is an empty string')
@@ -168,6 +181,7 @@ describe('validation', function () {
     it('should fail because undefined is an empty string', function () {
       return validation.stringHasLength(undefined, 'undefined')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'undefined is an empty string')
@@ -177,6 +191,7 @@ describe('validation', function () {
     it('should fail because empty string is an empty string', function () {
       return validation.stringHasLength('', 'empty string')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'empty string is an empty string')
@@ -186,6 +201,7 @@ describe('validation', function () {
     it('should fail because true is an empty string', function () {
       return validation.stringHasLength(true, 'true')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'true is an empty string')
@@ -201,6 +217,7 @@ describe('validation', function () {
     it('should fail because null doesnt have props', function () {
       return validation.hasProperty(null, 'test')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'Property test is missing')
@@ -210,6 +227,7 @@ describe('validation', function () {
     it('should fail because object doesnt have props', function () {
       return validation.hasProperty({}, 'test')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'Property test is missing')
@@ -219,6 +237,7 @@ describe('validation', function () {
     it('should fail because undefined doesnt have props', function () {
       return validation.hasProperty(undefined, 'test')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'Property test is missing')
@@ -228,6 +247,7 @@ describe('validation', function () {
     it('should fail because true doesnt have props', function () {
       return validation.hasProperty(true, 'test')
       .then(function () {
+        /* istanbul ignore next */
         assert.fail('failure was not caught')
       }).catch(function (err) {
         assert.equal(err, 'Property test is missing')

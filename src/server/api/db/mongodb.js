@@ -1,7 +1,9 @@
-var MongoClient = require('mongodb').MongoClient
+var realMongoClient = require('mongodb').MongoClient
 
 module.exports = {
+  MongoClient: realMongoClient,
   connect: function (url) {
+    var MongoClient = this.MongoClient
     return new Promise(function (resolve, reject) {
       if (url === null) {
         reject('url cannot be null')
