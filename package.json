@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha src/test/",
-    "coverage": "nyc report --reporter=text-lcov > lcov.info",
+    "test": "nyc --all mocha src/test/",
+    "coverage": "nyc --all report --reporter=text-lcov > lcov.info",
     "clean": "rimraf build",
     "build": "npm run clean && babel src/server -d build/server && webpack",
     "lint": "eslint src/**",
