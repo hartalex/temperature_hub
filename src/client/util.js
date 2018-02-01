@@ -13,6 +13,17 @@ module.exports = {
       retval = retval + ' sec'
     }
     return retval
+  },
+  calculateTodayTomorrowNextDay(propDay) {
+    var retval
+    if (propDay === 'Today') {
+      retval = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+    } else if (propDay === 'Tomorrow') {
+      retval = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+    } else if (propDay === 'NextDay') {
+      retval = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+    }
+    return retval
   }
 
 }

@@ -3,6 +3,7 @@ import Colors from '../colors'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
 import ClientConfig from '../config.js'
+import Util from '../util.js'
 
 class MenuDayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -11,18 +12,10 @@ class MenuDayComponent extends React.Component {
     var renderInterval = 60000
     var backgroundColor = Colors.Black
     var foreColor = Colors.White
-    var date
+    var date = Util.calculateTodayTomorrowNextDay(props.day)
     if (updateInterval === 0) {
       updateInterval = 60000
     }
-    if (props.day === 'Today') {
-      date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-    } else if (props.day === 'Tomorrow') {
-      date = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-    } else if (props.day === 'NextDay') {
-      date = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-    }
-
     var day = new Date(date).getDay() + 1
     if (day > 6) {
       day = 0
@@ -54,14 +47,7 @@ class MenuDayComponent extends React.Component {
     var that = this
 
     setInterval(() => {
-      var date
-      if (props.date === 'Today') {
-        date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-      } else if (props.date === 'Tomorrow') {
-        date = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-      } else if (props.day === 'NextDay') {
-        date = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
-      }
+      var date = Util.calculateTodayTomorrowNextDay(props.date)
 
       if (that.state.data.date !== date) {
         that.state.data.date = date

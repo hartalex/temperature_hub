@@ -5,6 +5,7 @@ import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
 import ClientConfig from '../config.js'
+import AlertCheck from '../alertCheck'
 
 // 3 Day Forecast
 class Forecast3DayComponent extends React.Component {
@@ -66,18 +67,7 @@ class Forecast3DayComponent extends React.Component {
     }
     var that = this
 
-    setInterval(() => {
-      if (new Date() - new Date(that.state.data.lastUpdate) > alertCheckInterval) {
-        var style = JSON.parse(JSON.stringify(that.state.style))
-        style.backgroundColor = Colors.Red
-        that.state.style = style
-      } else if (that.state.style.backgroundColor !== Colors.Black) {
-        var styleClone = JSON.parse(JSON.stringify(that.state.style))
-        styleClone.backgroundColor = Colors.Black
-        that.state.style = styleClone
-      }
-      that.setState(that.state)
-    }, renderInterval)
+    setInterval(AlertCheck(that, alertCheckInterval), renderInterval)
 
     this.getData(this)
     setInterval(() => { that.getData(that) }, updateInterval)
