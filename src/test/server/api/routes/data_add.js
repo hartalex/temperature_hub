@@ -1,11 +1,10 @@
 var mockSuccess = require('../data/mock-success')
 var mockFail = require('../data/mock-fail')
-const dataAdd = require('../../server/api/routes/data_add')
+const dataAdd = require('../../../../server/api/routes/data_add')
 const doTest = require('./do_test')
 
 describe('data_add', function() {
   describe('#function (req, res)', function() {
-
     it('dataAdd door success', function(done) {
       doTest(done, dataAdd, {
         body: {},

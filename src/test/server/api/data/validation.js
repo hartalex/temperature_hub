@@ -1,5 +1,5 @@
 var assert = require('assert')
-var validation = require('../../server/api/data/validation')
+var validation = require('../../../../server/api/data/validation')
 
 describe('validation', function () {
   describe('#isTypeObject()', function () {

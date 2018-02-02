@@ -4,7 +4,7 @@ var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
 var mockMongoDbTemp = require('../db/mock-mongodb-temp')
 var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
 var mockMongoDbBadReturn = require('../db/mock-mongodb-bad-return')
-const data = require('../../server/api/data/data')
+const data = require('../../../../server/api/data/data')
 
 describe('data', function() {
   describe('#tempAdd(input)', function() {

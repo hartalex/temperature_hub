@@ -1,12 +1,10 @@
 var mockSuccess = require('../data/mock-success')
 var mockFail = require('../data/mock-fail')
-const menuAdd = require('../../server/api/routes/menu_add')
+const menuAdd = require('../../../../server/api/routes/menu_add')
 const doTest = require('./do_test')
 
 describe('menu_add', function() {
   describe('#function (req, res)', function() {
-
-
     it('menuAdd success', function(done) {
       doTest(done, menuAdd, {
         body: {},

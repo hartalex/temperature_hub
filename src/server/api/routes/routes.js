@@ -1,4 +1,4 @@
-import info from './info'
+const info = require('./info')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 

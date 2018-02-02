@@ -1,5 +1,5 @@
 var assert = require('assert')
-var db = require('../../server/api/db/mongodb')
+var db = require('../../../../server/api/db/mongodb')
 var mockDB = require('./mock-db')
 var mockMongoClient = require('./mock-mongo-client')
 
@@ -26,7 +26,7 @@ describe('mongodb', function () {
         assert.equal(err, 'url must be a string')
       })
     })
-    
+
     it('should pass ok', function () {
       var url = 'string'
       db.MongoClient = mockMongoClient.connect()
@@ -34,7 +34,7 @@ describe('mongodb', function () {
         assert.deepEqual(dbobj, {})
       })
     })
-    
+
     it('should fail with error', function () {
       var url = 'string'
       db.MongoClient = mockMongoClient.connectFail()
@@ -161,7 +161,7 @@ describe('mongodb', function () {
         assert.deepEqual(result, [])
       })
     })
-    
+
     it('db mocked to no error should return empty obj', function () {
       db.queryLastData(mockDB.queryLastData(), {}, {}, {}, function (result) {
         assert.deepEqual(result, {})
