@@ -1,0 +1,22 @@
+---
+ratings:
+  paths:
+  - "**.js"
+  - "**.css"
+  - "**.md"
+plugins:
+  nodesecurity:
+    enabled: true
+  markdownlint:
+    enabled: true
+  git-legal:
+    enabled: true
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  csslint:
+    enabled: true
+exclude_paths:
+- node_modules/**/*
+- build/**/*
