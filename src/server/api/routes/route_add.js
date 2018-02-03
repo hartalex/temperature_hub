@@ -1,5 +1,5 @@
 module.exports = function(func, res, done) {
-  func.then(function(output) {
+  return func.then(function(output) {
     res.status(200)
     res.json(output)
     /* istanbul ignore next */

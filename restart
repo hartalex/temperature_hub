@@ -1,4 +1,5 @@
 git pull
+sudo npm run clean
 sudo npm run build
 sudo docker build -t temperature_hub:latest .
 sudo docker rm -f temp_hub

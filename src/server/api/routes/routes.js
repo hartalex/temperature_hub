@@ -67,5 +67,6 @@ module.exports = function (app) {
   app.post('/memory/add', jsonParser, memoryAdd)
   app.get('/memory/list/:date', cors(), memoryList)
 
-  app.get('/info', info)
+  app.get('/info', cors(), info)
+
 }
