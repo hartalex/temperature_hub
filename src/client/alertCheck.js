@@ -4,7 +4,7 @@ module.exports = function(that, alertCheckInterval) {
   var color
   if (new Date() - new Date(that.state.data.lastUpdate) > alertCheckInterval) {
     color = Colors.Red
-  } else if (that.state.style.backgroundColor !== Colors.Black) {
+  } else {
     color = Colors.Black
   }
   var styleClone = JSON.parse(JSON.stringify(that.state.style))

@@ -4,6 +4,7 @@ import Util from '../util'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
 import ClientConfig from '../config.js'
+import AlertCheck from '../alertCheck'
 
 class TemperatureComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -35,24 +36,9 @@ class TemperatureComponent extends React.Component {
         padding: '50px 0'
       }
     }
-    setInterval(() => {
-      this.reRender(alertCheckInterval)
-    }, renderInterval)
+    setInterval(AlertCheck(this, alertCheckInterval), renderInterval)
     this.getData(props.sensorName, this)
     setInterval(() => { this.getData(props.sensorName, this) }, updateInterval)
-  }
-  reRender(alertCheckInterval) {
-    var newState = this.state
-    if (new Date() - new Date(this.state.data.lastUpdate) > alertCheckInterval) {
-      var style = JSON.parse(JSON.stringify(this.state.style))
-      style.backgroundColor = Colors.Red
-      newState.style = style
-    } else if (this.state.style.backgroundColor !== Colors.Black) {
-      var styleClone = JSON.parse(JSON.stringify(this.state.style))
-      styleClone.backgroundColor = Colors.Black
-      newState.style = styleClone
-    }
-    this.setState(newState)
   }
   getData (sensorName, obj) {
     fetch(ClientConfig.hub_api_url + '/temp/current').then(function (response) {

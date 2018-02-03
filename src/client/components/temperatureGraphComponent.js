@@ -1,9 +1,9 @@
 import LineGraphComponent from './lineGraphComponent'
 import ClientConfig from '../config.js'
 
-const getdata = function (duration, that, props) {
+const getdata = function (duration, that) {
   fetchSensorData().then(function (sensorjson) {
-    fetchGraphData(props.duration).then(function (json) {
+    fetchGraphData(duration).then(function (json) {
       var arraydata = []
       setTitle(sensorjson, arraydata)
       var lastArrayRow = [null, null, null, null, null, null, null, null, null]
@@ -68,11 +68,11 @@ const fetchGraphData = function (duration) {
 }
 
 class TemperatureGraph extends LineGraphComponent {
-   
+
   constructor (props) {
     super(props,
       'TemperatureGraph', getdata )
   }
-  
+
 }
 export default TemperatureGraph
