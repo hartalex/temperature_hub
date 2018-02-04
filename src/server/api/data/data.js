@@ -1,5 +1,4 @@
 const dbUrl = require('../db/url')
-const mongoDb = require('../db/mongodb')
 const configImport = require('../../config')
 const validation = require('./validation')
 const temperatureModel = require('./models/temperatureModel')
@@ -52,11 +51,11 @@ const returnValuePromise = function(result) {
   })
 }
 
-module.exports = {
-  db: mongoDb,
+module.exports = function(db) {
+return {
   config: configImport,
   menuAdd: function(input) {
-    var db = this.db
+
     const collection = 'menu'
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
@@ -130,7 +129,6 @@ module.exports = {
       })
   },
   tempAdd: function(input) {
-    var db = this.db
     var config = this.config
     const time = new Date()
     // Use connect method to connect to the Server
@@ -181,7 +179,6 @@ module.exports = {
       })
   },
   doorAdd: function(input) {
-    var db = this.db
     var config = this.config
     const time = new Date()
     // Use connect method to connect to the Server
@@ -231,4 +228,5 @@ module.exports = {
           })
       })
   }
+}
 }

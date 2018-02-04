@@ -13,8 +13,8 @@ describe('data', function() {
         id: 'test',
         t: 50
       }
-      data.db = mockMongoDb
-      return data.tempAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -23,8 +23,8 @@ describe('data', function() {
       var input = {
         id: 'test'
       }
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Property t is missing')
       })
     })
@@ -34,8 +34,8 @@ describe('data', function() {
         id: 6,
         t: 50
       }
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'id is not a string')
       })
     })
@@ -45,8 +45,8 @@ describe('data', function() {
         id: '',
         t: 50
       }
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'id is an empty string')
       })
     })
@@ -56,23 +56,23 @@ describe('data', function() {
         id: 'test',
         t: 'test'
       }
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 't is not a number')
       })
     })
     it('tempAdd fail input is undefined', function() {
       var input
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Input is undefined')
       })
     })
 
     it('tempAdd fail input is null', function() {
       var input = null
-      data.db = mockMongoDb
-      return data.tempAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Input is null')
       })
     })
@@ -82,9 +82,10 @@ describe('data', function() {
         id: 'test',
         t: 0
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDbTemp
-      return data.tempAdd(input).then(function(output) {
+
+      var  dataobj = data(mockMongoDbTemp)
+        dataobj.config.NoDuplicateData = true
+      return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
         assert.equal(output.reason, 'duplicate')
       })
@@ -95,9 +96,10 @@ describe('data', function() {
         id: 'test',
         t: 0
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDb
-      return data.tempAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDb)
+        dataobj.config.NoDuplicateData = true
+      return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -108,9 +110,10 @@ describe('data', function() {
         utc_timestamp: 'timestamp',
         t: 0
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDb
-      return data.tempAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDb)
+        dataobj.config.NoDuplicateData = true
+      return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -120,8 +123,8 @@ describe('data', function() {
         utc_timestamp: 'timestamp',
         t: 0
       }
-      data.db = mockMongoDbBadReturn
-      return data.tempAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDbBadReturn)
+      return dataobj.tempAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function(err) {
@@ -136,8 +139,8 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      data.db = mockMongoDb
-      return data.doorAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -146,8 +149,8 @@ describe('data', function() {
       var input = {
         sensorId: 'test'
       }
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Property isOpen is missing')
       })
     })
@@ -157,8 +160,8 @@ describe('data', function() {
         sensorId: 2,
         isOpen: false
       }
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'sensorId is not a string')
       })
     })
@@ -168,8 +171,8 @@ describe('data', function() {
         sensorId: '',
         isOpen: false
       }
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'sensorId is an empty string')
       })
     })
@@ -179,24 +182,24 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: 7
       }
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'isOpen is not a boolean')
       })
     })
 
     it('doorAdd fail input is undefined', function() {
       var input
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Input is undefined')
       })
     })
 
     it('doorAdd fail input is null', function() {
       var input = null
-      data.db = mockMongoDb
-      return data.doorAdd(input).catch(function(err) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Input is null')
       })
     })
@@ -206,9 +209,10 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDbDoorClosed
-      return data.doorAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDbDoorClosed)
+      dataobj.config.NoDuplicateData = true
+      return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -218,9 +222,10 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDbDoorClosed
-      return data.doorAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDbDoorClosed)
+        dataobj.config.NoDuplicateData = true
+      return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
         assert.equal(output.reason, 'duplicate')
       })
@@ -231,9 +236,10 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDb
-      return data.doorAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDb)
+      dataobj.config.NoDuplicateData = true
+      return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -244,9 +250,10 @@ describe('data', function() {
         utc_timestamp: 'timestamp',
         isOpen: false
       }
-      data.config.NoDuplicateData = true
-      data.db = mockMongoDb
-      return data.doorAdd(input).then(function(output) {
+
+      var dataobj = data(mockMongoDb)
+      dataobj.config.NoDuplicateData = true
+      return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -259,8 +266,8 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      data.db = mockMongoDb
-      return data.menuAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDb)
+      return dataobj.menuAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
     })
@@ -271,8 +278,8 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      data.db = mockMongoDbTemp
-      return data.menuAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDbTemp)
+      return dataobj.menuAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function(err) {
@@ -287,8 +294,8 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      data.db = mockMongoDbThrowInsertError
-      return data.menuAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDbThrowInsertError)
+      return dataobj.menuAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function(err) {
@@ -302,8 +309,8 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      data.db = mockMongoDbBadReturn
-      return data.menuAdd(input).then(function(output) {
+      var dataobj = data(mockMongoDbBadReturn)
+      return dataobj.menuAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')
       }).catch(function(err) {

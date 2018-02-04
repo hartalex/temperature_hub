@@ -1,4 +1,5 @@
-var realData = require('../data/data')
+const mongodb = require('../db/mongodb')
+var realData = require('../data/data')(mongodb)
 var routeAdd = require('./route_add')
 
 module.exports = function (req, res, done) {

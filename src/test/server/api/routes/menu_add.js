@@ -1,5 +1,7 @@
 var mockSuccess = require('../data/mock-success')
 var mockFail = require('../data/mock-fail')
+var mockmongodb = require('../db/mock-mongodb')
+const mockdata = require('../../../../server/api/data/data')(mockmongodb)
 const menuAdd = require('../../../../server/api/routes/menu_add')
 const doTest = require('./do_test')
 
@@ -27,7 +29,7 @@ describe('menu_add', function() {
     })
 
     it('menuAdd no mock fail - input is undefined', function(done) {
-      doTest(done, menuAdd, {}, {
+      doTest(done, menuAdd, {data: mockdata}, {
         status: 500,
         result: 'fail',
         reason: 'Input is undefined'
@@ -36,7 +38,8 @@ describe('menu_add', function() {
 
     it('menuAdd no mock fail - input is null', function(done) {
       doTest(done, menuAdd, {
-        body: null
+        body: null,
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -46,7 +49,8 @@ describe('menu_add', function() {
 
     it('menuAdd no mock fail - date missing', function(done) {
       doTest(done, menuAdd, {
-        body: {}
+        body: {},
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -58,7 +62,8 @@ describe('menu_add', function() {
       doTest(done, menuAdd, {
         body: {
           date: 0
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -70,7 +75,8 @@ describe('menu_add', function() {
       doTest(done, menuAdd, {
         body: {
           date: ''
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -82,7 +88,8 @@ describe('menu_add', function() {
       doTest(done, menuAdd, {
         body: {
           date: ' '
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -95,7 +102,8 @@ describe('menu_add', function() {
         body: {
           date: ' ',
           firstOption: 0
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -108,7 +116,8 @@ describe('menu_add', function() {
         body: {
           date: ' ',
           firstOption: ''
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -120,7 +129,8 @@ describe('menu_add', function() {
         body: {
           date: ' ',
           firstOption: ' '
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -134,7 +144,8 @@ describe('menu_add', function() {
           date: ' ',
           firstOption: ' ',
           secondOption: 0
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -148,7 +159,8 @@ describe('menu_add', function() {
           date: ' ',
           firstOption: ' ',
           secondOption: ''
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -162,7 +174,8 @@ describe('menu_add', function() {
           date: ' ',
           firstOption: ' ',
           secondOption: ' '
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -177,7 +190,8 @@ describe('menu_add', function() {
           firstOption: ' ',
           secondOption: ' ',
           otherStuff: 0
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
@@ -192,7 +206,8 @@ describe('menu_add', function() {
           firstOption: ' ',
           secondOption: ' ',
           otherStuff: ''
-        }
+        },
+        data: mockdata
       }, {
         status: 500,
         result: 'fail',
