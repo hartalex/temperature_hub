@@ -14,3 +14,6 @@ curl -H "Content-Type: application/json" -X POST -d '{"name":"Outside","sensorId
 
 curl -H "Content-Type: application/json" -X POST -d '{"name":"Side Garage","sensorId":"gd-0000004"}' http://localhost:80/sensor/add
 curl -H "Content-Type: application/json" -X POST -d '{"name":"Main Garage","sensorId":"gd-00000022"}' http://localhost:80/sensor/add
+
+
+curl -H "Content-Type: application/json" -X POST -d '{"sensorId":"28-0415904bceff", "isOpen":false}' http://hub.hartcode.com/data/add

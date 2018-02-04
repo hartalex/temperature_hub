@@ -1,9 +1,11 @@
 var realMongoClient = require('mongodb').MongoClient
 
-module.exports = {
-  MongoClient: realMongoClient,
-  connect: function (url) {
-    var myMongoClient = this.MongoClient
+module.exports = function(client){
+  if (client === 'undefined') {
+    client = realMongoClient
+  }
+  return { connect: function (url) {
+
     return new Promise(function (resolve, reject) {
       if (url === null) {
         reject('url cannot be null')
@@ -11,7 +13,7 @@ module.exports = {
         if (typeof url !== 'string') {
           reject('url must be a string')
         } else {
-          myMongoClient.connect(url, function (err, dbobj) {
+          client.connect(url, function (err, dbobj) {
             if (err === null) {
               resolve(dbobj)
             } else {
@@ -142,4 +144,5 @@ module.exports = {
       })
     }
   }
+}
 }
