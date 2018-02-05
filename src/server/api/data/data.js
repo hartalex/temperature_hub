@@ -53,9 +53,7 @@ const returnValuePromise = function(result) {
 
 module.exports = function(db) {
 return {
-  config: configImport,
   menuAdd: function(input) {
-
     const collection = 'menu'
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
@@ -129,7 +127,6 @@ return {
       })
   },
   tempAdd: function(input) {
-    var config = this.config
     const time = new Date()
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
@@ -158,7 +155,7 @@ return {
                 return temperatureModel(input)
               })
               .then(function(temperature) {
-                return checkDupesPromise(config, db, dbobj, {
+                return checkDupesPromise(configImport, db, dbobj, {
                   sensorId: temperature.sensorId
                 }, {
                   utc_timestamp: -1
@@ -179,7 +176,6 @@ return {
       })
   },
   doorAdd: function(input) {
-    var config = this.config
     const time = new Date()
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
@@ -208,7 +204,7 @@ return {
                 return doorModel(input)
               })
               .then(function(door) {
-                return checkDupesPromise(config, db, dbobj, {
+                return checkDupesPromise(configImport, db, dbobj, {
                   sensorId: door.sensorId
                 }, {
                   utc_timestamp: -1
