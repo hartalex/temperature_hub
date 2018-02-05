@@ -5,7 +5,7 @@ const temperatureModel = require('./models/temperatureModel')
 const doorModel = require('./models/doorModel')
 
 const checkDupesPromise = function(config, db, dbobj, query, sort, collection, dupeProp, dupeObject) {
-  console.log('checkdupe: ' + dupeObject)
+  console.log('checkdupe: ' + JSON.stringify(dupeObject))
   return new Promise(function(resolve, reject) {
     if (config.NoDuplicateData && config.NoDuplicateData === true) {
       db.queryLastData(dbobj, query, sort, collection, function(existingData) {
