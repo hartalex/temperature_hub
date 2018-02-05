@@ -26,4 +26,4 @@ apiRoutes(app)
 webRoutes(app)
 
 app.use(express.static(path.join(__dirname, '/../client/')))
-app.listen(8080)
+app.listen(80)
