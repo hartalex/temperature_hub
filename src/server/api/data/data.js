@@ -24,23 +24,6 @@ const insertDataPromise = function(data, db, dbobj, collection) {
   return db.insertData(dbobj, collection, data)
 }
 
-const returnValuePromise = function(result) {
-  return new Promise(function(resolve, reject) {
-
-    if (result != null && result.n > 0) {
-      var retval = {
-        result: 'ok'
-      }
-      if (result.reason) {
-        retval.reason = result.reason
-      }
-      resolve(retval)
-    } else {
-      reject('error end of promise')
-    }
-  })
-}
-
 module.exports = function(db, config) {
   if (typeof config == 'undefined') {
     config = configImport
@@ -109,10 +92,7 @@ return {
           }) // Promise
           .then(function() {
             return db.insertData(dbobj, collection, input)
-              .then(function(result) {
-                return returnValuePromise(result)
-              })
-              .catch(function(err) { // Inner Promise Chain
+            .catch(function(err) { // Inner Promise Chain
                 dbobj.close()
                 throw err
               })
@@ -156,10 +136,6 @@ return {
               })
               .then(function(temperature) {
                 return insertDataPromise(temperature, db, dbobj, collection)
-              })
-              .then(function(result) {
-                dbobj.close()
-                return returnValuePromise(result)
               })
               .catch(function(err) {
                 dbobj.close()
@@ -205,10 +181,6 @@ return {
               })
               .then(function(door) {
                 return insertDataPromise(door, db, dbobj, collection)
-              })
-              .then(function(result) {
-                dbobj.close()
-                return returnValuePromise(result)
               })
               .catch(function(err) { // Inner Promise Chain
                 dbobj.close()
