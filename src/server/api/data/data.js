@@ -5,7 +5,7 @@ const temperatureModel = require('./models/temperatureModel')
 const doorModel = require('./models/doorModel')
 
 const checkDupesPromise = function(config, db, dbobj, query, sort, collection, dupeProp, dupeObject) {
-  return new Promise(function(resolve) {
+  return new Promise(function(resolve, reject) {
     if (config.NoDuplicateData && config.NoDuplicateData === true) {
       db.queryLastData(dbobj, query, sort, collection, function(existingData) {
         if (existingData == null || (existingData != null && existingData[dupeProp] !== dupeObject[dupeProp])) {
@@ -26,7 +26,7 @@ const checkDupesPromise = function(config, db, dbobj, query, sort, collection, d
 const insertDataPromise = function(result, data, db, dbobj, collection) {
   var retval
   if (result && 'n' in result) {
-    retval = new Promise(function(resolve) {
+    retval = new Promise(function(resolve, reject) {
       resolve(result)
     })
   } else {
@@ -208,7 +208,7 @@ return {
                   sensorId: door.sensorId
                 }, {
                   utc_timestamp: -1
-                }, collection, 'isopen', door)
+                }, collection, 'isOpen', door)
               })
               .then(function(result, door) {
                 return insertDataPromise(result, door, db, dbobj, collection)
