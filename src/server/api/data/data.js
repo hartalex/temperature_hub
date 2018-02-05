@@ -10,18 +10,18 @@ const checkDupesPromise = function(config, db, dbobj, query, sort, collection, d
     if (config.NoDuplicateData && config.NoDuplicateData === true) {
       db.queryLastData(dbobj, query, sort, collection, function(existingData) {
         if (existingData == null || (existingData != null && existingData[dupeProp] !== dupeObject[dupeProp])) {
-          resolve({}, dupeObject)
+          resolve(dupeObject)
         } else {
           reject('duplicate')
         }
       })
     } else {
-      resolve({}, dupeObject)
+      resolve(dupeObject)
     }
   })
 }
 
-const insertDataPromise = function(result, data, db, dbobj, collection) {
+const insertDataPromise = function(data, db, dbobj, collection) {
   console.log('insert: ' + data + 'into ' + collection)
   return db.insertData(dbobj, collection, data)
 }
@@ -157,8 +157,8 @@ return {
                   utc_timestamp: -1
                 }, collection, 'tempInFarenheit', temperature)
               })
-              .then(function(result, temperature) {
-                return insertDataPromise(result, temperature, db, dbobj, collection)
+              .then(function(temperature) {
+                return insertDataPromise(temperature, db, dbobj, collection)
               })
               .then(function(result) {
                 dbobj.close()
@@ -206,8 +206,8 @@ return {
                   utc_timestamp: -1
                 }, collection, 'isOpen', door)
               })
-              .then(function(result, door) {
-                return insertDataPromise(result, door, db, dbobj, collection)
+              .then(function(door) {
+                return insertDataPromise(door, db, dbobj, collection)
               })
               .then(function(result) {
                 dbobj.close()
