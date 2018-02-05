@@ -115,21 +115,7 @@ describe('data', function() {
         assert.equal(output.result, 'ok')
       })
     })
-    it('tempAdd temp success bad db return data', function() {
-      var input = {
-        id: 'test',
-        utc_timestamp: 'timestamp',
-        t: 0
-      }
-      var dataobj = data(mockMongoDbBadReturn)
-      return dataobj.tempAdd(input).then(function(output) {
-        /* istanbul ignore next */
-        assert.failure('should have errored')
-      }).catch(function(err) {
-        assert.equal(err, 'error end of promise')
-      })
     })
-  })
 
   describe('#doorAdd(input)', function() {
     it('doorAdd door success', function() {
@@ -299,22 +285,8 @@ describe('data', function() {
         assert.equal(err, 'db error')
       })
     })
-    it('menuAdd menuItem success bad db return data', function() {
-      var input = {
-        date: 'test',
-        firstOption: ' ',
-        secondOption: ' ',
-        otherStuff: ' '
-      }
-      var dataobj = data(mockMongoDbBadReturn)
-      return dataobj.menuAdd(input).then(function(output) {
-        /* istanbul ignore next */
-        assert.failure('should have errored')
-      }).catch(function(err) {
-        assert.equal(err, 'error end of promise')
-      })
-    })
-    
+  
+
   it('dupeProp isOpen', function() {
     var existingData = {isOpen:true}
     var dupeObject = {isOpen:false}
