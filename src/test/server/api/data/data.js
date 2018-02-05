@@ -83,11 +83,11 @@ describe('data', function() {
         t: 0
       }
 
-      var  dataobj = data(mockMongoDbTemp)
-        dataobj.config.NoDuplicateData = true
+      var  dataobj = data(mockMongoDbTemp, {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
-        assert.equal(output.reason, 'duplicate')
+        assert.failure('should have errored')
+      }).catch(function(error) {
+        assert.equal(error, 'duplicate')
       })
     })
 
@@ -97,8 +97,7 @@ describe('data', function() {
         t: 0
       }
 
-      var dataobj = data(mockMongoDb)
-        dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -111,8 +110,7 @@ describe('data', function() {
         t: 0
       }
 
-      var dataobj = data(mockMongoDb)
-        dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -210,10 +208,11 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDbDoorClosed)
-      dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDbDoorClosed, {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.failure('should have errored')
+      }).catch(function(error) {
+        assert.equal(error, 'duplicate')
       })
     })
 
@@ -223,11 +222,11 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDbDoorClosed)
-        dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDbDoorClosed, {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
-        assert.equal(output.reason, 'duplicate')
+        assert.failure('should have errored')
+      }).catch(function(error) {
+        assert.equal(error, 'duplicate')
       })
     })
 
@@ -237,8 +236,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDb)
-      dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -251,8 +249,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDb)
-      dataobj.config.NoDuplicateData = true
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })

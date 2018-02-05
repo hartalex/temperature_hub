@@ -11,10 +11,7 @@ const checkDupesPromise = function(config, db, dbobj, query, sort, collection, d
         if (existingData == null || (existingData != null && existingData[dupeProp] !== dupeObject[dupeProp])) {
           resolve({}, dupeObject)
         } else {
-          resolve({
-            n: 1,
-            reason: 'duplicate'
-          }, dupeObject)
+          reject('duplicate')
         }
       })
     } else {
@@ -24,15 +21,7 @@ const checkDupesPromise = function(config, db, dbobj, query, sort, collection, d
 }
 
 const insertDataPromise = function(result, data, db, dbobj, collection) {
-  var retval
-  if (result && 'n' in result) {
-    retval = new Promise(function(resolve, reject) {
-      resolve(result)
-    })
-  } else {
-    retval = db.insertData(dbobj, collection, data)
-  }
-  return retval
+  return db.insertData(dbobj, collection, data)
 }
 
 const returnValuePromise = function(result) {
@@ -51,7 +40,10 @@ const returnValuePromise = function(result) {
   })
 }
 
-module.exports = function(db) {
+module.exports = function(db, config) {
+  if (typeof config == 'undefined') {
+    config = configImport
+  }
 return {
   menuAdd: function(input) {
     const collection = 'menu'
@@ -155,7 +147,7 @@ return {
                 return temperatureModel(input)
               })
               .then(function(temperature) {
-                return checkDupesPromise(configImport, db, dbobj, {
+                return checkDupesPromise(config, db, dbobj, {
                   sensorId: temperature.sensorId
                 }, {
                   utc_timestamp: -1
@@ -204,7 +196,7 @@ return {
                 return doorModel(input)
               })
               .then(function(door) {
-                return checkDupesPromise(configImport, db, dbobj, {
+                return checkDupesPromise(config, db, dbobj, {
                   sensorId: door.sensorId
                 }, {
                   utc_timestamp: -1
