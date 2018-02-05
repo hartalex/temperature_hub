@@ -4,7 +4,7 @@ module.exports =
       var door = {}
       door.sensorId = input.sensorId
       door.isOpen = input.isOpen
-        door.utc_timestamp = input.utc_timestamp
+      door.utc_timestamp = input.utc_timestamp
       resolve(door)
     }) // Promise
   }

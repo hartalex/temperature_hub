@@ -25,7 +25,9 @@ const insertDataPromise = function(result, data, db, dbobj, collection) {
 }
 
 const returnValuePromise = function(result) {
+    console.log(result)
   return new Promise(function(resolve, reject) {
+
     if (result != null && result.n > 0) {
       var retval = {
         result: 'ok'

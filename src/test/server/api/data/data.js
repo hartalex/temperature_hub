@@ -314,5 +314,18 @@ describe('data', function() {
         assert.equal(err, 'error end of promise')
       })
     })
+    
+  it('dupeProp isOpen', function() {
+    var existingData = {isOpen:true}
+    var dupeObject = {isOpen:false}
+    var dupeProp = 'isOpen'
+     assert.notEqual(existingData[dupeProp], dupeObject[dupeProp])
+   })
+   it('dupeProp tempInFarenheit', function() {
+     var existingData = {tempInFarenheit:60}
+     var dupeObject = {tempInFarenheit:61}
+     var dupeProp = 'tempInFarenheit'
+      assert.notEqual(existingData[dupeProp], dupeObject[dupeProp])
+    })
   })
 })
