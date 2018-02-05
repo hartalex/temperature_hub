@@ -103,7 +103,7 @@ return {
     const time = new Date()
     // Use connect method to connect to the Server
     var connectPromise = db.connect(dbUrl)
-    var collection = 'temperatues'
+    var collection = 'temperatures'
     return connectPromise
       .then(function(dbobj) {
         return validation.isNotUndefined(input, 'Input')
