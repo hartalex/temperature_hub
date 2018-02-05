@@ -1,4 +1,4 @@
-const mongodb = require('../db/mongodb')
+const mongodb = require('../db/mongodb')()
 var realData = require('../data/data')(mongodb)
 var routeAdd = require('./route_add')
 

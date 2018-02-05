@@ -1,6 +1,6 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
-const db = require('../db/mongodb')
+const db = require('../db/mongodb')()
 const dbUrl = require('../db/url')
 
 module.exports = function (req, res) {
