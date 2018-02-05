@@ -1,7 +1,7 @@
 var realMongoClient = require('mongodb').MongoClient
 
 module.exports = function(client){
-  if (client === 'undefined') {
+  if (typeof client === 'undefined') {
     client = realMongoClient
   }
   return { connect: function (url) {
