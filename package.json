@@ -38,7 +38,6 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "request": "^2.83.0",
-    "route-cache": "^0.4.4",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

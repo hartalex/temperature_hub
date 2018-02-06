@@ -1,8 +1,5 @@
 const info = require('./info')
 const bodyParser = require('body-parser')
-const routeCache = require('route-cache')
-const routeCache1hr = routeCache.cacheSeconds(3600)
-const routeCache5m = routeCache.cacheSeconds(300)
 const serviceList = require('./service_list')
 const serviceAdd = require('./service_add')
 const serviceDel = require('./service_del')
@@ -27,7 +24,7 @@ const jsonParser = bodyParser.json()
 
 module.exports = function (app) {
   // services
-  app.get('/services/list', routeCache1hr, serviceList)
+  app.get('/services/list',  serviceList)
   app.post('/services/add', jsonParser, serviceAdd)
   app.post('/services/delete', jsonParser, serviceDel)
 
@@ -35,12 +32,12 @@ module.exports = function (app) {
   app.post('/data/add', jsonParser, dataAdd)
 
   // temperatures
-  app.get('/temp/list', tempList)
-  app.get('/temp/graph', tempGraph)
+  app.get('/temp/list',  tempList)
+  app.get('/temp/graph',  tempGraph)
   app.get('/temp/:duration/graph', tempGraph)
-  app.get('/temp/list/:sensorId', tempList)
-  app.get('/temp/current', routeCache5m, tempCurrent)
-  app.get('/temp/sensor/list', routeCache1hr, tempSensorList)
+  app.get('/temp/list/:sensorId',  tempList)
+  app.get('/temp/current',  tempCurrent)
+  app.get('/temp/sensor/list', tempSensorList)
 
   // sensors
   app.post('/sensor/add', jsonParser, sensorAdd)
@@ -49,24 +46,24 @@ module.exports = function (app) {
   app.get('/door/list', doorList)
   app.get('/door/:duration/graph', doorGraph)
   app.get('/door/list/:sensorId', doorList)
-  app.get('/door/sensor/list', routeCache1hr, doorSensorList)
+  app.get('/door/sensor/list', doorSensorList)
 
   // menu
   app.post('/menu/add', jsonParser, menuAdd)
-  app.get('/menu/list/:date', routeCache1hr, menuList)
+  app.get('/menu/list/:date', menuList)
 
   // moon
-  app.get('/moonPhases', routeCache1hr, moonPhases)
+  app.get('/moonPhases', moonPhases)
 
   // forecast
-  app.get('/forecast', routeCache1hr, forecast)
+  app.get('/forecast', forecast)
 
   // weather
-  app.get('/weather', routeCache1hr, weather)
+  app.get('/weather', weather)
 
   // memory
   app.post('/memory/add', jsonParser, memoryAdd)
-  app.get('/memory/list/:date', routeCache1hr, memoryList)
+  app.get('/memory/list/:date', memoryList)
 
   app.get('/info', info)
 
