@@ -4,8 +4,9 @@ module.exports = function (slackUrl) {
   return {
     SlackPost: function (message) {
       return new Promise(function (resolve, reject) {
-        console.log(slackData)
+
         var slackData = {'text': message}
+                console.log(slackData)
         fetch(slackUrl, {
           method: 'POST',
           headers: {
@@ -14,10 +15,11 @@ module.exports = function (slackUrl) {
           },
           body: slackData
         }).then(function (response) {
+          console.log(response)
           if (response.status >= 400) {
             reject('Error statusCode: ' + response.status + ' body: ' + JSON.stringify(response.json()))
           } else {
-            resolve(response.json())
+            resolve(message)
           }
         })
       })
