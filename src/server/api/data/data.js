@@ -201,8 +201,8 @@ return {
                   } else {
                     retval = new Promise(  function (resolve, reject) { resolve() })
                   }
+                  return retval
                 })
-                return retval
               }).then(function () {
                 return {result:'ok'}
               })
