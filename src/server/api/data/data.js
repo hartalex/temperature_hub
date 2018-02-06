@@ -201,7 +201,7 @@ return {
                 })
               }).then(function (door) {
                 var retval
-                if (typeof door === 'undefined') {
+                if (typeof door !== 'undefined') {
                 var openstring = 'closed'
                 if (door.isOpen) {
                   openstring = 'open'
