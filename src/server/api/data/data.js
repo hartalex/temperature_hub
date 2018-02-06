@@ -186,23 +186,29 @@ return {
               .then(function(door) {
                 return insertDataPromise(door, db, dbobj, collection)
               }).then(function (door) {
-                var retval
-                var openstring = 'closed'
-                if (door.isOpen) {
-                  openstring = 'open'
-                }
+                return new Promise(  function (resolve, reject) {
                 db.queryLastData(dbobj, {
                   sensorId: door.sensorId
                 }, {
                   utc_timestamp: -1
                 }, collection, function(existingData) {
                   if (existingData == null || (existingData != null && existingData.isOpen !== door.isOpen)) {
-                    retval = slack.SlackPost(door.sensorId + ' is now ' + openstring)
+                    resolve(door)
                   } else {
-                    retval = new Promise(  function (resolve, reject) { resolve() })
+                    resolve()
                   }
-                  return retval
                 })
+                })
+              }).then(function (door) {
+                var retval
+                if (typeof door === 'undefined') {
+                var openstring = 'closed'
+                if (door.isOpen) {
+                  openstring = 'open'
+                }
+                  retval = slack.SlackPost(door.sensorId + ' is now ' + openstring)
+                }
+                return retval
               }).then(function () {
                 return {result:'ok'}
               })
