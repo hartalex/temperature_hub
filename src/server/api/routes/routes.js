@@ -1,7 +1,8 @@
 const info = require('./info')
-const cors = require('cors')
 const bodyParser = require('body-parser')
-
+const routeCache = require('route-cache')
+const routeCache1hr = routeCache.cacheSeconds(3600)
+const routeCache5m = routeCache.cacheSeconds(300)
 const serviceList = require('./service_list')
 const serviceAdd = require('./service_add')
 const serviceDel = require('./service_del')
@@ -26,7 +27,7 @@ const jsonParser = bodyParser.json()
 
 module.exports = function (app) {
   // services
-  app.get('/services/list', cors(), serviceList)
+  app.get('/services/list', routeCache1hr, serviceList)
   app.post('/services/add', jsonParser, serviceAdd)
   app.post('/services/delete', jsonParser, serviceDel)
 
@@ -34,39 +35,39 @@ module.exports = function (app) {
   app.post('/data/add', jsonParser, dataAdd)
 
   // temperatures
-  app.get('/temp/list', cors(), tempList)
-  app.get('/temp/graph', cors(), tempGraph)
-  app.get('/temp/:duration/graph', cors(), tempGraph)
-  app.get('/temp/list/:sensorId', cors(), tempList)
-  app.get('/temp/current', cors(), tempCurrent)
-  app.get('/temp/sensor/list', cors(), tempSensorList)
+  app.get('/temp/list', tempList)
+  app.get('/temp/graph', tempGraph)
+  app.get('/temp/:duration/graph', tempGraph)
+  app.get('/temp/list/:sensorId', tempList)
+  app.get('/temp/current', routeCache5m, tempCurrent)
+  app.get('/temp/sensor/list', routeCache1hr, tempSensorList)
 
   // sensors
   app.post('/sensor/add', jsonParser, sensorAdd)
 
   // doors
-  app.get('/door/list', cors(), doorList)
-  app.get('/door/:duration/graph', cors(), doorGraph)
-  app.get('/door/list/:sensorId', cors(), doorList)
-  app.get('/door/sensor/list', cors(), doorSensorList)
+  app.get('/door/list', doorList)
+  app.get('/door/:duration/graph', doorGraph)
+  app.get('/door/list/:sensorId', doorList)
+  app.get('/door/sensor/list', routeCache1hr, doorSensorList)
 
   // menu
   app.post('/menu/add', jsonParser, menuAdd)
-  app.get('/menu/list/:date', cors(), menuList)
+  app.get('/menu/list/:date', routeCache1hr, menuList)
 
   // moon
-  app.get('/moonPhases', cors(), moonPhases)
+  app.get('/moonPhases', routeCache1hr, moonPhases)
 
   // forecast
-  app.get('/forecast', cors(), forecast)
+  app.get('/forecast', routeCache1hr, forecast)
 
   // weather
-  app.get('/weather', cors(), weather)
+  app.get('/weather', routeCache1hr, weather)
 
   // memory
   app.post('/memory/add', jsonParser, memoryAdd)
-  app.get('/memory/list/:date', cors(), memoryList)
+  app.get('/memory/list/:date', routeCache1hr, memoryList)
 
-  app.get('/info', cors(), info)
+  app.get('/info', info)
 
 }
