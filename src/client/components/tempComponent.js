@@ -25,7 +25,7 @@ const TemperatureComponent = ({sensorName, myTempData}) => {
       const updateTimeInMinutes = Util.timeAgo(myTempData.lastUpdate)
       var temp = Math.trunc(myTempData.tempInFarenheit)
       var tempDecimal = Math.abs(Math.trunc((myTempData.tempInFarenheit - temp) * 100))
-      state.style.color = temperatureColor(tempDecimal)
+      state.style.color = temperatureColor(temp)
       if (myTempData.tempInFarenheit === 0) {
         temp = '--'
         tempDecimal = '--'
