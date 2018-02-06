@@ -119,7 +119,7 @@ module.exports = function(client){
         var dbcollection = db.collection(collection)
         dbcollection.insert(obj, {w: 1}, function (err, result) {
           if (err == null) {
-            resolve(result)
+            resolve(obj)
           } else {
             reject(err)
           }

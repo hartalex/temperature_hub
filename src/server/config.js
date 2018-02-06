@@ -5,5 +5,6 @@ module.exports = {
   NoDuplicateData: false,
   zipCode: 53012,
   wunderground_key: '',
-  openweathermap_key: ''
+  openweathermap_key: '',
+  slackUrl: 'http://hub.hartcode.com/slack'
 }

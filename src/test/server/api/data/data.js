@@ -284,7 +284,7 @@ describe('data', function() {
         assert.equal(err, 'db error')
       })
     })
-  
+
 
   it('dupeProp isOpen', function() {
     var existingData = {isOpen:true}

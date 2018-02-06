@@ -3,6 +3,7 @@ const configImport = require('../../config')
 const validation = require('./validation')
 const temperatureModel = require('./models/temperatureModel')
 const doorModel = require('./models/doorModel')
+const slackPost = require('./slack')
 
 const checkDupesPromise = function(config, db, dbobj, query, sort, collection, dupeProp, dupeObject) {
   return new Promise(function(resolve, reject) {
@@ -28,6 +29,7 @@ module.exports = function(db, config) {
   if (typeof config == 'undefined') {
     config = configImport
   }
+  var slack = slackPost(config.slackUrl)
 return {
   menuAdd: function(input) {
     const collection = 'menu'
@@ -136,6 +138,8 @@ return {
               })
               .then(function(temperature) {
                 return insertDataPromise(temperature, db, dbobj, collection)
+              }).then(function () {
+                return {result:'ok'}
               })
               .catch(function(err) {
                 dbobj.close()
@@ -181,6 +185,14 @@ return {
               })
               .then(function(door) {
                 return insertDataPromise(door, db, dbobj, collection)
+              }).then(function (door) {
+                var openstring = 'closed'
+                if (door.isOpen) {
+                  openstring = 'open'
+                }
+                slack.SlackPost(door.sensorId + ' is now ' + openstring)
+              }).then(function () {
+                return {result:'ok'}
               })
               .catch(function(err) { // Inner Promise Chain
                 dbobj.close()
