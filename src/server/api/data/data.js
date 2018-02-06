@@ -190,7 +190,7 @@ return {
                 if (door.isOpen) {
                   openstring = 'open'
                 }
-                slack.SlackPost(door.sensorId + ' is now ' + openstring)
+                return slack.SlackPost(door.sensorId + ' is now ' + openstring)
               }).then(function () {
                 return {result:'ok'}
               })
