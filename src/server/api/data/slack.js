@@ -1,12 +1,12 @@
 
-require('isomorphic-fetch')
+
 module.exports = function (slackUrl) {
   return {
     SlackPost: function (message) {
       return new Promise(function (resolve, reject) {
 
         var slackData = {'text': message}
-                console.log(slackData)
+        console.log(slackData)
         fetch(slackUrl, {
           method: 'POST',
           headers: {
