@@ -200,7 +200,7 @@ return {
                 })
                 })
               }).then(function (door) {
-                var retval
+                var retval = new Promise(  function (resolve, reject) { resolve()})
                 if (typeof door !== 'undefined') {
                 var openstring = 'closed'
                 if (door.isOpen) {
