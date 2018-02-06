@@ -15,7 +15,7 @@ module.exports = function (slackUrl) {
           body: slackData
         }).then(function (response) {
           if (response.status >= 400) {
-            reject(new Error('Error statusCode: ' + response.status + ' body: ' + JSON.stringify(response.json())))
+            reject('Error statusCode: ' + response.status + ' body: ' + JSON.stringify(response.json()))
           } else {
             resolve(response.json())
           }
