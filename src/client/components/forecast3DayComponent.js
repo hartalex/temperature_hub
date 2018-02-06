@@ -84,7 +84,7 @@ class Forecast3DayComponent extends React.Component {
         for (var i = 0; i < 3; i++) {
 
           that.state.data.forecast[i].weatherDescription = currentjson.simpleforecast.forecastday[i].conditions
-          that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url
+          that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url.replace('http:','https:')
           that.state.data.forecast[i].temperatureMax = currentjson.simpleforecast.forecastday[i].high.fahrenheit
           that.state.data.forecast[i].temperatureMin = currentjson.simpleforecast.forecastday[i].low.fahrenheit
           that.state.data.forecast[i].dt = currentjson.simpleforecast.forecastday[i].date.epoch

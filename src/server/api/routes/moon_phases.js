@@ -4,7 +4,7 @@ const config = require('../../config.js')
 
 module.exports = function (req, res) {
   if (config.wunderground_key !== '') {
-    fetch('http://api.wunderground.com/api/' + config.wunderground_key + '/astronomy/q/' + config.zipCode + '.json').then(function (response) {
+    fetch('https://api.wunderground.com/api/' + config.wunderground_key + '/astronomy/q/' + config.zipCode + '.json').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
