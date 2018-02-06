@@ -36,6 +36,7 @@
     "react-google-charts": "^1.5.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "request": "^2.83.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
