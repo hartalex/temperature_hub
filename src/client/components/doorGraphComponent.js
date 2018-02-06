@@ -40,6 +40,9 @@ const getData = function (duration, that) {
               } else {
                 tempData = 0
               }
+              if (sensor.sensorId === 'gd-00000022') {
+		  tempData *= 2
+	      }
             }
           })
           arrayRow.push(tempData)
