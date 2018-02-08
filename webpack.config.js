@@ -16,7 +16,7 @@ module.exports = {
       name: 'commons',
       // (the commons chunk name)
       chunks: ['index', 'menuEntry', 'memoryEntry'],
-      filename: 'commons.js'
+      filename: 'js/commons.js'
       // (the filename of the commons chunk)
     })
   ],
@@ -28,7 +28,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/build/client'),
-    filename: '[name].js'
+    filename: 'js/[name].js'
   },
   module: {
     loaders: [
@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
+        loaders: ['file-loader?hash=sha512&digest=hex&name=/img/[hash].[ext]']
       },
       {
         test: /.*favicon\.(ico)$/i,

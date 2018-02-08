@@ -1,4 +1,5 @@
 import path from 'path'
+const cache = require('express-cache-headers')
 
 var express = require('express')
 var apiRoutes = require('./api/routes/routes')
@@ -18,9 +19,11 @@ const app = express()
 app.use(forceSsl)
 app.set('view engine', 'ejs')
 
+app.use(cache(300))
 apiRoutes(app)
 webRoutes(app)
-app.use(express.static(path.join(__dirname, '/../client/')))
+app.use('/img',cache(3600),express.static(path.join(__dirname, '/../client/img')))
+app.use('/js', cache(0), express.static(path.join(__dirname, '/../client/js')))
 
 https.createServer(options, app).listen(443)
 
