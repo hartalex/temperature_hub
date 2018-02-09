@@ -4,6 +4,7 @@ var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
 var mockMongoDbTemp = require('../db/mock-mongodb-temp')
 var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
 const data = require('../../../../server/api/data/data')
+const mockSlack = require('./mockSlack')(null)
 
 describe('data', function() {
   describe('#tempAdd(input)', function() {
@@ -122,7 +123,7 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, undefined, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -221,7 +222,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -234,7 +235,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })

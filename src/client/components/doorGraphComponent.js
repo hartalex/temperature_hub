@@ -41,8 +41,8 @@ const getData = function (duration, that) {
                 tempData = 0
               }
               if (sensor.sensorId === 'gd-00000022') {
-		  tempData *= 2
-	      }
+                tempData *= 2
+              }
             }
           })
           arrayRow.push(tempData)
@@ -60,7 +60,13 @@ const getData = function (duration, that) {
       arrayRow[0] = new Date()
       arraydata.push(arrayRow)
       that.setState({options: that.state.options, data: {array: arraydata, lastUpdate: new Date().toISOString()}})
+    }).catch(function(error) {
+      that.state.data = null
+      that.setState(that.state)
     })
+  }).catch(function(error) {
+    that.state.data = null
+    that.setState(that.state)
   })
 }
 

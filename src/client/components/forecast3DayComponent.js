@@ -102,6 +102,38 @@ class Forecast3DayComponent extends React.Component {
       }
       that.setState(that.state)
     }
+    }).catch(function(error) {
+      that.state.data = {
+        forecast:
+      [{
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Today',
+        dt: '1489687200'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Tomorrow',
+        dt: '1489770000'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Next Day',
+        dt: '1489856400'
+      }
+      ],
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      }
+      that.setState(that.state)
     })
   }
   render () {

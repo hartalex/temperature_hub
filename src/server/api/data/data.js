@@ -25,11 +25,13 @@ const insertDataPromise = function(data, db, dbobj, collection) {
   return db.insertData(dbobj, collection, data)
 }
 
-module.exports = function(db, config) {
+module.exports = function(db, config, slack) {
   if (typeof config == 'undefined') {
     config = configImport
   }
-  var slack = slackPost(config.slackUrl)
+  if (typeof slack == 'undefined') {
+    slack = slackPost(config.slackUrl)
+  }
 return {
   menuAdd: function(input) {
     const collection = 'menu'

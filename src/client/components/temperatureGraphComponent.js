@@ -21,7 +21,13 @@ const getdata = function (duration, that) {
       arrayRow[0] = new Date()
       arraydata.push(arrayRow)
       that.setState({options: that.state.options, data: {array: arraydata, lastUpdate: new Date().toISOString()}})
+    }).catch(function(error) {
+      that.state.data = null
+      that.setState(that.state)
     })
+  }).catch(function(error) {
+    that.state.data = null
+    that.setState(that.state)
   })
 }
 
