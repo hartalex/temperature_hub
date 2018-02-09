@@ -13,7 +13,7 @@ function reduce(state, action) {
   if (action.type === 'SetTemps') {
     nextState.tempData = action.tempData
   } else if (action.type === 'SetTempsFail') {
-    nextState.tempData = initialState
+    nextState.tempData = initialState.tempData
   } else {
     nextState = state
   }
