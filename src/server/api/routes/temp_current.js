@@ -36,9 +36,11 @@ module.exports = function (req, res) {
         res.json(retval)
       })
     }).catch(function (err) {
+      console.error(err)
       res.json([])
     })
   }).catch(function (err) {
+    console.error(err)
     res.json([])
   })
 }

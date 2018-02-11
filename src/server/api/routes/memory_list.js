@@ -33,6 +33,7 @@ module.exports = function (req, res) {
     res.json(result)
   })
   .catch(function (err) {
+    console.error(err)
     res.json([])
   })
 }

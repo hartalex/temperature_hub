@@ -12,6 +12,7 @@ module.exports = function (req, res) {
     }).then(function (resu) {
       res.json(resu.forecast)
     }).catch(function (err) {
+      console.error(err)
       res.json({})
     })
   }
