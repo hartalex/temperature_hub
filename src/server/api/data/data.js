@@ -209,7 +209,12 @@ module.exports = function(db, config, slack) {
                       db.queryOneData(dbobj, {
                         sensorId: door.sensorId
                       }, 'sensors', function(doordb) {
-                        resolve(doordb)
+                        if (doordb == null)
+                        { 
+                          resolve(door)
+                        } else {
+                          resolve(doordb)
+                        }
                       })
                     } else {
                       reject(null)
@@ -219,10 +224,14 @@ module.exports = function(db, config, slack) {
                   var retval
                   if (typeof door !== 'undefined' && door != null) {
                     var openstring = 'closed'
+                    var name = door.sensorId
                     if (door.isOpen) {
                       openstring = 'open'
                     }
-                    retval = slack.SlackPost(door.name + ' is now ' + openstring)
+                    if (door.name) {
+                      name = door.name
+                    }
+                    retval = slack.SlackPost(name + ' is now ' + openstring)
                   }
                   return retval
                 }).then(function() {
