@@ -205,24 +205,23 @@ module.exports = function(db, config, slack) {
                   })
                 }).then(function(door) {
                   return new Promise(function(resolve, reject) {
-                    if (typeof door !== 'undefined') { 
+                    if (typeof door !== 'undefined') {
                       db.queryOneData(dbobj, {
                         sensorId: door.sensorId
                       }, 'sensors', function(doordb) {
-                        if (doordb == null)
-                        { 
+                        if (doordb == null) {
                           resolve(door)
                         } else {
                           resolve(doordb)
                         }
                       })
                     }
-		    resolve(door)
+                    resolve(door)
                   })
                 }).then(function(door) {
                   var retval = new Promise(function(resolve, reject) {
-			  resolve()
-		  })
+                    resolve()
+                  })
                   if (typeof door !== 'undefined' && door != null) {
                     var openstring = 'closed'
                     var name = door.sensorId
