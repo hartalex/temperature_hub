@@ -4,6 +4,7 @@ const validation = require('./validation')
 const temperatureModel = require('./models/temperatureModel')
 const doorModel = require('./models/doorModel')
 const slackPost = require('./slack')
+const logging = require('winston')
 
 const checkDupesPromise = function(config, db, dbobj, query, sort, collection, dupeProp, dupeObject) {
   return new Promise(function(resolve, reject) {
@@ -197,8 +198,10 @@ module.exports = function(db, config, slack) {
                       utc_timestamp: -1
                     }, collection, function(existingData) {
                       if (existingData == null || (existingData != null && existingData.isOpen !== door.isOpen)) {
+                        logging.log('debug', 'door has changed', door)
                         resolve(door)
                       } else {
+                        logging.log('debug', 'door has NOT changed')
                         resolve()
                       }
                     })
@@ -210,13 +213,17 @@ module.exports = function(db, config, slack) {
                         sensorId: door.sensorId
                       }, 'sensors', function(doordb) {
                         if (doordb == null) {
+                          logging.log('debug', 'did NOT find a new door', door)
                           resolve(door)
                         } else {
+                          logging.log('debug', 'did find a new door', doordb)
                           resolve(doordb)
                         }
                       })
-                    }
+                    } else {
+                    logging.log('debug', 'door is undefined')
                     resolve(door)
+                    }
                   })
                 }).then(function(door) {
                   var retval = new Promise(function(resolve, reject) {
@@ -231,7 +238,10 @@ module.exports = function(db, config, slack) {
                     if (door.name) {
                       name = door.name
                     }
+                    logging.log('debug', 'sending slack message about door', door)
                     retval = slack.SlackPost(name + ' is now ' + openstring)
+                  } else {
+                    logging.log('debug', 'NOT sending slack message about door', door)
                   }
                   return retval
                 }).then(function() {
