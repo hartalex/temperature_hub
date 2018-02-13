@@ -13,5 +13,5 @@ module.exports = function(req, res, done) {
   } else {
     dataAddFunc = mydata.doorAdd(req.body)
   }
-  routeAdd(dataAddFunc, res, done)
+  routeAdd(dataAddFunc, req, res, done)
 }

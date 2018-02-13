@@ -1,8 +1,11 @@
 const db = require('../db/mongodb')()
 const dbUrl = require('../db/url')
-
+const slackPost = require('../data/slack')
+const config = require('../../config')
+const logging = require('winston')
 
 module.exports = function (hours, days, months) {
+  var slack = slackPost(config.slackUrl)
   return function (req, res) {
   var duration
   if ('duration' in req.params) {
@@ -77,6 +80,10 @@ module.exports = function (hours, days, months) {
     res.json(result)
   })
   .catch(function (err) {
+    logging.log('error', req.method + ' ' + req.url, err)
+    slack.SlackPost(err, req).catch(function(slackErr) {
+      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
+    })
     res.json([])
   })
 }

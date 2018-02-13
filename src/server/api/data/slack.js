@@ -1,10 +1,16 @@
 const request = require('request')
 module.exports = function (slackUrl) {
   return {
-    SlackPost: function (message) {
+    SlackPost: function (message, req) {
       return new Promise(
         function (resolve, reject) {
-          var slackData = {'text': message}
+          var strmsg
+          if (typeof req != 'undefined') {
+            strmsg = req.method + ' ' + req.url + ' '
+          }
+          strmsg += JSON.stringify(message)
+          
+          var slackData = {'text': strmsg}
           request({
             url: slackUrl,
             method: 'POST',

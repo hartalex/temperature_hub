@@ -2,10 +2,13 @@ require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const db = require('../db/mongodb')()
 const dbUrl = require('../db/url')
+const slackPost = require('../data/slack')
+const config = require('../../config')
+const logging = require('winston')
 
 module.exports = function (req, res) {
-
-  fetch('https://hub.hartcode.com/temp/sensor/list').then(function (response) {
+var slack = slackPost(config.slackUrl)
+  fetch('temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
@@ -36,11 +39,17 @@ module.exports = function (req, res) {
         res.json(retval)
       })
     }).catch(function (err) {
-      console.error(err)
+      logging.log('error', req.method + ' ' + req.url, err)
+      slack.SlackPost(err, req).catch(function(slackErr) {
+        logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
+      })
       res.json([])
     })
   }).catch(function (err) {
-    console.error(err)
+    logging.log('error', req.method + ' ' + req.url, err)
+    slack.SlackPost(err, req).catch(function(slackErr) {
+      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
+    })
     res.json([])
   })
 }
