@@ -8,7 +8,11 @@ module.exports = function (slackUrl) {
           if (typeof req != 'undefined') {
             strmsg = req.method + ' ' + req.url + ' '
           }
-          strmsg += JSON.stringify(message)
+          if (message instanceof Error) {
+            strmsg += message.message
+          } else {  
+            strmsg += JSON.stringify(message)
+          }
           
           var slackData = {'text': strmsg}
           request({
