@@ -216,12 +216,12 @@ module.exports = function(db, config, slack) {
                           resolve(doordb)
                         }
                       })
-                    } else {
-                      reject(null)
                     }
                   })
                 }).then(function(door) {
-                  var retval
+                  var retval = new Promise(function(resolve, reject) {
+			  resolve()
+		  })
                   if (typeof door !== 'undefined' && door != null) {
                     var openstring = 'closed'
                     var name = door.sensorId
