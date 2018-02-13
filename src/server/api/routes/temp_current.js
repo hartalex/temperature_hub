@@ -8,7 +8,7 @@ const logging = require('winston')
 
 module.exports = function (req, res) {
 var slack = slackPost(config.slackUrl)
-  fetch('temp/sensor/list').then(function (response) {
+  fetch('https://hub.hartcode.com/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
