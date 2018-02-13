@@ -7,5 +7,5 @@ module.exports = function (req, res, done) {
   if (typeof mydata === 'undefined') {
     mydata = realData
   }
-  routeAdd(mydata.menuAdd(req.body), res, done)
+  routeAdd(mydata.menuAdd(req.body), req, res, done)
 }
