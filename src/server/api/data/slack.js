@@ -1,7 +1,7 @@
 const request = require('request')
 module.exports = function (slackUrl) {
   return {
-    SlackPost: function (message, req) {
+    SlackPost: function (message, req, retval) {
       return new Promise(
         function (resolve, reject) {
           var strmsg = ''
@@ -28,7 +28,7 @@ module.exports = function (slackUrl) {
           }, function (error, response, body) {
             if (!error && response.statusCode === 200) {
               // Sending to Slack was successful
-              resolve(message)
+              resolve(retval)
             } else {
               // Sending to Slack failed
               reject(new Error('Error: ' + error + ' statusCode: ' + response.statusCode + ' body: ' + body))

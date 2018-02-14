@@ -194,10 +194,6 @@ module.exports = function(db, config, slack) {
                   }, {
                     utc_timestamp: -1
                   }, collection, 'isOpen', door)
-                })
-                .then(function(door) {
-                  logging.log('debug', 'inserting Data Promise', door)
-                  return insertDataPromise(door, db, dbobj, collection)
                 }).then(function(door) {
                   logging.log('debug', 'querying Last Data', door)
                   return new Promise(function(resolve, reject) {
@@ -208,57 +204,60 @@ module.exports = function(db, config, slack) {
                     }, collection, function(existingData) {
                       if (existingData == null || (existingData != null && existingData.isOpen !== door.isOpen)) {
                         logging.log('debug', 'door has changed', door)
-                        resolve(door)
+                        resolve({changed:true, door:door})
                       } else {
                         logging.log('debug', 'door has NOT changed')
-                        resolve()
+                        resolve({changed:false, door:door})
                       }
                     })
                   })
-                }).then(function(door) {
+                }).then(function(obj) {
                   return new Promise(function(resolve, reject) {
-                    if (typeof door !== 'undefined') {
+                    if (obj.changed) {
                       db.queryOneData(dbobj, {
-                        sensorId: door.sensorId
+                        sensorId: obj.door.sensorId
                       }, 'sensors', function(doordb) {
                         if (doordb == null) {
-                          logging.log('debug', 'did NOT find a new door', door)
-                          resolve(door)
+                          logging.log('debug', 'did NOT find a name for sensor door', obj.door.sensorId)
                         } else {
-                          logging.log('debug', 'did find a new door', doordb)
-                          resolve(doordb)
+                          logging.log('debug', 'did find a name for door sensor', doordb.name)
+                          obj.name = doordb.name
                         }
+                        resolve(obj)
                       })
                     } else {
-                      logging.log('debug', 'door is undefined')
-                      resolve(door)
+                      logging.log('debug', 'door has not changed')
+                      resolve(obj)
                     }
                   })
-                }).then(function(door) {
+                }).then(function(obj) {
                   var retval = new Promise(function(resolve, reject) {
                     resolve()
                   })
-                  if (typeof door !== 'undefined' && door != null) {
+                  if (obj.changed) {
                     var openstring = 'closed'
-                    var name = door.sensorId
-                    if (door.isOpen) {
+                    var name = obj.door.sensorId
+                    if (obj.door.isOpen) {
                       openstring = 'open'
                     }
-                    if (door.name) {
-                      name = door.name
+                    if (obj.name) {
+                      name = obj.name
                     }
-                    logging.log('debug', 'sending slack message about door', door)
-                    retval = slack.SlackPost(name + ' is now ' + openstring)
+                    logging.log('debug', 'sending slack message about door', obj.door)
+                    retval = slack.SlackPost(name + ' is now ' + openstring, undefined, obj.door)
                   } else {
-                    logging.log('debug', 'NOT sending slack message about door', door)
+                    logging.log('debug', 'NOT sending slack message about door', obj.door)
                   }
                   return retval
+                })
+                .then(function(door) {
+                  logging.log('debug', 'inserting Data Promise', door)
+                  return insertDataPromise(door, db, dbobj, collection)
                 }).then(function() {
                   return {
                     result: 'ok'
                   }
-                })
-                .catch(function(err) { // Inner Promise Chain
+                }).catch(function(err) { // Inner Promise Chain
                   dbobj.close()
                   throw err
                 })
