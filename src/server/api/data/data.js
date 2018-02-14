@@ -22,8 +22,12 @@ const checkDupesPromise = function(config, db, dbobj, query, sort, collection, d
   })
 }
 
-const insertDataPromise = function(data, db, dbobj, collection) {
-  return db.insertData(dbobj, collection, data)
+const insertDataPromise = function(data, db, dbobj, collection, obj) {
+  return db.insertData(dbobj, collection, data).then( function() {
+    return new Promise(function(resolve, reject) {
+      resolve(obj)
+    })
+  })
 }
 
 module.exports = function(db, config, slack) {
@@ -212,6 +216,7 @@ module.exports = function(db, config, slack) {
                     })
                   })
                 }).then(function(obj) {
+                  // get door sensor real name from database
                   return new Promise(function(resolve, reject) {
                     if (obj.changed) {
                       db.queryOneData(dbobj, {
@@ -231,9 +236,10 @@ module.exports = function(db, config, slack) {
                     }
                   })
                 }).then(function(obj) {
-                  var retval = new Promise(function(resolve, reject) {
-                    resolve(obj.door)
-                  })
+                  logging.log('debug', 'inserting Data Promise', obj.door)
+                  return insertDataPromise(obj.door, db, dbobj, collection, obj)
+                }).then(function(obj) {
+                  var retval
                   if (obj.changed) {
                     var openstring = 'closed'
                     var name = obj.door.sensorId
@@ -244,15 +250,14 @@ module.exports = function(db, config, slack) {
                       name = obj.name
                     }
                     logging.log('debug', 'sending slack message about door', obj.door)
-                    retval = slack.SlackPost(name + ' is now ' + openstring, undefined, obj.door)
+                    retval = slack.SlackPost(name + ' is now ' + openstring, undefined, obj)
                   } else {
                     logging.log('debug', 'NOT sending slack message about door', obj.door)
+                    retval = new Promise(function(resolve, reject) {
+                      resolve(obj)
+                    })
                   }
                   return retval
-                })
-                .then(function(door) {
-                  logging.log('debug', 'inserting Data Promise', door)
-                  return insertDataPromise(door, db, dbobj, collection)
                 }).then(function() {
                   return {
                     result: 'ok'
