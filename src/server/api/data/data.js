@@ -232,7 +232,7 @@ module.exports = function(db, config, slack) {
                   })
                 }).then(function(obj) {
                   var retval = new Promise(function(resolve, reject) {
-                    resolve()
+                    resolve(obj.door)
                   })
                   if (obj.changed) {
                     var openstring = 'closed'

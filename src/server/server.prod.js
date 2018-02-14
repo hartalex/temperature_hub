@@ -24,7 +24,6 @@ app.use(expressWinston.logger({
     })
   ]
 }))
-
 app.use(forceSsl)
 app.set('view engine', 'ejs')
 
