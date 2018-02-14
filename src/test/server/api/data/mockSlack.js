@@ -1,11 +1,12 @@
-
+var simple = require('simple-mock')
 module.exports = function (slackUrl) {
-  return {
-    SlackPost: function (message) {
-      return new Promise(
+  var mockObj = {}
+    simple.mock(mockObj, 'SlackPost', function(message) {
+        return new Promise(
         function (resolve, reject) {
             resolve(message)
           })
         }
-    }
+    )
+    return mockObj
   }

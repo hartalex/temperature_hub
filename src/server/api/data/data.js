@@ -97,10 +97,14 @@ module.exports = function(db, config, slack) {
             }) // Promise
             .then(function() {
               return db.insertData(dbobj, collection, input)
-                .catch(function(err) { // Inner Promise Chain
-                  dbobj.close()
-                  throw err
-                })
+
+            }).then(function() {
+              return {
+                result: 'ok'
+              }
+            }).catch(function(err) { // Inner Promise Chain
+              dbobj.close()
+              throw err
             })
         })
     },
@@ -154,6 +158,7 @@ module.exports = function(db, config, slack) {
         })
     },
     doorAdd: function(input) {
+      logging.log('debug', 'data.DoorAdd', input)
       const time = new Date()
       // Use connect method to connect to the Server
       var connectPromise = db.connect(dbUrl)
@@ -179,9 +184,11 @@ module.exports = function(db, config, slack) {
                   return validation.isTypeBoolean(input.isOpen, 'isOpen')
                 })
                 .then(function() {
+                  logging.log('debug', 'Modeling Door', input)
                   return doorModel(input)
                 })
                 .then(function(door) {
+                  logging.log('debug', 'Checking Dupes Promise', door)
                   return checkDupesPromise(config, db, dbobj, {
                     sensorId: door.sensorId
                   }, {
@@ -189,8 +196,10 @@ module.exports = function(db, config, slack) {
                   }, collection, 'isOpen', door)
                 })
                 .then(function(door) {
+                  logging.log('debug', 'inserting Data Promise', door)
                   return insertDataPromise(door, db, dbobj, collection)
                 }).then(function(door) {
+                  logging.log('debug', 'querying Last Data', door)
                   return new Promise(function(resolve, reject) {
                     db.queryLastData(dbobj, {
                       sensorId: door.sensorId
@@ -221,8 +230,8 @@ module.exports = function(db, config, slack) {
                         }
                       })
                     } else {
-                    logging.log('debug', 'door is undefined')
-                    resolve(door)
+                      logging.log('debug', 'door is undefined')
+                      resolve(door)
                     }
                   })
                 }).then(function(door) {

@@ -1,5 +1,7 @@
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
+var mockMongoDbDupeFound = require('../db/mock-mongodb-dupefound')
+var mockMongoDbDupeNotFound = require('../db/mock-mongodb-dupenotfound')
 var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
 var mockMongoDbTemp = require('../db/mock-mongodb-temp')
 var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
@@ -221,10 +223,33 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-
       var dataobj = data(mockMongoDb, {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
+      })
+    })
+
+    it('doorAdd door success duplicate slack dupe found', function() {
+      var input = {
+        sensorId: 'test',
+        isOpen: true
+      }
+      var dataobj = data(mockMongoDbDupeFound, {NoDuplicateData:false}, mockSlack)
+      return dataobj.doorAdd(input).then(function(output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(mockSlack.SlackPost.callCount, 2)
+      })
+    })
+
+    it('doorAdd door success duplicate slack dupe not found', function() {
+      var input = {
+        sensorId: 'test',
+        isOpen: true
+      }
+      var dataobj = data(mockMongoDbDupeNotFound, {NoDuplicateData:false}, mockSlack)
+      return dataobj.doorAdd(input).then(function(output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(mockSlack.SlackPost.callCount, 3)
       })
     })
 

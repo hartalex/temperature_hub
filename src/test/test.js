@@ -1,3 +1,5 @@
+const logging = require('winston')
+logging.level = 'debug'
 require('./server/api/db/mongodb')
 require('./server/api/data/data')
 require('./server/api/data/validation')

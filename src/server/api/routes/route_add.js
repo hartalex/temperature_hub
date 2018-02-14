@@ -1,9 +1,15 @@
 const slackPost = require('../data/slack')
-const config = require('../../config')
+const configImport = require('../../config')
 const logging = require('winston')
 
-module.exports = function(func, req, res, done) {
-  var slack = slackPost(config.slackUrl)
+module.exports = function(config, slack) {
+  if (typeof config == 'undefined') {
+    config = configImport
+  }
+  if (typeof slack == 'undefined') {
+    slack = slackPost(config.slackUrl)
+  }
+  return function(func, req, res, done) {
   return func.then(function(output) {
     res.status(200)
     res.json(output)
@@ -26,4 +32,5 @@ module.exports = function(func, req, res, done) {
       done()
     }
   })
+}
 }
