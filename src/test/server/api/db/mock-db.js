@@ -1,6 +1,26 @@
 var simple = require('simple-mock')
 const error = 'error'
 module.exports = {
+  all: function() {
+    simple.mock(this, 'collection').returnWith({remove: function (obj, query, callback) {callback(null, {})},
+    insert: function (obj, query, callback) {callback(null, {})},
+    aggregate: function (query) { return {toArray: function (callback) { callback(null, {})}}},
+    find: function (query) {
+      return { 
+        sort: function () {
+          return {
+            limit: function() {
+              return {toArray: function(callback) { callback(null, [{}])}}
+            }
+          }
+        }
+      }
+    },
+    findOne: function (query, callback) { callback(null, {})},
+    distinct: function (query) { return new Promise(function (resolve, reject) { resolve([{}])})}
+  })
+    return this
+  },
   remove: function () {
     simple.mock(this, 'collection').returnWith({remove: function (obj, query, callback) {callback(null, {})}})
     return this

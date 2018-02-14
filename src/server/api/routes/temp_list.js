@@ -1,5 +1,4 @@
 const db = require('../db/mongodb')()
-const dbUrl = require('../db/url')
 const slackPost = require('../data/slack')
 const config = require('../../config')
 const logging = require('winston')
@@ -7,8 +6,8 @@ const logging = require('winston')
 module.exports = function (req, res) {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
-  var connectPromise = db.connect(dbUrl)
-  connectPromise.then(function (dbobj) {
+  var dbobj = req.db
+  
     return new Promise(function (resolve, reject) {
       var query = {}
       if ('sensorId' in req.params) {
@@ -20,10 +19,8 @@ module.exports = function (req, res) {
         for (var i = 0; i < temps.length; i++) {
           delete temps[i]._id
         }
-        dbobj.close()
         resolve(temps)
       })
-    })
   }).then(function (result) {
     res.json(result)
   })

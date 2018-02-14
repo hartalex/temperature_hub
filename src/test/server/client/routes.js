@@ -3,7 +3,7 @@ var assert = require('assert')
 
 describe('routes', function() {
   describe('#function (app)', function() {
-    it('menuAdd success', function() {
+    it('routes count 3', function() {
       var req = {}
       var cnt = 0
       var res = {render:function(txt,obj){

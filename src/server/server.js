@@ -9,6 +9,7 @@ var winston = require('winston');
 var express = require('express')
 var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
+const logging = require('winston')
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -35,7 +36,7 @@ app.use(expressWinston.logger({
   ]
 }))
 
-apiRoutes(app)
+apiRoutes(app).then(function() {
 webRoutes(app)
 
 app.use(express.static(path.join(__dirname, '/../client/')))
@@ -49,3 +50,6 @@ app.use(expressWinston.errorLogger({
   ]
 }))
 app.listen(8080)
+}).catch(function(err) {
+  logging.log('error','server.js', err)
+})

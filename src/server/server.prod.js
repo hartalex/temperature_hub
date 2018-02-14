@@ -11,6 +11,7 @@ var http = require('http')
 var forceSsl = require('express-force-ssl')
 var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
 var cert = fs.readFileSync( '/etc/ssl/certs/ssl-hub.hartcode.com.crt' )
+const logging = require('winston')
 var options = {
 	key: key,
 	cert: cert 
@@ -28,19 +29,22 @@ app.use(forceSsl)
 app.set('view engine', 'ejs')
 
 app.use(cache(300))
-apiRoutes(app)
-webRoutes(app)
-app.use('/img',cache(3600),express.static(path.join(__dirname, '/../client/img')))
-app.use('/js', cache(0), express.static(path.join(__dirname, '/../client/js')))
+apiRoutes(app).then(function() {
+	webRoutes(app)
+	app.use('/img',cache(3600),express.static(path.join(__dirname, '/../client/img')))
+	app.use('/js', cache(0), express.static(path.join(__dirname, '/../client/js')))
 
-app.use(expressWinston.errorLogger({
+	app.use(expressWinston.errorLogger({
   transports: [
     new winston.transports.Console({
       json:true,
       colorize: true
-    })
+   })
   ]
-}))
-https.createServer(options, app).listen(443)
+  }))
+  https.createServer(options, app).listen(443)
 
-http.createServer(app).listen(80)
+  http.createServer(app).listen(80)
+}).catch(function(err) {
+	logging.log('error','server.prod.js', err)
+})

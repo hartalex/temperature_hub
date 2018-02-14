@@ -1,5 +1,4 @@
 const db = require('../db/mongodb')()
-const dbUrl = require('../db/url')
 const slackPost = require('../data/slack')
 const config = require('../../config')
 const logging = require('winston')
@@ -7,8 +6,7 @@ const logging = require('winston')
 module.exports = function (req, res) {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
-  var connectPromise = db.connect(dbUrl)
-  connectPromise.then(function (dbobj) {
+    var dbobj = req.db
     return new Promise(function (resolve, reject) {
       db.querydistinctData(dbobj, 'sensorId', 'doors', function (temps) {
         db.queryData(dbobj, {}, 'sensors', function (sensors) {
@@ -24,11 +22,9 @@ module.exports = function (req, res) {
             }
             array.push(obj)
           }
-          dbobj.close()
           resolve(array)
         })
       })
-    })
   }).then(function (result) {
     res.json(result)
   })

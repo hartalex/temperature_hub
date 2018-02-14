@@ -1,4 +1,3 @@
-const dbUrl = require('../db/url')
 const configImport = require('../../config')
 const validation = require('./validation')
 const temperatureModel = require('./models/temperatureModel')
@@ -30,7 +29,7 @@ const insertDataPromise = function(data, db, dbobj, collection, obj) {
   })
 }
 
-module.exports = function(db, config, slack) {
+module.exports = function(db, dbobj, config, slack) {
   if (typeof config == 'undefined') {
     config = configImport
   }
@@ -41,9 +40,6 @@ module.exports = function(db, config, slack) {
     menuAdd: function(input) {
       const collection = 'menu'
       // Use connect method to connect to the Server
-      var connectPromise = db.connect(dbUrl)
-      return connectPromise
-        .then(function(dbobj) {
           return validation.isNotUndefined(input, 'Input')
             .then(function() {
               return validation.isNotNull(input, 'Input')
@@ -106,19 +102,12 @@ module.exports = function(db, config, slack) {
               return {
                 result: 'ok'
               }
-            }).catch(function(err) { // Inner Promise Chain
-              dbobj.close()
-              throw err
             })
-        })
     },
     tempAdd: function(input) {
       const time = new Date()
       // Use connect method to connect to the Server
-      var connectPromise = db.connect(dbUrl)
       var collection = 'temperatures'
-      return connectPromise
-        .then(function(dbobj) {
           return validation.isNotUndefined(input, 'Input')
             .then(function() {
               return validation.isNotNull(input, 'Input')
@@ -154,21 +143,13 @@ module.exports = function(db, config, slack) {
                     result: 'ok'
                   }
                 })
-                .catch(function(err) {
-                  dbobj.close()
-                  throw err
-                })
             })
-        })
     },
     doorAdd: function(input) {
       logging.log('debug', 'data.DoorAdd', input)
       const time = new Date()
       // Use connect method to connect to the Server
-      var connectPromise = db.connect(dbUrl)
-      var collection = 'doors'
-      return connectPromise
-        .then(function(dbobj) {
+     var collection = 'doors'
           return validation.isNotUndefined(input, 'Input')
             .then(function() {
               return validation.isNotNull(input, 'Input')
@@ -262,12 +243,8 @@ module.exports = function(db, config, slack) {
                   return {
                     result: 'ok'
                   }
-                }).catch(function(err) { // Inner Promise Chain
-                  dbobj.close()
-                  throw err
-                })
-            })
         })
+      })
     }
   }
 }
