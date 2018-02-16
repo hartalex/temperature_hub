@@ -49,8 +49,6 @@ jobs:
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
         - git config --global user.email "travis@travis-ci.org"
         - git config --global user.name "Travis CI"
-        - git add package.json
-        - node version patch -m "%s - Cron Auto Update Dependencies [ci skip]"
         - tar xvf secrets.tar
         - chmod 400 travis
         - eval "$(ssh-agent -s)"
