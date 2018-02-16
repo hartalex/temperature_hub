@@ -55,9 +55,9 @@ jobs:
         - chmod 400 travis
         - eval "$(ssh-agent -s)"
         - ssh-add travis
-        - git remote add origin git@github.com:hartcode/hartcode.com.git
-        - npm version patch -m "%s - Cron Auto Update Dependencies [ci skip]"
-        - git push origin HEAD:master
+        - git remote add deploy git@github.com:hartcode/hartcode.com.git
+        - npm version patch -f -m "%s - Cron Auto Update Dependencies [ci skip]"
+        - git push deploy HEAD:master
 notifications:
     slack: hartcode:GqPCaLxnPqXfPJBMjJbEvG81
 addons:
