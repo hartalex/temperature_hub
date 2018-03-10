@@ -4,8 +4,6 @@ import webpack from 'webpack'
 import config from '../../webpack.config'
 import path from 'path'
 var expressWinston = require('express-winston');
-var winston = require('winston');
-
 var express = require('express')
 var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
@@ -29,7 +27,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(expressWinston.logger({
   transports: [
-    new winston.transports.Console({
+    new logging.transports.Console({
       msg: "HTTP {{req.method}} {{req.url}}",
       colorize: true
     })
@@ -43,7 +41,7 @@ app.use(express.static(path.join(__dirname, '/../client/')))
 
 app.use(expressWinston.errorLogger({
   transports: [
-    new winston.transports.Console({
+    new logging.transports.Console({
       json:true,
       colorize: true
     })

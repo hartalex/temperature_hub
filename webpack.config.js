@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const path = require('path')
-const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -11,13 +10,6 @@ module.exports = {
         'process.env': {
          NODE_ENV: JSON.stringify('production')
          }
-    }),
-    new CommonsChunkPlugin({
-      name: 'commons',
-      // (the commons chunk name)
-      chunks: ['index', 'menuEntry', 'memoryEntry'],
-      filename: 'js/commons.js'
-      // (the filename of the commons chunk)
     })
   ],
 
@@ -30,31 +22,68 @@ module.exports = {
     path: path.join(__dirname, '/build/client'),
     filename: 'js/[name].js'
   },
+  optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "commons",
+            chunks: "all",
+          },
+        },
+      },
+    },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader|resolve-url-loader' })
+        use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader|resolve-url-loader' })
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: ['file-loader?hash=sha512&digest=hex&name=/img/[hash].[ext]']
+        use: [{
+          loader: 'file-loader',
+
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '/img/[hash].[ext]'
+          }
+        }]
       },
       {
         test: /.*favicon\.(ico)$/i,
-        loaders: ['file-loader?name=favicon.ico']
+        use: [{
+          loader: 'file-loader',
+
+          options: {
+            name: 'favicon.ico'
+          }
+        }]
       },
       {
         test: /.*\.(ttf|eot|woff|woff2|zip)$/i,
-        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
+        use: [{
+          loader: 'file-loader',
+
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '[hash].[ext]'
+          }
+        }]
       },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['react']
-        }
+
+        use: [{
+          loader: 'babel-loader',
+
+          options: {
+            presets: ['react']
+          }
+        }]
       }
     ]
   }
