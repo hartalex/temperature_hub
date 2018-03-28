@@ -26,12 +26,19 @@ module.exports = function (slackUrl) {
             json: true,
             body: slackData
           }, function (error, response, body) {
-            if (!error && response.statusCode === 200) {
+            if (!error && typeof response !== 'undefined' && response.statusCode && response.statusCode === 200) {
               // Sending to Slack was successful
               resolve(retval)
             } else {
               // Sending to Slack failed
-              reject(new Error('Error: ' + error + ' statusCode: ' + response.statusCode + ' body: ' + body))
+              var errorString ='Error: ' + error;
+              if (typeof response !== 'undefined' && response.statusCode) {
+                errorString += ' statusCode: ' + response.statusCode;
+              }
+              if (typeof body !== 'undefined') {
+                errorString += ' body: ' + body;
+              }
+              reject(new Error(errorString))
             }
           })
         })
