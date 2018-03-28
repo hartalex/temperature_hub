@@ -13,9 +13,9 @@ module.exports = function(client){
         if (typeof url !== 'string') {
           reject('url must be a string')
         } else {
-          client.connect(url, function (err, dbobj) {
+          client.connect(url, function (err, client) {
             if (err === null) {
-              resolve(dbobj)
+              resolve(client.db('temphub'))
             } else {
               reject(err)
             }
