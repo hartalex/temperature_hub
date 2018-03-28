@@ -2,6 +2,7 @@ const logging = require('winston')
 logging.level = 'debug'
 require('./server/api/db/mongodb')
 require('./server/api/data/data')
+require('./server/api/data/slack')
 require('./server/api/data/validation')
 require('./server/api/routes/data_add')
 require('./server/api/routes/menu_add')

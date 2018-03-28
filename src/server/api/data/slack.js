@@ -1,5 +1,8 @@
-const request = require('request')
-module.exports = function (slackUrl) {
+const requestDefault = require('request')
+module.exports = function (slackUrl, request) {
+  if (typeof request === 'undefined') {
+    request = requestDefault
+  }
   return {
     SlackPost: function (message, req, retval) {
       return new Promise(
