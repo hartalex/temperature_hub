@@ -148,7 +148,7 @@ describe('slack', function() {
       return slackObj.SlackPost(message, req, retval).then((ret) => {
         assert.equal(retval, ret)
       }).catch((error) => {
-        assert.equal(error.message, 'Error: false statusCode: 500 body: undefined')
+        assert.equal(error.message, 'Error: false statusCode: 500')
       })
     })
 
@@ -168,6 +168,29 @@ describe('slack', function() {
       var retval = 'retval'
       return slackObj.SlackPost(message, req, retval).then((ret) => {
         assert.equal(retval, ret)
+      }).catch((error) => {
+        assert.equal(error.message, 'Error: false')
+      })
+    })
+
+    it('slack mock request fail response undefined body is defined', function() {
+      var mockRequestFail = function (obj, callback) {
+        var error = false
+        var response = undefined
+        var body = 'body'
+        callback(error, response, body)
+      }
+      var slackObj = slack(null, mockRequestFail)
+      var message  = new Error('message')
+      var req = {
+        method : 'method',
+        url : 'url'
+      }
+      var retval = 'retval'
+      return slackObj.SlackPost(message, req, retval).then((ret) => {
+        assert.equal(retval, ret)
+      }).catch((error) => {
+        assert.equal(error.message, 'Error: false body: body')
       })
     })
 
