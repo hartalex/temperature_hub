@@ -7,7 +7,7 @@
     "test": "nyc --all mocha src/test/",
     "coverage": "nyc --all report --reporter=text-lcov > lcov.info",
     "clean": "rimraf build",
-    "build": "npm run clean && babel src/server -d build/server && webpack",
+    "build": "yarn run clean && babel src/server -d build/server && webpack",
     "lint": "eslint src/**",
     "start": "node build/server/server.js",
     "prodstart": "node build/server/server.prod.js",
@@ -75,5 +75,11 @@
     "webpack-cli": "^2.0.11",
     "webpack-dev-server": "^3.1.1",
     "webpack-hot-middleware": "^2.21.2"
+  },
+  "nyc": {
+    "exclude" : [
+      "build",
+      "webpack.config.js"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:8
+FROM node:9-alpine
 ARG COMMIT=local
 ARG TAG=local
 ENV COMMIT ${COMMIT}
@@ -9,7 +9,7 @@ COPY ./build /root/temperature_hub/build
 COPY ./views /root/temperature_hub/views
 COPY ./package.json /root/temperature_hub/package.json
 WORKDIR /root/temperature_hub
-RUN npm install
+RUN yarn install
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["npm","run", "prodstart"]
+ENTRYPOINT ["yarn","run", "prodstart"]
