@@ -3,7 +3,7 @@ module.exports = {
     var retval = Math.trunc((new Date() - new Date(time)) / 1000)
     if (retval > 60) {
       retval = Math.trunc(retval / 60)
-      if (retval > 60) {
+      if (retval >= 60) {
         retval = Math.trunc(retval / 60)
         retval = retval + ' hour'
       } else {
@@ -16,13 +16,15 @@ module.exports = {
   },
   calculateTodayTomorrowNextDay(propDay) {
     var retval
+    var day = 0;
     if (propDay === 'Today') {
-      retval = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      day = 0;
     } else if (propDay === 'Tomorrow') {
-      retval = new Date((new Date().getTime() + 24 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      day = 1;
     } else if (propDay === 'NextDay') {
-      retval = new Date((new Date().getTime() + 48 * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      day = 2;
     }
+    retval = new Date((new Date().getTime() + 24 * day * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
     return retval
   }
 

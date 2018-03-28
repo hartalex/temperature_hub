@@ -1,5 +1,8 @@
 const logging = require('winston')
 logging.level = 'debug'
+require('./client/moonIcons')
+require('./client/temperatureColor')
+require('./client/util')
 require('./client/weekDay')
 require('./server/api/db/mongodb')
 require('./server/api/data/data')

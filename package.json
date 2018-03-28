@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha src/test/",
+    "test": "webpack --mode development --config webpack.test.config.js && nyc --all mocha build/test.js",
+    "test-old": "nyc mocha src/test/",
     "coverage": "nyc report --reporter=text-lcov > lcov.info",
     "clean": "rimraf build",
     "build": "yarn run clean && babel src/server -d build/server && webpack",
@@ -47,9 +48,12 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-istanbul": "^4.1.5",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.3.0",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "eslint": "^4.18.2",
     "eslint-config-standard": "^11.0.0",
@@ -63,6 +67,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "image-webpack-loader": "^4.1.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
     "mocha": "^5.0.4",
     "nyc": "^11.4.1",
     "redux-devtools": "^3.4.1",
@@ -74,12 +79,18 @@
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.11",
     "webpack-dev-server": "^3.1.1",
-    "webpack-hot-middleware": "^2.21.2"
+    "webpack-hot-middleware": "^2.21.2",
+    "webpack-node-externals": "^1.6.0"
   },
   "nyc": {
     "check-coverage": true,
     "lines": 50,
-    "exclude" : [
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "exclude": [
       "build",
       "webpack.config.js"
     ],
