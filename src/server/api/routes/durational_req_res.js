@@ -1,8 +1,9 @@
-const db = require('../db/mongodb')()
-const dbUrl = require('../db/url')
-
+const slackPost = require('../data/slack')
+const config = require('../../config')
+const logging = require('winston')
 
 module.exports = function (hours, days, months) {
+  var slack = slackPost(config.slackUrl)
   return function (req, res) {
   var duration
   if ('duration' in req.params) {
@@ -10,73 +11,63 @@ module.exports = function (hours, days, months) {
   }
   duration = validateDuration(duration)
   // Use connect method to connect to the Server
-  var connectPromise = db.connect(dbUrl)
-  connectPromise.then(function (dbobj) {
+    var dbobj = req.db
     return new Promise(function (resolve, reject) {
       if (duration === '1h') {
         hours(dbobj, 1, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '12h') {
         hours(dbobj, 12, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '24h') {
         hours(dbobj, 24, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '3d') {
         days(dbobj, 3, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '7d') {
         days(dbobj, 7, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '14d') {
         days(dbobj, 14, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '28d') {
         days(dbobj, 28, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '1m') {
         months(dbobj, 1, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '3m') {
         months(dbobj, 3, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '6m') {
         months(dbobj, 6, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else if (duration === '12m') {
         months(dbobj, 12, function (temps) {
-          dbobj.close()
           resolve(temps)
         })
       } else {
-        dbobj.close()
         reject('Duration could not be handled' + duration)
       }
-    })
   }).then(function (result) {
     res.json(result)
   })
   .catch(function (err) {
+    logging.log('error', req.method + ' ' + req.url, err)
+    slack.SlackPost(err, req).catch(function(slackErr) {
+      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
+    })
     res.json([])
   })
 }

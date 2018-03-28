@@ -94,6 +94,16 @@ class MenuDayComponent extends React.Component {
       }
       that.state.data.lastUpdate = new Date().toISOString()
       that.setState(that.state)
+    }).catch(function(error) {
+      that.state.data ={
+        date: that.state.data.date,
+        firstOption: null,
+        secondOption: null,
+        otherStuff: null,
+        day: that.state.data.day,
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      }
+      that.setState(that.state)
     })
   }
   render () {

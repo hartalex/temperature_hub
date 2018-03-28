@@ -10,7 +10,7 @@ class TempDataFetcherComponent extends React.Component {
     if (updateInterval === 0) {
       updateInterval = 60000
     }
-    this.getData(props.setTempData, this)
+    this.getData(props.setTempData,  props.setTempDataFail, this)
     setInterval(() => { this.getData(props.setTempData, props.setTempDataFail, this) }, updateInterval)
   }
   getData (setTempData, setTempDataFail, obj) {

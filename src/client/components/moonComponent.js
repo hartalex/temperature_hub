@@ -80,6 +80,26 @@ class MoonComponent extends React.Component {
         var styleClone = JSON.parse(JSON.stringify(that.state.style))
         that.state.style = styleClone
         that.setState(that.state)
+    }).catch(function(error) {
+      that.state.data ={
+        percentIlluminated:0,
+        ageOfMoon:0,
+        phaseofMoon:'',
+        sunrise: {
+          hour:'00',
+          minute:'00'},
+        sunset: {
+          hour:'00',
+          minute:'00'},
+        moonrise: {
+          hour:'00',
+          minute:'00'},
+        moonset: {
+          hour:'00',
+          minute:'00'},
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      }
+      that.setState(that.state)
     })
   }
   render () {

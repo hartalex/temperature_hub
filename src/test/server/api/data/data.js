@@ -1,9 +1,13 @@
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
+var mockMongoDbDupeFound = require('../db/mock-mongodb-dupefound')
+var mockMongoDbDupeNotFound = require('../db/mock-mongodb-dupenotfound')
 var mockMongoDbDoorClosed = require('../db/mock-mongodb-doorclosed')
 var mockMongoDbTemp = require('../db/mock-mongodb-temp')
 var mockMongoDbThrowInsertError = require('../db/mock-mongodb-throw-error')
 const data = require('../../../../server/api/data/data')
+const mockSlack = require('./mockSlack')(null)
+var mockDB = require('../db/mock-db')
 
 describe('data', function() {
   describe('#tempAdd(input)', function() {
@@ -12,7 +16,7 @@ describe('data', function() {
         id: 'test',
         t: 50
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -22,7 +26,7 @@ describe('data', function() {
       var input = {
         id: 'test'
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Property t is missing')
       })
@@ -33,7 +37,7 @@ describe('data', function() {
         id: 6,
         t: 50
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'id is not a string')
       })
@@ -44,7 +48,7 @@ describe('data', function() {
         id: '',
         t: 50
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'id is an empty string')
       })
@@ -55,14 +59,14 @@ describe('data', function() {
         id: 'test',
         t: 'test'
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 't is not a number')
       })
     })
     it('tempAdd fail input is undefined', function() {
       var input
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Input is undefined')
       })
@@ -70,7 +74,7 @@ describe('data', function() {
 
     it('tempAdd fail input is null', function() {
       var input = null
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).catch(function(err) {
         assert.equal(err, 'Input is null')
       })
@@ -82,7 +86,7 @@ describe('data', function() {
         t: 0
       }
 
-      var  dataobj = data(mockMongoDbTemp, {NoDuplicateData:true})
+      var  dataobj = data(mockMongoDbTemp, mockDB.all(), {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
         assert.failure('should have errored')
       }).catch(function(error) {
@@ -96,7 +100,7 @@ describe('data', function() {
         t: 0
       }
 
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -109,7 +113,7 @@ describe('data', function() {
         t: 0
       }
 
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -122,7 +126,7 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all(), undefined, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -132,7 +136,7 @@ describe('data', function() {
       var input = {
         sensorId: 'test'
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Property isOpen is missing')
       })
@@ -143,7 +147,7 @@ describe('data', function() {
         sensorId: 2,
         isOpen: false
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'sensorId is not a string')
       })
@@ -154,7 +158,7 @@ describe('data', function() {
         sensorId: '',
         isOpen: false
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'sensorId is an empty string')
       })
@@ -165,7 +169,7 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: 7
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'isOpen is not a boolean')
       })
@@ -173,7 +177,7 @@ describe('data', function() {
 
     it('doorAdd fail input is undefined', function() {
       var input
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Input is undefined')
       })
@@ -181,7 +185,7 @@ describe('data', function() {
 
     it('doorAdd fail input is null', function() {
       var input = null
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.doorAdd(input).catch(function(err) {
         assert.equal(err, 'Input is null')
       })
@@ -193,7 +197,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDbDoorClosed, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDbDoorClosed, mockDB.all(), {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
         assert.failure('should have errored')
       }).catch(function(error) {
@@ -207,7 +211,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDbDoorClosed, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDbDoorClosed, mockDB.all(), {NoDuplicateData:true})
       return dataobj.doorAdd(input).then(function(output) {
         assert.failure('should have errored')
       }).catch(function(error) {
@@ -220,10 +224,33 @@ describe('data', function() {
         sensorId: 'test',
         isOpen: false
       }
-
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
+      })
+    })
+
+    it('doorAdd door success duplicate slack dupe found', function() {
+      var input = {
+        sensorId: 'test',
+        isOpen: true
+      }
+      var dataobj = data(mockMongoDbDupeFound, mockDB.all(), {NoDuplicateData:false}, mockSlack)
+      return dataobj.doorAdd(input).then(function(output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(mockSlack.SlackPost.callCount, 2)
+      })
+    })
+
+    it('doorAdd door success duplicate slack dupe not found', function() {
+      var input = {
+        sensorId: 'test',
+        isOpen: true
+      }
+      var dataobj = data(mockMongoDbDupeNotFound, mockDB.all(), {NoDuplicateData:false}, mockSlack)
+      return dataobj.doorAdd(input).then(function(output) {
+        assert.equal(output.result, 'ok')
+        assert.equal(mockSlack.SlackPost.callCount, 3)
       })
     })
 
@@ -234,7 +261,7 @@ describe('data', function() {
         isOpen: false
       }
 
-      var dataobj = data(mockMongoDb, {NoDuplicateData:true})
+      var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -248,7 +275,7 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      var dataobj = data(mockMongoDb)
+      var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.menuAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
@@ -260,7 +287,7 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      var dataobj = data(mockMongoDbTemp)
+      var dataobj = data(mockMongoDbTemp, mockDB.all())
       return dataobj.menuAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')
@@ -276,7 +303,7 @@ describe('data', function() {
         secondOption: ' ',
         otherStuff: ' '
       }
-      var dataobj = data(mockMongoDbThrowInsertError)
+      var dataobj = data(mockMongoDbThrowInsertError, mockDB.all())
       return dataobj.menuAdd(input).then(function(output) {
         /* istanbul ignore next */
         assert.failure('should have errored')

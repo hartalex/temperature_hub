@@ -22,6 +22,11 @@ const TemperatureComponent = ({sensorName, myTempData}) => {
       }
     }
     var retval
+    if (typeof myTempData == 'undefined') {
+      myTempData = {
+        "tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":sensorName,"outdated":true,
+      }
+    }
       const updateTimeInMinutes = Util.timeAgo(myTempData.lastUpdate)
       var temp = Math.trunc(myTempData.tempInFarenheit)
       var tempDecimal = Math.abs(Math.trunc((myTempData.tempInFarenheit - temp) * 100))
@@ -70,7 +75,7 @@ const mapStateToProps = function(state, props) {
 }
 
 const reduxTemperatureComponent = connect(
-  mapStateToProps  
+  mapStateToProps
 )(TemperatureComponent)
 
 export default reduxTemperatureComponent

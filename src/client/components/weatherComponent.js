@@ -68,6 +68,17 @@ class WeatherComponent extends React.Component {
         that.state.style = styleCloneBad
       }
       that.setState(that.state)
+    }).catch(function(error) {
+      that.state.data ={
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '01d',
+        day: 'Now',
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      }
+      that.setState(that.state)
     })
   }
   render () {

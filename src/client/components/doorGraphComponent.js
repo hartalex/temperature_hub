@@ -16,14 +16,16 @@ const getData = function (duration, that) {
     }).then(function (json) {
       var arraydata = []
       var titleRow = ['Time']
+      var lastArrayRow = [null]
       sensorjson.forEach(function (sensor) {
         var sensorName = sensor.sensorId
         if ('name' in sensor) {
           sensorName = sensor.name
         } titleRow.push(sensorName)
+        lastArrayRow.push(0)
       })
       arraydata.push(titleRow)
-      var lastArrayRow = [null, 0, 0]
+
       json.forEach(function (element) {
         var datestring = element._id.minute
         if (datestring.charAt(datestring.length - 1) !== 'Z') {
@@ -40,6 +42,7 @@ const getData = function (duration, that) {
               } else {
                 tempData = 0
               }
+              tempData *= (i+1)
             }
           })
           arrayRow.push(tempData)
@@ -57,7 +60,13 @@ const getData = function (duration, that) {
       arrayRow[0] = new Date()
       arraydata.push(arrayRow)
       that.setState({options: that.state.options, data: {array: arraydata, lastUpdate: new Date().toISOString()}})
+    }).catch(function(error) {
+      that.state.data = null
+      that.setState(that.state)
     })
+  }).catch(function(error) {
+    that.state.data = null
+    that.setState(that.state)
   })
 }
 

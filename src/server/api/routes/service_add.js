@@ -1,14 +1,15 @@
 const db = require('../db/mongodb')()
-const dbUrl = require('../db/url')
+const slackPost = require('../data/slack')
+const config = require('../../config')
+const logging = require('winston')
 
 module.exports = function (req, res) {
+  var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
-  var connectPromise = db.connect(dbUrl)
-  connectPromise.then(function (dbobj) {
+      var dbobj = req.db
     return new Promise(function (resolve, reject) {
       var svc = req.body
       if (typeof svc === 'undefined') {
-        dbobj.close()
         reject({
           result: 'fail',
           reason: 'Request Body is Undefined'
@@ -30,14 +31,11 @@ module.exports = function (req, res) {
                           if (result == null) {
                             var insertPromise = db.insertData(dbobj, 'services', svc)
                             insertPromise.then(function (result) {
-                              dbobj.close()
                               resolve(result)
                             }).catch(function (err) {
-                              dbobj.close()
                               reject(err)
                             })
                           } else {
-                            dbobj.close()
                             reject({
                               result: 'fail',
                               reason: 'Service already exists'
@@ -45,7 +43,6 @@ module.exports = function (req, res) {
                           }
                         })
                       } else {
-                        dbobj.close()
                         reject({
                           result: 'fail',
                           reason: 'Service already exists'
@@ -53,49 +50,42 @@ module.exports = function (req, res) {
                       }
                     })
                   } else {
-                    dbobj.close()
                     reject({
                       result: 'fail',
                       reason: 'Property name is an empty string'
                     })
                   }
                 } else {
-                  dbobj.close()
                   reject({
                     result: 'fail',
                     reason: 'Property name is not a string'
                   })
                 }
               } else {
-                dbobj.close()
                 reject({
                   result: 'fail',
                   reason: 'Missing name property'
                 })
               }
             } else {
-              dbobj.close()
               reject({
                 result: 'fail',
                 reason: 'Property url is an empty string'
               })
             }
           } else {
-            dbobj.close()
             reject({
               result: 'fail',
               reason: 'Property url is not a string'
             })
           }
         } else {
-          dbobj.close()
           reject({
             result: 'fail',
             reason: 'Property url is missing'
           })
         }
       }
-    })
   }).then(function (result) {
     return new Promise(function (resolve, reject) {
       if (result != null && result.result.n > 0) {
@@ -105,6 +95,10 @@ module.exports = function (req, res) {
       }
     })
   }).catch(function (err) {
+    logging.log('error', req.method + ' ' + req.url, err)
+    slack.SlackPost(err, req).catch(function(slackErr) {
+      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
+    })
     res.status(500)
     res.json(err)
   })

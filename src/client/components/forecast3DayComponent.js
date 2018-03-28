@@ -84,7 +84,7 @@ class Forecast3DayComponent extends React.Component {
         for (var i = 0; i < 3; i++) {
 
           that.state.data.forecast[i].weatherDescription = currentjson.simpleforecast.forecastday[i].conditions
-          that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url
+          that.state.data.forecast[i].icon = currentjson.simpleforecast.forecastday[i].icon_url.replace('http:','https:')
           that.state.data.forecast[i].temperatureMax = currentjson.simpleforecast.forecastday[i].high.fahrenheit
           that.state.data.forecast[i].temperatureMin = currentjson.simpleforecast.forecastday[i].low.fahrenheit
           that.state.data.forecast[i].dt = currentjson.simpleforecast.forecastday[i].date.epoch
@@ -102,6 +102,38 @@ class Forecast3DayComponent extends React.Component {
       }
       that.setState(that.state)
     }
+    }).catch(function(error) {
+      that.state.data = {
+        forecast:
+      [{
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Today',
+        dt: '1489687200'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Tomorrow',
+        dt: '1489770000'
+      }, {
+        weatherDescription: 'Clear',
+        temperature: 30,
+        temperatureMin: 32,
+        temperatureMax: 34,
+        icon: '',
+        day: 'Next Day',
+        dt: '1489856400'
+      }
+      ],
+        lastUpdate: '2017-01-01T00:00:00.000Z'
+      }
+      that.setState(that.state)
     })
   }
   render () {

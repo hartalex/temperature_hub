@@ -4,5 +4,4 @@ build
 .nyc_output
 coverage
 lcov.info
-package-lock.json
 *.retry
