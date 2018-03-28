@@ -23,21 +23,22 @@ const weather = require('./weather')
 const memoryAdd = require('./memory_add')
 const memoryList = require('./memory_list')
 const jsonParser = bodyParser.json()
+const logging = require('winston')
 
 module.exports = function (app, mymongodb) {
   if (typeof mymongodb === 'undefined') {
     mymongodb = mongodb
   }
-    
+
    return mymongodb.connect(dbUrl).then(function(dbobj) {
     return new Promise(function (resolve, reject) {
-    
+
     // express middleware to add database to request
     app.use(function (req, res, next) {
       req.db = dbobj
       next()
     })
-    
+
     app.get('/services/list', cache(3600),  serviceList)
     app.post('/services/add', jsonParser, serviceAdd)
     app.post('/services/delete', jsonParser, serviceDel)
@@ -82,5 +83,7 @@ module.exports = function (app, mymongodb) {
     app.get('/info', info)
     resolve()
   })
-  })
+}).catch((error) => {
+  logging.log('error','error connecting to mongo', error)
+})
 }

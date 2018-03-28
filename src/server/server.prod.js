@@ -14,7 +14,7 @@ var cert = fs.readFileSync( '/etc/ssl/certs/ssl-hub.hartcode.com.crt' )
 const logging = require('winston')
 var options = {
 	key: key,
-	cert: cert 
+	cert: cert
 }
 const app = express()
 app.use(expressWinston.logger({
