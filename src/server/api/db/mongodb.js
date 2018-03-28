@@ -1,5 +1,5 @@
 var realMongoClient = require('mongodb').MongoClient
-
+const dbname = 'temphub'
 module.exports = function(client){
   if (typeof client === 'undefined') {
     client = realMongoClient
@@ -15,7 +15,7 @@ module.exports = function(client){
         } else {
           client.connect(url, function (err, client) {
             if (err === null) {
-              resolve(client.db('temphub'))
+              resolve(client.db(dbname))
             } else {
               reject(err)
             }
