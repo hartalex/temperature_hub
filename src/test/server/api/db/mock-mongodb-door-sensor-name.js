@@ -7,7 +7,7 @@ module.exports = {
     simple.mock(this, 'connect').resolveWith({ close: function () {} })
     simple.mock(this, 'queryData').callbackWith(null)
     simple.mock(this, 'querydistinctData').callbackWith(null)
-    simple.mock(this, 'queryOneData').callbackWith()
+    simple.mock(this, 'queryOneData').callbackWith({name : 'name'})
     simple.mock(this, 'queryLastData').callbackWith(null)
     simple.mock(this, 'queryAggregateData').callbackWith(null)
     simple.mock(this, 'insertData', function(obj) {

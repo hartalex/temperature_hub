@@ -1,3 +1,4 @@
+import mockMongoDbDoorSensorName from '../db/mock-mongodb-door-sensor-name'
 var assert = require('assert')
 var mockMongoDb = require('../db/mock-mongodb')
 var mockMongoDbDupeFound = require('../db/mock-mongodb-dupefound')
@@ -262,6 +263,19 @@ describe('data', function() {
       }
 
       var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true}, mockSlack)
+      return dataobj.doorAdd(input).then(function(output) {
+        assert.equal(output.result, 'ok')
+      })
+    })
+
+    it('doorAdd door success db sensor name', function() {
+      var input = {
+        sensorId: 'test',
+        utc_timestamp: 'timestamp',
+        isOpen: false
+      }
+
+      var dataobj = data(mockMongoDbDoorSensorName, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
         assert.equal(output.result, 'ok')
       })
