@@ -1,11 +1,18 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const slackPost = require('../data/slack')
-const config = require('../../config')
+const default_config = require('../../config')
 const logging = require('winston')
 
 module.exports = function (req, res, done) {
-  var slack = slackPost(config.slackUrl)
+  var config = req.config
+  if (typeof config === 'undefined') {
+    config = default_config
+  }
+  var slack = req.slack
+  if (typeof slack == 'undefined') {
+    slack = slackPost(config.slackUrl)
+  }
   if (config.openweathermap_key !== '') {
     fetch('https://api.openweathermap.org/data/2.5/weather?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key).then(function (response) {
       if (response.status >= 400) {

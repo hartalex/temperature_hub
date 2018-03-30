@@ -10,5 +10,17 @@ describe('weather', function() {
         reason: 'weather api key not found in configuration'
       })
     })
+
+    it('weather fail bad fetch url', function(done) {
+      doTest(done, weather, {
+        config: {
+          openweathermap_key: 'key',
+        }
+      }, {
+        status: 500,
+        result: 'fail',
+        reason: 'Error: Bad response from server'
+      })
+    })
   })
 })
