@@ -1,25 +1,50 @@
 var realMongoClient = require('mongodb').MongoClient
+const winston = require('winston')
 const dbname = 'temphub'
+const logging = new (winston.Logger)({
+  transports: [
+    new (winston.transports.Console)({timestamp: true})
+  ]
+})
+
 module.exports = function(client){
   if (typeof client === 'undefined') {
     client = realMongoClient
   }
-  return { connect: function (url) {
-
-    return new Promise(function (resolve, reject) {
+  return {
+    connect: function (url, retryMax) {
+      if (typeof retryMax === 'undefined') {
+        retryMax = 0
+      }
+      return new Promise(function (resolve, reject) {
       if (url === null) {
         reject('url cannot be null')
       } else {
         if (typeof url !== 'string') {
           reject('url must be a string')
         } else {
-          client.connect(url, function (err, client) {
-            if (err === null) {
-              resolve(client.db(dbname))
-            } else {
-              reject(err)
+
+          const connectCallback = (retryMax, retryCnt) => {
+            if (typeof retryCnt === 'undefined') {
+              retryCnt = 0
             }
-          })
+            return (err, connection) => {
+              if (err === null) {
+                resolve(connection.db(dbname))
+              } else {
+                // retry()
+                if (retryCnt < retryMax) {
+                  retryCnt++
+                  logging.log('info', 'MongoConnectionFailed: (' + retryCnt + ' of ' + retryMax + '): ' + err)
+                  setTimeout(()=>{client.connect(url, connectCallback(retryMax, retryCnt))}, 15000)
+                } else {
+                  logging.log('info', 'MongoConnectionFailed: No More Retries: ' + err)
+                  reject(err)
+                }
+              }
+            }
+          }
+          client.connect(url, connectCallback(retryMax))
         }
       }
     })
