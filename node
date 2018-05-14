@@ -1,2 +1,2 @@
 #!/bin/sh
-docker run -v /home/alex/workspace/temperature_hub:/root/project node:9-alpine yarn --cwd /root/project "$@"
+docker run  -it --network=host -v /home/alex/workspace/temperature_hub:/root/project node:9-alpine yarn --cwd /root/project "$@"
