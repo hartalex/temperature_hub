@@ -3,7 +3,7 @@ cache:
   directories:
     - "$HOME/google-cloud-sdk/"
     - node_modules
-language: 
+language:
   - node_js
   - python
 python: 2.7
@@ -17,7 +17,7 @@ stages:
 services:
   - docker
 node_js:
-  - node
+  - 9.11.1
 jobs:
   include:
     - stage: build
@@ -34,7 +34,7 @@ jobs:
         - pip install ansible --user
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
         - tar xvf secrets.tar
-        - ./deployToGCS.sh temperature_hub 
+        - ./deployToGCS.sh temperature_hub
         - ./deployAnsible.sh
     - stage: update_depends
       script:
