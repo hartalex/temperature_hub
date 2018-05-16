@@ -1,12 +1,12 @@
-const db = require('../db/mongodb')()
-const slackPost = require('../data/slack')
-const config = require('../../config')
+const db = require('../../db/mongodb')()
+const slackPost = require('../../data/slack')
+const config = require('../../../config')
 const logging = require('winston')
 
 module.exports = function (req, res) {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
-    var dbobj = req.db
+      var dbobj = req.db
     return new Promise(function (resolve, reject) {
       var svc = req.body
       if (typeof svc === 'undefined') {
@@ -21,14 +21,31 @@ module.exports = function (req, res) {
               if ('name' in svc) {
                 if (typeof svc.name === 'string') {
                   if (svc.name.length > 0) {
-                    db.deleteData(dbobj, 'services', svc, function (result) {
-                      if (result != null && result.result.n > 0) {
-                        resolve({
-                          result: 'ok'
+                    db.queryOneData(dbobj, {
+                      url: svc.url
+                    }, 'services', function (result) {
+                      if (result == null) {
+                        db.queryOneData(dbobj, {
+                          name: svc.name
+                        }, 'services', function (result) {
+                          if (result == null) {
+                            var insertPromise = db.insertData(dbobj, 'services', svc)
+                            insertPromise.then(function (result) {
+                              resolve(result)
+                            }).catch(function (err) {
+                              reject(err)
+                            })
+                          } else {
+                            reject({
+                              result: 'fail',
+                              reason: 'Service already exists'
+                            })
+                          }
                         })
                       } else {
                         reject({
-                          result: 'fail'
+                          result: 'fail',
+                          reason: 'Service already exists'
                         })
                       }
                     })
@@ -70,7 +87,13 @@ module.exports = function (req, res) {
         }
       }
   }).then(function (result) {
-    res.json(result)
+    return new Promise(function (resolve, reject) {
+      if (result != null && result.result.n > 0) {
+        res.json({result: 'ok'})
+      } else {
+        reject('result was not inserted to database')
+      }
+    })
   }).catch(function (err) {
     logging.log('error', req.method + ' ' + req.url, err)
     slack.SlackPost(err, req).catch(function(slackErr) {

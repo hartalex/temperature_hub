@@ -3,9 +3,9 @@ const mongodb = require('../db/mongodb')()
 const dbUrl = require('../db/url')
 const cache = require('express-cache-headers')
 const bodyParser = require('body-parser')
-const serviceList = require('./service_list')
-const serviceAdd = require('./service_add')
-const serviceDel = require('./service_del')
+const serviceList = require('./services/service_list')
+const serviceAdd = require('./services/service_add')
+const serviceDel = require('./services/service_del')
 const dataAdd = require('./data_add')
 const tempList = require('./temp_list')
 const tempCurrent = require('./temp_current')
@@ -44,7 +44,10 @@ module.exports = function (app, mymongodb) {
        next()
      })
 
+     // services
      app.get('/services/list', cache(3600),  serviceList);
+     app.get('/services', cache(3600),  serviceList);
+
      app.post('/services/add', jsonParser, serviceAdd)
      app.post('/services/delete', jsonParser, serviceDel)
 

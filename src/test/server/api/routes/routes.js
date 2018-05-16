@@ -19,8 +19,8 @@ describe('routes', function() {
           useCnt++
         }
       }
-      routes(app, mockMongoDB).then(function() {
-        assert.equal(getCnt, 17)
+      return routes(app, mockMongoDB).then(function() {
+        assert.equal(getCnt, 18)
         assert.equal(postCnt, 6)
         assert.equal(useCnt, 1)
       })
