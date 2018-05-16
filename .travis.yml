@@ -25,7 +25,7 @@ jobs:
         - yarn run lint
         - yarn run test
         - yarn run coverage
-        - yarn install -g codeclimate-test-reporter
+        - yarn global add codeclimate-test-reporter
         - codeclimate-test-reporter < lcov.info
         - yarn run build
     - stage: deploy
@@ -42,7 +42,7 @@ jobs:
         - yarn run lint
         - yarn run test
         - yarn run coverage
-        - yarn install -g codeclimate-test-reporter
+        - yarn global add codeclimate-test-reporter
         - codeclimate-test-reporter < lcov.info
         - yarn run build
       after_success:
