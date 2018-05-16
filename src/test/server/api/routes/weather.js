@@ -15,11 +15,14 @@ describe('weather', function() {
       doTest(done, weather, {
         config: {
           openweathermap_key: 'key',
-        }
+          zipCode: 'zipCode'
+        },
+        method: 'get',
+        url:'empty'
       }, {
         status: 500,
         result: 'fail',
-        reason: 'Error: Bad response from server'
+        reason: 'FetchError: network timeout at: https://api.openweathermap.org/data/2.5/weather?zip=zipCode,us&units=imperial&APPID=key'
       })
     })
   })
