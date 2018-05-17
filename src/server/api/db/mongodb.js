@@ -49,44 +49,29 @@ module.exports = function(client){
       }
     })
   },
-  checkArgs: (db, query, collection, callback) => {
+  checkArg: (obj, objName, callback) => {
     var retval = true
-    if (db === null) {
-      callback(new Error('db is null'))
-      retval = false
-    } else if (query === null) {
-      callback(new Error('query is null'))
-      retval = false
-    } else if (collection === null) {
-      callback(new Error('collection is null'))
+    if (obj === null) {
+      callback(new Error(objName + ' is null'))
       retval = false
     }
     return retval
   },
-  checkArgsDCO: (db, collection, obj, callback) => {
-    var retval = true
-    if (db === null) {
-      callback(new Error('db is null'))
-      retval = false
-    } else if (collection === null) {
-      callback(new Error('collection is null'))
-      retval = false
-    } else if (obj === null) {
-      callback(new Error('obj is null'))
-      retval = false
-    }
-    return retval
+  checkArgs: function (db, query, collection, callback) {
+    return this.checkArg(db, 'db', callback) &&
+      this.checkArg(query, 'query', callback) &&
+      this.checkArg(collection, 'collection', callback)
+  },
+  checkArgsDCO: function (db, collection, obj, callback) {
+    return this.checkArg(db, 'db', callback) &&
+      this.checkArg(collection, 'collection', callback) &&
+      this.checkArg(obj, 'obj', callback)
   },
   checkArgsSort: function (db, query, sort, collection, callback) {
-    var retval = true
-    if (sort === null) {
-      callback(new Error('sort is null'))
-      retval = false
-    } else
-    {
-      retval = this.checkArgs(db, query, collection, callback)
-    }
-    return retval
+    return this.checkArg(db, 'db', callback) &&
+      this.checkArg(query, 'query', callback) &&
+      this.checkArg(sort, 'sort', callback) &&
+      this.checkArg(collection, 'collection', callback)
   },
 
   queryData: function (db, query, collection, callback) {
