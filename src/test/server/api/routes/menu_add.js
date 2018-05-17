@@ -2,7 +2,7 @@ var mockSuccess = require('../data/mock-success')
 var mockFail = require('../data/mock-fail')
 var mockmongodb = require('../db/mock-mongodb')
 const mockdata = require('../../../../server/api/data/data')(mockmongodb)
-const menuAdd = require('../../../../server/api/routes/menu_add')
+const menuAdd = require('../../../../server/api/routes/menu/menu_add')
 const doTest = require('./do_test')
 
 describe('menu_add', function() {

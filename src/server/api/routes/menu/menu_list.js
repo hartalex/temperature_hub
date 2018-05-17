@@ -1,8 +1,8 @@
-const db = require('../db/mongodb')()
-const slackPost = require('../data/slack')
-const config = require('../../config')
+const db = require('../../db/mongodb')()
+const slackPost = require('../../data/slack')
+const config = require('../../../config')
 const logging = require('winston')
-const finish = require('./done')
+const finish = require('../done')
 
 module.exports = function (req, res, done) {
   var slack = slackPost(config.slackUrl)
@@ -25,7 +25,8 @@ module.exports = function (req, res, done) {
         resolve(menu)
       })
   }).then(function (result) {
-    res.json(result)
+    res.json({'result':'ok', 'data':result})
+    res.status(200)
     finish(done)
   })
   .catch(function (err) {
@@ -33,7 +34,11 @@ module.exports = function (req, res, done) {
     slack.SlackPost(err, req).catch(function(slackErr) {
       logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
     })
-    res.json([])
+    res.status(500)
+    res.json({
+      result: 'fail',
+      reason: err
+    })
     finish(done)
   })
 }

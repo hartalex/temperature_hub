@@ -1,6 +1,6 @@
-const mongodb = require('../db/mongodb')()
-var realData = require('../data/data')
-var routeAddImport = require('./route_add')
+const mongodb = require('../../db/mongodb')()
+var realData = require('../../data/data')
+var routeAddImport = require('../route_add')
 
 module.exports = function (req, res, done) {
   var routeAdd = routeAddImport(undefined, req.slack)

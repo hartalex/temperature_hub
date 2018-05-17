@@ -16,8 +16,10 @@ const sensorAdd = require('./sensor_add')
 const doorList = require('./door_list')
 const doorGraph = require('./door_graph')
 const doorSensorList = require('./door_sensor_list')
-const menuAdd = require('./menu_add')
-const menuList = require('./menu_list')
+
+const menuAdd = require('./menu/menu_add')
+const menuList = require('./menu/menu_list')
+
 const moonPhases = require('./moon_phases')
 const forecast = require('./forecast')
 const weather = require('./weather')
