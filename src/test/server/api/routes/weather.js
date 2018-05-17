@@ -11,7 +11,10 @@ describe('weather', function() {
       })
     })
 
+    // TODO(alex) : need to rethink this.
+    // we get different error reasons, depending on if their is a network connection or not.
     it('weather fail bad fetch url', function(done) {
+      this.timeout(15000)
       doTest(done, weather, {
         config: {
           openweathermap_key: 'key',

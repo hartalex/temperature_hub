@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const serviceList = require('./services/service_list')
 const serviceAdd = require('./services/service_add')
 const serviceDel = require('./services/service_del')
+
 const dataAdd = require('./data_add')
 const tempList = require('./temp_list')
 const tempCurrent = require('./temp_current')
@@ -20,8 +21,10 @@ const menuList = require('./menu_list')
 const moonPhases = require('./moon_phases')
 const forecast = require('./forecast')
 const weather = require('./weather')
-const memoryAdd = require('./memory_add')
-const memoryList = require('./memory_list')
+
+const memoryAdd = require('./memory/memory_add')
+const memoryList = require('./memory/memory_list')
+
 const jsonParser = bodyParser.json()
 const logging = require('winston')
 
