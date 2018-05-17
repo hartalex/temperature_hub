@@ -283,11 +283,13 @@ describe('mongodb', function () {
 
     it('obj object is null should return empty array', function () {
       db().deleteData({}, {}, null, function (error, result) {
-        assert.deepEqual(result, null)
+        assert.notEqual(error, null)
+        assert.equal(typeof result, 'undefined')
       })
     })
     it('db mocked to no error should return empty obj', function () {
       db().deleteData(mockDB.remove(), {}, {}, function (error, result) {
+        assert.equal(error, null)
         assert.deepEqual(result, {})
       })
     })
