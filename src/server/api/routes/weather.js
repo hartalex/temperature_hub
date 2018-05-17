@@ -3,6 +3,7 @@ require('isomorphic-fetch')
 const slackPost = require('../data/slack')
 const default_config = require('../../config')
 const logging = require('winston')
+const finish = require('./done')
 
 module.exports = function (req, res, done) {
   var config = req.config
@@ -22,10 +23,7 @@ module.exports = function (req, res, done) {
       return response.json()
     }).then(function (resu) {
       res.json(resu)
-      /* istanbul ignore next */
-      if (done && typeof done === 'function') {
-        done()
-      }
+      finish(done)
     }).catch(function (err) {
       logging.log('error', req.method + ' ' + req.url, err)
       slack.SlackPost(err, req).catch(function(slackErr) {
@@ -36,10 +34,7 @@ module.exports = function (req, res, done) {
         result: 'fail',
         reason: err
       })
-      /* istanbul ignore next */
-      if (done && typeof done === 'function') {
-        done()
-      }
+      finish(done)
     })
   } else {
     const err = 'weather api key not found in configuration'
@@ -49,10 +44,7 @@ module.exports = function (req, res, done) {
       result: 'fail',
       reason: err
     })
-    /* istanbul ignore next */
-    if (done && typeof done === 'function') {
-      done()
-    }
+    finish(done)
   }
 
 }

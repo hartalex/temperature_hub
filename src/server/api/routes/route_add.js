@@ -1,6 +1,7 @@
 const slackPost = require('../data/slack')
 const configImport = require('../../config')
 const logging = require('winston')
+const finish = require('./done')
 
 module.exports = function(config, slack) {
   if (typeof config == 'undefined') {
@@ -13,10 +14,7 @@ module.exports = function(config, slack) {
   return func.then(function(output) {
     res.status(200)
     res.json(output)
-    /* istanbul ignore next */
-    if (done && typeof done === 'function') {
-      done()
-    }
+    finish(done)
   }).catch(function(err) {
     logging.log('error', req.method + ' ' + req.url, err)
     slack.SlackPost(err, req).catch(function(slackErr) {
@@ -27,10 +25,7 @@ module.exports = function(config, slack) {
       result: 'fail',
       reason: err
     })
-    /* istanbul ignore next */
-    if (done && typeof done === 'function') {
-      done()
-    }
+    finish(done)
   })
 }
 }

@@ -1,5 +1,5 @@
 const logging = require('winston')
-logging.level = 'debug'
+logging.level = 'emerg'
 require('./client/moonIcons')
 require('./client/temperatureColor')
 require('./client/util')

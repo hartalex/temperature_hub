@@ -49,7 +49,7 @@ var finddoorsLastXHours = function (dbobj, x, callback) {
 
 var doAggregateQuery = function (dbobj,x, callback, lastOldestTime) {
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, 16), 'doors',
-  function (objs) {
+  function (error, objs) {
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
       if (i === 0) {
@@ -61,7 +61,7 @@ var doAggregateQuery = function (dbobj,x, callback, lastOldestTime) {
         firstObjects.push(obj)
       }
     }
-    callback(firstObjects.concat(objs))
+    callback(error, firstObjects.concat(objs))
   })
 }
 

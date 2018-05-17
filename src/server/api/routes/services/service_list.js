@@ -2,6 +2,7 @@ const db = require('../../db/mongodb')()
 const slackPost = require('../../data/slack')
 const config = require('../../../config')
 const logging = require('winston')
+const finish = require('../done')
 
 module.exports = (req, res, done) => {
   var slack = slackPost(config.slackUrl)
@@ -9,7 +10,7 @@ module.exports = (req, res, done) => {
   var dbobj = req.db
     return new Promise((resolve, reject) => {
       db.queryData(dbobj, {}, 'services', (err, svcs ) => {
-        if (err){
+        if (err) {
           throw err;
         }
         for (var i = 0; i < svcs.length; i++) {
@@ -20,10 +21,7 @@ module.exports = (req, res, done) => {
   }).then((result) => {
     res.json({'result':'ok', 'data':result})
     res.status(200)
-    /* istanbul ignore next */
-    if (done && typeof done === 'function') {
-      done()
-    }
+    finish(done)
   })
   .catch((err) => {
     logging.log('error', req.method + ' ' + req.url, err)
@@ -35,9 +33,6 @@ module.exports = (req, res, done) => {
       result: 'fail',
       reason: err
     })
-    /* istanbul ignore next */
-    if (done && typeof done === 'function') {
-      done()
-    }
+    finish(done)
   })
 }

@@ -16,6 +16,7 @@ module.exports = {
     rules: [
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
+        include: path.resolve(__dirname, "src/client/moonIcons"),
         use: [{
           loader: 'file-loader',
 
@@ -23,28 +24,6 @@ module.exports = {
             hash: 'sha512',
             digest: 'hex',
             name: '/img/[hash].[ext]'
-          }
-        }]
-      },
-      {
-        test: /.*favicon\.(ico)$/i,
-        use: [{
-          loader: 'file-loader',
-
-          options: {
-            name: 'favicon.ico'
-          }
-        }]
-      },
-      {
-        test: /.*\.(ttf|eot|woff|woff2|zip)$/i,
-        use: [{
-          loader: 'file-loader',
-
-          options: {
-            hash: 'sha512',
-            digest: 'hex',
-            name: '[hash].[ext]'
           }
         }]
       },

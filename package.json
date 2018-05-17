@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "webpack --mode development --config webpack.test.config.js && nyc --all mocha build/test.js",
-    "test-old": "nyc mocha src/test/",
+    "test": "webpack --mode development --config webpack.test.config.js && mocha build/test.js",
+    "test-coverage": "webpack --mode development --config webpack.test.config.js && nyc mocha build/test.js",
     "coverage": "nyc report --reporter=text-lcov > lcov.info",
     "clean": "rimraf build",
     "build": "yarn run clean && babel src/server -d build/server && webpack",
@@ -88,11 +88,15 @@
     "require": [
       "babel-register"
     ],
-    "sourceMap": false,
+    "sourceMap": true,
     "instrument": false,
     "exclude": [
       "build",
-      "webpack.config.js"
+      "webpack.config.js",
+      "webpack.test.config.js",
+      "node_modules",
+      "scripts",
+      "views"
     ],
     "cache": true,
     "all": true

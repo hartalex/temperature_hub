@@ -23,7 +23,7 @@ jobs:
     - stage: build
       script:
         - yarn run lint
-        - yarn run test
+        - yarn run test-coverage
         - yarn run coverage
         - yarn global add codeclimate-test-reporter
         - codeclimate-test-reporter < lcov.info
@@ -40,7 +40,7 @@ jobs:
       script:
         - ./updateDepends.sh
         - yarn run lint
-        - yarn run test
+        - yarn run test-coverage
         - yarn run coverage
         - yarn global add codeclimate-test-reporter
         - codeclimate-test-reporter < lcov.info

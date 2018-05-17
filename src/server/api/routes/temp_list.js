@@ -2,12 +2,13 @@ const db = require('../db/mongodb')()
 const slackPost = require('../data/slack')
 const config = require('../../config')
 const logging = require('winston')
+const finish = require('./done')
 
-module.exports = function (req, res) {
+module.exports = function (req, res, done) {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
   var dbobj = req.db
-  
+
     return new Promise(function (resolve, reject) {
       var query = {}
       if ('sensorId' in req.params) {
@@ -15,7 +16,10 @@ module.exports = function (req, res) {
           sensorId: req.params.sensorId
         }
       }
-      db.queryData(dbobj, query, 'temperatures', function (temps) {
+      db.queryData(dbobj, query, 'temperatures', function (err, temps) {
+        if (err) {
+          throw err;
+        }
         for (var i = 0; i < temps.length; i++) {
           delete temps[i]._id
         }
@@ -23,6 +27,7 @@ module.exports = function (req, res) {
       })
   }).then(function (result) {
     res.json(result)
+    finish(done)
   })
   .catch(function (err) {
     logging.log('error', req.method + ' ' + req.url, err)
@@ -30,5 +35,6 @@ module.exports = function (req, res) {
       logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
     })
     res.json([])
+    finish(done)
   })
 }

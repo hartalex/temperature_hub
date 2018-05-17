@@ -47,7 +47,7 @@ var findTemperaturesLastXMonths = function (dbobj, x, callback) {
   const lastOldestTime = new Date(currentTime - (3600 * 24 * 30 * x * 1000)).toISOString()
   const timeStampCompareLength = 10
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
-  function (objs) {
+  function (error, objs) {
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
       if (i === 0) {
@@ -57,7 +57,7 @@ var findTemperaturesLastXMonths = function (dbobj, x, callback) {
       }
       objs[i]._id.minute += 'T00:00'
     }
-    callback(firstObjects.concat(objs))
+    callback(error, firstObjects.concat(objs))
   })
 }
 
@@ -66,7 +66,7 @@ var findTemperaturesLastXDays = function (dbobj, x, callback) {
   const lastOldestTime = new Date(currentTime - (3600 * 24 * x * 1000)).toISOString()
   const timeStampCompareLength = 13
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
-  function (objs) {
+  function (error, objs) {
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
       if (i === 0) {
@@ -76,7 +76,7 @@ var findTemperaturesLastXDays = function (dbobj, x, callback) {
       }
       objs[i]._id.minute += ':00'
     }
-    callback(firstObjects.concat(objs))
+    callback(error, firstObjects.concat(objs))
   })
 }
 
@@ -85,7 +85,7 @@ var findTemperaturesLastXHours = function (dbobj, x, callback) {
   const lastOldestTime = new Date(currentTime - (3600 * x * 1000)).toISOString()
   const timeStampCompareLength = 16
   db.queryAggregateData(dbobj, getAggregateQuery(lastOldestTime, timeStampCompareLength), 'temperatures',
-  function (objs) {
+  function (error, objs) {
     var firstObjects = []
     for (var i = 0; i < objs.length; i++) {
       if (i === 0) {
@@ -94,7 +94,7 @@ var findTemperaturesLastXHours = function (dbobj, x, callback) {
         firstObjects.push(obj)
       }
     }
-    callback(firstObjects.concat(objs))
+    callback(error, firstObjects.concat(objs))
   })
 }
 

@@ -26,7 +26,7 @@ module.exports = {
     return this
   },
   removeFail: function () {
-    simple.mock(this, 'collection').returnWith({remove: function (obj, query, callback) {callback(error, {})}})
+    simple.mock(this, 'collection').returnWith({remove: function (obj, query, callback) {callback(error)}})
     return this
   },
   insert: function () {
@@ -34,7 +34,7 @@ module.exports = {
     return this
   },
   insertFail: function () {
-    simple.mock(this, 'collection').returnWith({insert: function (obj, query, callback) {callback(error, {})}})
+    simple.mock(this, 'collection').returnWith({insert: function (obj, query, callback) {callback(error)}})
     return this
   },
   queryAggregateData: function () {
@@ -42,7 +42,7 @@ module.exports = {
     return this
   },
   queryAggregateDataFail: function () {
-    simple.mock(this, 'collection').returnWith({aggregate: function (query) { return {toArray: function (callback) { callback(error, {})}}}})
+    simple.mock(this, 'collection').returnWith({aggregate: function (query) { return {toArray: function (callback) { callback(error)}}}})
     return this
   },
   queryLastData: function () {
@@ -62,12 +62,7 @@ module.exports = {
   },
   queryLastDataFail: function () {
     simple.mock(this, 'collection').returnWith(
-      {find: function (query) { return {sort: function () { return {limit: function() { return {toArray: function(callback) {callback(error, [{}])}}}}}}}})
-    return this
-  },
-  queryLastDataFail2: function () {
-    simple.mock(this, 'collection').returnWith(
-      {find: function (query) { return {sort: function () { return {limit: function() { return {toArray: function(callback) {callback(null, [])}}}}}}}})
+      {find: function (query) { return {sort: function () { return {limit: function() { return {toArray: function(callback) {callback(error)}}}}}}}})
     return this
   },
   queryOneData: function () {
@@ -75,25 +70,31 @@ module.exports = {
     return this
   },
   queryOneDataFail: function () {
-    simple.mock(this, 'collection').returnWith({findOne: function (query, callback) { callback(error, {})}})
+    simple.mock(this, 'collection').returnWith({findOne: function (query, callback) { callback(error)}})
     return this
   },
   querydistinctData: function () {
-    simple.mock(this, 'collection').returnWith({distinct: function (query) { return new Promise(function (resolve, reject) { resolve([{}])})}})
+    simple.mock(this, 'collection').returnWith({distinct: function (query, callback) { callback(null, [{}])}})
     return this
   },
   querydistinctDataFail: function () {
-    simple.mock(this, 'collection').returnWith({distinct: function (query) { return new Promise(function (resolve, reject) { reject(error)})}})
+    simple.mock(this, 'collection').returnWith({distinct: function (query, callback) { callback(error)}})
     return this
   },
-  queryData: function () {
+  queryData: function (obj) {
+    var result = []
+    if (typeof obj !== 'undefined') {
+      result.push(obj)
+    }
     simple.mock(this, 'collection').returnWith(
-      {find: function (query) { return {toArray: function(callback) { callback(null, [])}}}})
+      {find: function (query) { return {toArray: function(callback) { callback(null, result)}}}})
     return this
   },
   queryDataFail: function () {
     simple.mock(this, 'collection').returnWith(
       {find: function (query) { return {toArray: function(callback) { callback(error)}}}})
     return this
-  }
+  },
+  mockDbObject: {'_id':'db_id'}
+
 }

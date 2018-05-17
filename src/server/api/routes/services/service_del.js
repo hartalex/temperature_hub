@@ -2,8 +2,9 @@ const db = require('../../db/mongodb')()
 const slackPost = require('../../data/slack')
 const config = require('../../../config')
 const logging = require('winston')
+const finish = require('../done')
 
-module.exports = function (req, res) {
+module.exports = function (req, res, done) {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
     var dbobj = req.db
@@ -21,14 +22,15 @@ module.exports = function (req, res) {
               if ('name' in svc) {
                 if (typeof svc.name === 'string') {
                   if (svc.name.length > 0) {
-                    db.deleteData(dbobj, 'services', svc, function (result) {
-                      if (result != null && result.result.n > 0) {
+                    db.deleteData(dbobj, 'services', svc, function (error, result) {
+                      if (error === null && result.result.n > 0) {
                         resolve({
                           result: 'ok'
                         })
                       } else {
                         reject({
-                          result: 'fail'
+                          result: 'fail',
+                          reason: error
                         })
                       }
                     })
@@ -71,6 +73,7 @@ module.exports = function (req, res) {
       }
   }).then(function (result) {
     res.json(result)
+    finish(done)
   }).catch(function (err) {
     logging.log('error', req.method + ' ' + req.url, err)
     slack.SlackPost(err, req).catch(function(slackErr) {
@@ -78,5 +81,6 @@ module.exports = function (req, res) {
     })
     res.status(500)
     res.json(err)
+    finish(done)
   })
 }

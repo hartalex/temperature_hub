@@ -2,8 +2,9 @@ const db = require('../db/mongodb')()
 const slackPost = require('../data/slack')
 const config = require('../../config')
 const logging = require('winston')
+const finish = require('./done')
 
-module.exports = function (req, res) {
+module.exports = function (req, res, done) {
   var slack = slackPost(config.slackUrl)
   var collection = 'memory'
   // Use connect method to connect to the Server
@@ -27,8 +28,8 @@ module.exports = function (req, res) {
                         if (memoryItem.secondMemory.length > 0) {
                                 db.queryOneData(dbobj, {
                                   date: memoryItem.date
-                                }, collection, function (result) {
-                                  if (result == null) {
+                                }, collection, function (error, result) {
+                                  if (error === null && result === null) {
                                     var insertPromise = db.insertData(dbobj, collection, memoryItem)
                                     insertPromise.then(function (result) {
                                       resolve(result)
@@ -36,10 +37,14 @@ module.exports = function (req, res) {
                                       reject(err)
                                     })
                                   } else {
-                                    reject({
+                                    var err = {
                                       result: 'fail',
                                       reason: 'memoryItem already exists'
-                                    })
+                                    }
+                                    if (result !== null) {
+                                      err.reason = error
+                                    }
+                                    reject(err)
                                   }
                                 })
                         } else {
@@ -101,6 +106,7 @@ module.exports = function (req, res) {
     return new Promise(function (resolve, reject) {
       if (result != null && result.result.n > 0) {
         res.json({result: 'ok'})
+        finish(done)
       } else {
         reject('result was not inserted to database')
       }
@@ -112,5 +118,6 @@ module.exports = function (req, res) {
     })
     res.status(500)
     res.json(err)
+    finish(done)
   })
 }
