@@ -3,20 +3,27 @@ const slackPost = require('../../data/slack')
 const config = require('../../../config')
 const logging = require('winston')
 
-module.exports = (req, res) => {
+module.exports = (req, res, done) => {
   var slack = slackPost(config.slackUrl)
   // Use connect method to connect to the Server
   var dbobj = req.db
     return new Promise((resolve, reject) => {
-      db.queryData(dbobj, {}, 'services', (svcs ) => {
+      db.queryData(dbobj, {}, 'services', (err, svcs ) => {
+        if (err){
+          throw err;
+        }
         for (var i = 0; i < svcs.length; i++) {
           delete svcs[i]._id
         }
         resolve(svcs)
       })
   }).then((result) => {
-    res.json(result)
+    res.json({'result':'ok', 'data':result})
     res.status(200)
+    /* istanbul ignore next */
+    if (done && typeof done === 'function') {
+      done()
+    }
   })
   .catch((err) => {
     logging.log('error', req.method + ' ' + req.url, err)
@@ -28,5 +35,9 @@ module.exports = (req, res) => {
       result: 'fail',
       reason: err
     })
+    /* istanbul ignore next */
+    if (done && typeof done === 'function') {
+      done()
+    }
   })
 }

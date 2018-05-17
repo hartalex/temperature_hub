@@ -6,7 +6,7 @@ module.exports = {
     insert: function (obj, query, callback) {callback(null, {})},
     aggregate: function (query) { return {toArray: function (callback) { callback(null, {})}}},
     find: function (query) {
-      return { 
+      return {
         sort: function () {
           return {
             limit: function() {
@@ -48,7 +48,7 @@ module.exports = {
   queryLastData: function () {
     simple.mock(this, 'collection').returnWith(
       {find: function (query) {
-        return { 
+        return {
           sort: function () {
             return {
               limit: function() {
@@ -93,7 +93,7 @@ module.exports = {
   },
   queryDataFail: function () {
     simple.mock(this, 'collection').returnWith(
-      {find: function (query) { return {toArray: function(callback) { callback(error, [])}}}})
+      {find: function (query) { return {toArray: function(callback) { callback(error)}}}})
     return this
   }
 }

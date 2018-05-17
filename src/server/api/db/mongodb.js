@@ -56,13 +56,7 @@ module.exports = function(client){
       callback(empty)
     } else {
       var dbcollection = db.collection(collection)
-      dbcollection.find(query).toArray(function (err, docs) {
-        if (err === null) {
-          callback(docs)
-        } else {
-          callback(empty)
-        }
-      })
+      dbcollection.find(query).toArray(callback)
     }
   },
 

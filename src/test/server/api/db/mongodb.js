@@ -66,13 +66,15 @@ describe('mongodb', function () {
       })
     })
     it('db mocked to no error should return not empty array', function () {
-      db().queryData(mockDB.queryData(), {}, {}, function (result) {
+      db().queryData(mockDB.queryData(), {}, {}, function (error, result) {
+        assert.equal(error, null)
         assert.deepEqual(result, [])
       })
     })
     it('db mocked to error should return empty array', function () {
-      db().queryData(mockDB.queryDataFail(), {}, {}, function (result) {
-        assert.deepEqual(result, [])
+      db().queryData(mockDB.queryDataFail(), {}, {}, function (error, result) {
+        assert.notEqual(error, null)
+        assert.equal(typeof result, 'undefined')
       })
     })
   })
