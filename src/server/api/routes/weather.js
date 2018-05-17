@@ -14,9 +14,9 @@ module.exports = function (req, res, done) {
     slack = slackPost(config.slackUrl)
   }
   if (config.openweathermap_key !== '') {
-    fetch('https://api.openweathermap.org/data/2.5/weather?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key,
-      { timeout: 200 }).then(function (response) {
-      if (response.status >= 400) {
+    fetch('https://api.openweathermap.org/data/2.5/weather?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key)
+    .then(function (response) {
+      if (!response.ok || response.status != 200) {
         throw new Error('Bad response from server')
       }
       return response.json()

@@ -22,7 +22,7 @@ describe('weather', function() {
       }, {
         status: 500,
         result: 'fail',
-        reason: 'FetchError: network timeout at: https://api.openweathermap.org/data/2.5/weather?zip=zipCode,us&units=imperial&APPID=key'
+        reason: 'Error: Bad response from server'
       })
     })
   })
