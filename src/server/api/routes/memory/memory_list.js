@@ -23,9 +23,7 @@ module.exports = function (req, res, done) {
         if (error) {
           throw error
         }
-        if (memory) {
-          delete memory._id
-        }
+        delete memory._id
         resolve(memory)
       })
   }).then(function (result) {

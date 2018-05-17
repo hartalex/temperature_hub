@@ -3,7 +3,7 @@ const error = 'error'
 
 module.exports = (() =>
 {
-  function createResult(obj) {
+  function makeArray(obj) {
     var result = []
     if (typeof obj !== 'undefined') {
       result.push(obj)
@@ -63,7 +63,7 @@ module.exports = (() =>
           sort: function (sort) {
             return {
               limit: function(limit) {
-                return {toArray: function(callback) { callback(null, createResult(obj))}}
+                return {toArray: function(callback) { callback(null, makeArray(obj))}}
               }
             }
           }
@@ -94,7 +94,7 @@ module.exports = (() =>
   },
   queryData: function (obj) {
     simple.mock(this, 'collection').returnWith(
-      {find: function (query) { return {toArray: function(callback) { callback(null, createResult(obj))}}}})
+      {find: function (query) { return {toArray: function(callback) { callback(null, makeArray(obj))}}}})
     return this
   },
   queryDataFail: function () {
