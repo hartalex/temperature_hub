@@ -1,10 +1,10 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
-const db = require('../db/mongodb')()
-const slackPost = require('../data/slack')
-const config = require('../../config')
+const db = require('../../db/mongodb')()
+const slackPost = require('../../data/slack')
+const config = require('../../../config')
 const logging = require('winston')
-const finish = require('./done')
+const finish = require('../done')
 
 module.exports = function (req, res, done) {
 var slack = slackPost(config.slackUrl)
