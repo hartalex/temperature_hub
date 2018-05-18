@@ -11,12 +11,13 @@ const dataAdd = require('./data_add')
 const tempList = require('./temperatures/temp_list')
 const tempCurrent = require('./temperatures/temp_current')
 const tempGraph = require('./temperatures/temp_graph')
-const tempSensorList = require('./temp_sensor_list')
+const tempSensorList = require('./temperatures/temp_sensor_list')
+
 const sensorAdd = require('./sensor_add')
 
 const doorList = require('./doors/door_list')
 const doorGraph = require('./doors/door_graph')
-const doorSensorList = require('./door_sensor_list')
+const doorSensorList = require('./doors/door_sensor_list')
 
 const menuAdd = require('./menu/menu_add')
 const menuList = require('./menu/menu_list')
