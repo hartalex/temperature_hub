@@ -57,12 +57,11 @@ module.exports = {
         .catch(errorHandler(req, res, done))
     }
   },
-
+  validDurations: ['1h', '12h', '24h', '3d', '7d', '14d', '28d', '1m', '3m', '6m', '12m', '00'],
   validateDuration: function(duration) {
-    const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d', '1m', '3m', '6m', '12m', '00']
-    var retval = validDurations[0]
-    if (validDurations.indexOf(duration) !== -1) {
-      retval = validDurations[validDurations.indexOf(duration)]
+    var retval = this.validDurations[0]
+    if (this.validDurations.indexOf(duration) !== -1) {
+      retval = this.validDurations[this.validDurations.indexOf(duration)]
     }
     return retval
   }
