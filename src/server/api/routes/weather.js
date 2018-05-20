@@ -1,3 +1,4 @@
+import jsonResponseHandler from '../../jsonResponseHandler'
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const slackPost = require('../data/slack')
@@ -17,12 +18,8 @@ module.exports = function (req, res, done) {
   const errorHandler = errorHandlerModule(slack)
   if (config.openweathermap_key !== '') {
     fetch(config.weatherUrl + '?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key)
-    .then(function (response) {
-      if (!response.ok || response.status != 200) {
-        throw new Error('Bad response from server')
-      }
-      return response.json()
-    }).then(function (resu) {
+    .then(jsonResponseHandler)
+    .then(function (resu) {
       res.json(resu)
       finish(done)
     }).catch(errorHandler(req, res, done))

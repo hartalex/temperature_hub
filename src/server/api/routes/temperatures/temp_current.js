@@ -1,3 +1,4 @@
+import jsonResponseHandler from '../../../jsonResponseHandler'
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const db = require('../../db/mongodb')()
@@ -6,12 +7,9 @@ const slack = require('../../data/slack')(config.slackUrl)
 const errorHandler = require('../errorHandler')(slack)
 
 module.exports = function (req, res, done) {
-  fetch('https://hub.hartcode.com/temp/sensor/list').then(function (response) {
-    if (response.status >= 400) {
-      throw new Error('Bad response from server')
-    }
-    return response.json()
-  }).then(function (sensorjson) {
+  fetch('https://hub.hartcode.com/temp/sensor/list')
+  .then(jsonResponseHandler)
+  .then(function (sensorjson) {
     var retval = []
     var dbobj = req.db
       Promise.all(sensorjson.map(function (sensor) {
