@@ -11,13 +11,12 @@ const dataAdd = require('./data_add')
 const tempList = require('./temperatures/temp_list')
 const tempCurrent = require('./temperatures/temp_current')
 const tempGraph = require('./temperatures/temp_graph')
-const tempSensorList = require('./temperatures/temp_sensor_list')
 
 const sensorAdd = require('./sensor_add')
+const sensorList = require('./sensor_list')
 
 const doorList = require('./doors/door_list')
 const doorGraph = require('./doors/door_graph')
-const doorSensorList = require('./doors/door_sensor_list')
 
 const menuAdd = require('./menu/menu_add')
 const menuList = require('./menu/menu_list')
@@ -67,7 +66,7 @@ module.exports = function (app, mymongodb) {
      app.get('/temp/:duration/graph', tempGraph)
      app.get('/temp/list/:sensorId',  tempList)
      app.get('/temp/current',  tempCurrent)
-     app.get('/temp/sensor/list', cache(3600), tempSensorList)
+     app.get('/temp/sensor/list', cache(3600), sensorList('sensorId', 'temperatures'))
 
      // sensors
      app.post('/sensor/add', jsonParser, sensorAdd)
@@ -76,7 +75,7 @@ module.exports = function (app, mymongodb) {
      app.get('/door/list', doorList)
      app.get('/door/:duration/graph', doorGraph)
      app.get('/door/list/:sensorId', doorList)
-     app.get('/door/sensor/list', cache(3600), doorSensorList)
+     app.get('/door/sensor/list', cache(3600), sensorList('sensorId', 'doors'))
 
      // menu
      app.post('/menu/add', jsonParser, menuAdd)

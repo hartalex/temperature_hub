@@ -98,4 +98,4 @@ var findTemperaturesLastXHours = function (dbobj, x, callback) {
   })
 }
 
-module.exports = durational_req_res(findTemperaturesLastXHours, findTemperaturesLastXDays, findTemperaturesLastXMonths)
+module.exports = durational_req_res.durational_req_res(findTemperaturesLastXHours, findTemperaturesLastXDays, findTemperaturesLastXMonths)

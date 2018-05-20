@@ -2,8 +2,8 @@ require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const slackPost = require('../data/slack')
 const default_config = require('../../config')
-const logging = require('winston')
 const finish = require('./done')
+const errorHandlerModule = require('./errorHandler')
 
 module.exports = function (req, res, done) {
   var config = req.config
@@ -14,8 +14,9 @@ module.exports = function (req, res, done) {
   if (typeof slack == 'undefined') {
     slack = slackPost(config.slackUrl)
   }
+  const errorHandler = errorHandlerModule(slack)
   if (config.openweathermap_key !== '') {
-    fetch('https://api.openweathermap.org/data/2.5/weather?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key)
+    fetch(config.weatherUrl + '?zip=' + config.zipCode + ',us&units=imperial&APPID=' + config.openweathermap_key)
     .then(function (response) {
       if (!response.ok || response.status != 200) {
         throw new Error('Bad response from server')
@@ -24,27 +25,10 @@ module.exports = function (req, res, done) {
     }).then(function (resu) {
       res.json(resu)
       finish(done)
-    }).catch(function (err) {
-      logging.log('error', req.method + ' ' + req.url, err)
-      slack.SlackPost(err, req).catch(function(slackErr) {
-        logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
-      })
-      res.status(500)
-      res.json({
-        result: 'fail',
-        reason: err
-      })
-      finish(done)
-    })
+    }).catch(errorHandler(req, res, done))
   } else {
     const err = 'weather api key not found in configuration'
-    logging.log('error', err)
-    res.status(500)
-    res.json({
-      result: 'fail',
-      reason: err
-    })
-    finish(done)
+    errorHandler(req, res, done)(err)
   }
 
 }

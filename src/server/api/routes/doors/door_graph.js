@@ -66,4 +66,4 @@ var doAggregateQuery = function (dbobj,x, callback, lastOldestTime) {
 }
 
 
-module.exports = durational_req_res(finddoorsLastXHours, finddoorsLastXDays, finddoorsLastXMonths)
+module.exports = durational_req_res.durational_req_res(finddoorsLastXHours, finddoorsLastXDays, finddoorsLastXMonths)

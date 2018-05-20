@@ -1,13 +1,11 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const db = require('../../db/mongodb')()
-const slackPost = require('../../data/slack')
 const config = require('../../../config')
-const logging = require('winston')
-const finish = require('../done')
+const slack = require('../../data/slack')(config.slackUrl)
+const errorHandler = require('../errorHandler')(slack)
 
 module.exports = function (req, res, done) {
-var slack = slackPost(config.slackUrl)
   fetch('https://hub.hartcode.com/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
@@ -37,20 +35,6 @@ var slack = slackPost(config.slackUrl)
         })
       })).then(function () {
         res.json(retval)
-      }).catch(function (err) {
-        logging.log('error', req.method + ' ' + req.url, err)
-        slack.SlackPost(err, req).catch(function(slackErr) {
-          logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
-        })
-        res.json([])
-        finish(done)
-      })
-  }).catch(function (err) {
-    logging.log('error', req.method + ' ' + req.url, err)
-    slack.SlackPost(err, req).catch(function(slackErr) {
-      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
-    })
-    res.json([])
-    finish(done)
-  })
+      }).catch(errorHandler(req, res, done))
+  }).catch(errorHandler(req, res, done))
 }

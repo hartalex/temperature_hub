@@ -18,6 +18,16 @@ describe('data_add', function() {
       })
     })
 
+    it('dataAdd data missing failure', function(done) {
+      doTest(done, dataAdd, {
+        body: {}
+      }, {
+        status: 500,
+        result: 'fail',
+        reason: 'sensorId is not a string'
+      })
+    })
+
     it('dataAdd door success', function(done) {
       doTest(done, dataAdd, {
         body: {},
