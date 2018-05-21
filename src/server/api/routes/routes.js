@@ -8,14 +8,15 @@ const serviceAdd = require('./services/service_add')
 const serviceDel = require('./services/service_del')
 
 const dataAdd = require('./data_add')
-const tempList = require('./temp_list')
-const tempCurrent = require('./temp_current')
-const tempGraph = require('./temp_graph')
-const tempSensorList = require('./temp_sensor_list')
+const tempList = require('./temperatures/temp_list')
+const tempCurrent = require('./temperatures/temp_current')
+const tempGraph = require('./temperatures/temp_graph')
+
 const sensorAdd = require('./sensor_add')
-const doorList = require('./door_list')
-const doorGraph = require('./door_graph')
-const doorSensorList = require('./door_sensor_list')
+const sensorList = require('./sensor_list')
+
+const doorList = require('./doors/door_list')
+const doorGraph = require('./doors/door_graph')
 
 const menuAdd = require('./menu/menu_add')
 const menuList = require('./menu/menu_list')
@@ -65,7 +66,7 @@ module.exports = function (app, mymongodb) {
      app.get('/temp/:duration/graph', tempGraph)
      app.get('/temp/list/:sensorId',  tempList)
      app.get('/temp/current',  tempCurrent)
-     app.get('/temp/sensor/list', cache(3600), tempSensorList)
+     app.get('/temp/sensor/list', cache(3600), sensorList('sensorId', 'temperatures'))
 
      // sensors
      app.post('/sensor/add', jsonParser, sensorAdd)
@@ -74,7 +75,7 @@ module.exports = function (app, mymongodb) {
      app.get('/door/list', doorList)
      app.get('/door/:duration/graph', doorGraph)
      app.get('/door/list/:sensorId', doorList)
-     app.get('/door/sensor/list', cache(3600), doorSensorList)
+     app.get('/door/sensor/list', cache(3600), sensorList('sensorId', 'doors'))
 
      // menu
      app.post('/menu/add', jsonParser, menuAdd)

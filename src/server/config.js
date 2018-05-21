@@ -6,5 +6,6 @@ module.exports = {
   zipCode: 53012,
   wunderground_key: '',
   openweathermap_key: '',
-  slackUrl: 'http://127.0.0.1:8080/slack'
+  slackUrl: 'http://127.0.0.1:8080/slack',
+  weatherUrl: 'https://api.openweathermap.org/data/2.5/weather'
 }
