@@ -1,3 +1,4 @@
+import jsonResponsePromise from '../../jsonResponsePromise'
 const config = require('../../config')
 const slack = require('../data/slack')(config.slackUrl)
 const errorHandler = require('./errorHandler')(slack)
@@ -49,14 +50,7 @@ module.exports = {
           } else {
             reject('Duration could not be handled ' + duration)
           }
-        }).then(function(result) {
-          res.json({
-            'result': 'ok',
-            'data': result
-          })
-          res.status(200)
-          finish(done)
-        })
+        }).then(jsonResponsePromise(res, done))
         .catch(errorHandler(req, res, done))
     }
   },
