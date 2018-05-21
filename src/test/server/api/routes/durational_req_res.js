@@ -6,11 +6,7 @@ const mockdb = require('../db/mock-db')
 describe('durational_req_res', function() {
   describe('#durational_req_res (duration)', function()
   {
-    it('default', function(done) {
-      var req = {
-        params: {},
-        db: mockdb
-      }
+    function goodTest(done, req) {
       const dummyQueryFunction = function(lastOldestTime, timeStampCompareLength) {
         return [{}]
       }
@@ -19,6 +15,14 @@ describe('durational_req_res', function() {
         result: 'ok',
         data: [{}]
       })
+    }
+
+    it('default', function(done) {
+      var req = {
+        params: {},
+        db: mockdb
+      }
+      goodTest(done, req)
     })
 
     for (let i = 0; i < durationalReqRes.validDurations.length - 1; i++) {
@@ -29,14 +33,7 @@ describe('durational_req_res', function() {
           },
           db: mockdb
         }
-        const dummyQueryFunction = function(lastOldestTime, timeStampCompareLength) {
-          return [{}]
-        }
-        doTest(done, durationalReqRes.durational_req_res(dummyQueryFunction, 'collection').bind(durationalReqRes), req, {
-          status: 200,
-          result: 'ok',
-          data: [{}]
-        })
+        goodTest(done, req)
       })
     }
 

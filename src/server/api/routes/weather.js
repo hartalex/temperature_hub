@@ -27,5 +27,4 @@ module.exports = function (req, res, done) {
     const err = 'weather api key not found in configuration'
     errorHandler(req, res, done)(err)
   }
-
 }
