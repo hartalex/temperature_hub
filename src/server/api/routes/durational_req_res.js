@@ -10,31 +10,22 @@ module.exports = {
     let days = doAggregateQuery.findDataByTime(doAggregateQuery.days, getAggregateQuery, collection).bind(doAggregateQuery)
     let hours = doAggregateQuery.findDataByTime(doAggregateQuery.hours, getAggregateQuery, collection).bind(doAggregateQuery)
     return function(req, res, done) {
-      var duration
+      let duration
       if ('duration' in req.params) {
         duration = req.params.duration
       }
       duration = this.validateDuration(duration)
       // Use connect method to connect to the Server
       return new Promise(function(resolve, reject) {
-          function resolveCallback(error, temps) {
+          let resolveCallback = (error, temps) => {
             if (error) { throw error }
             resolve(temps)
           }
-          if (duration.indexOf('h') > -1) {
-            duration = duration.replace('h', '')
-            hours(req.db, parseInt(duration), resolveCallback)
-          } else if (duration.indexOf('d') > -1) {
-            duration = duration.replace('d', '')
-            days(req.db, parseInt(duration), resolveCallback)
-          } else if (duration.indexOf('m') > -1) {
-            duration = duration.replace('m', '')
-            months(req.db, parseInt(duration), resolveCallback)
-          } else {
-            reject('Duration could not be handled ' + duration)
-          }
-        }).then(jsonResponsePromise(res, done))
-        .catch(errorHandler(req, res, done))
+          if (duration.indexOf('h') > -1) { hours(req.db, parseInt(duration), resolveCallback) }
+          else if (duration.indexOf('d') > -1) { days(req.db, parseInt(duration), resolveCallback) }
+          else if (duration.indexOf('m') > -1) { months(req.db, parseInt(duration), resolveCallback) }
+          else { reject('Duration could not be handled ' + duration) }
+        }).then(jsonResponsePromise(res, done)).catch(errorHandler(req, res, done))
     }
   },
   validDurations: ['1h', '12h', '24h', '3d', '7d', '14d', '28d', '1m', '3m', '6m', '12m', '00'],
