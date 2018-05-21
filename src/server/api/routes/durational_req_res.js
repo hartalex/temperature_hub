@@ -6,9 +6,9 @@ const doAggregateQuery = require('./aggregateQuery')
 
 module.exports = {
   durational_req_res: function (getAggregateQuery, collection) {
-    var months = doAggregateQuery.findDataByTime(doAggregateQuery.months, getAggregateQuery, collection).bind(doAggregateQuery)
-    var days = doAggregateQuery.findDataByTime(doAggregateQuery.days, getAggregateQuery, collection).bind(doAggregateQuery)
-    var hours = doAggregateQuery.findDataByTime(doAggregateQuery.hours, getAggregateQuery, collection).bind(doAggregateQuery)
+    let months = doAggregateQuery.findDataByTime(doAggregateQuery.months, getAggregateQuery, collection).bind(doAggregateQuery)
+    let days = doAggregateQuery.findDataByTime(doAggregateQuery.days, getAggregateQuery, collection).bind(doAggregateQuery)
+    let hours = doAggregateQuery.findDataByTime(doAggregateQuery.hours, getAggregateQuery, collection).bind(doAggregateQuery)
     return function(req, res, done) {
       var duration
       if ('duration' in req.params) {
@@ -21,28 +21,15 @@ module.exports = {
             if (error) { throw error }
             resolve(temps)
           }
-          if (duration === '1h') {
-            hours(req.db, 1, resolveCallback)
-          } else if (duration === '12h') {
-            hours(req.db, 12, resolveCallback)
-          } else if (duration === '24h') {
-            hours(req.db, 24, resolveCallback)
-          } else if (duration === '3d') {
-            days(req.db, 3, resolveCallback)
-          } else if (duration === '7d') {
-            days(req.db, 7, resolveCallback)
-          } else if (duration === '14d') {
-            days(req.db, 14, resolveCallback)
-          } else if (duration === '28d') {
-            days(req.db, 28, resolveCallback)
-          } else if (duration === '1m') {
-            months(req.db, 1, resolveCallback)
-          } else if (duration === '3m') {
-            months(req.db, 3, resolveCallback)
-          } else if (duration === '6m') {
-            months(req.db, 6, resolveCallback)
-          } else if (duration === '12m') {
-            months(req.db, 12, resolveCallback)
+          if (duration.indexOf('h') > -1) {
+            duration = duration.replace('h', '')
+            hours(req.db, parseInt(duration), resolveCallback)
+          } else if (duration.indexOf('d') > -1) {
+            duration = duration.replace('d', '')
+            days(req.db, parseInt(duration), resolveCallback)
+          } else if (duration.indexOf('m') > -1) {
+            duration = duration.replace('m', '')
+            months(req.db, parseInt(duration), resolveCallback)
           } else {
             reject('Duration could not be handled ' + duration)
           }
