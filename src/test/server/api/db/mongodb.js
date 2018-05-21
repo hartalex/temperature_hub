@@ -116,38 +116,46 @@ describe('mongodb', function () {
     })
   })
 
+
+function testQuery(func, mockdbGood, mockdbBad) {
+  it('db object is null should return error', function () {
+    func(null, null, null, function (error, result) {
+      assert.notEqual(error, null)
+      assert.equal(typeof result, 'undefined')
+    })
+  })
+
+  it('query object is null should return error', function () {
+    func({}, null, null, function (error, result) {
+      assert.notEqual(error, null)
+      assert.equal(typeof result, 'undefined')
+    })
+  })
+
+  it('collection object is null should return null', function () {
+    func({}, {}, null, function (error, result) {
+      assert.notEqual(error, null)
+      assert.equal(typeof result, 'undefined')
+    })
+  })
+  it('db mocked to no error should return empty obj', function () {
+    func(mockdbGood(), {}, {}, function (error, result) {
+      assert.deepEqual(result, {})
+    })
+  })
+  it('db mocked to error should return error', function () {
+    func(mockdbBad(), {}, {}, function (error, result) {
+      assert.notEqual(error, null)
+      assert.equal(typeof result, 'undefined')
+    })
+  })
+}
+
   describe('#queryOneData()', function () {
-    it('db object is null should return error', function () {
-      db().queryOneData(null, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('query object is null should return error', function () {
-      db().queryOneData({}, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('collection object is null should return null', function () {
-      db().queryOneData({}, {}, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-    it('db mocked to no error should return empty obj', function () {
-      db().queryOneData(mockDB.queryOneData(), {}, {}, function (error, result) {
-        assert.deepEqual(result, {})
-      })
-    })
-    it('db mocked to error should return error', function () {
-      db().queryOneData(mockDB.queryOneDataFail(), {}, {}, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
+    var database = db()
+    testQuery(database.queryOneData.bind(database),
+      mockDB.queryOneData.bind(mockDB),
+      mockDB.queryOneDataFail.bind(mockDB))
   })
 
   describe('#queryLastData()', function () {
@@ -193,37 +201,10 @@ describe('mongodb', function () {
   })
 
   describe('#queryAggregateData()', function () {
-    it('db object is null should return error', function () {
-      db().queryAggregateData(null, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('query object is null should return error', function () {
-      db().queryAggregateData({}, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('collection object is null should return error', function () {
-      db().queryAggregateData({}, {}, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-    it('db mocked to no error should return empty obj', function () {
-      db().queryAggregateData(mockDB.queryAggregateData(), {}, {}, function (error, result) {
-        assert.deepEqual(result, {})
-      })
-    })
-    it('db mocked to error should return error', function () {
-      db().queryAggregateData(mockDB.queryAggregateDataFail(), {}, {}, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
+    var database = db()
+    testQuery(database.queryAggregateData.bind(database),
+      mockDB.queryAggregateData.bind(mockDB),
+      mockDB.queryAggregateDataFail.bind(mockDB))
   })
 
   describe('#insertData()', function () {
