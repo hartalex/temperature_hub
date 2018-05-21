@@ -1,5 +1,4 @@
 const durational_req_res = require('../durational_req_res')
-const doAggregateQuery = require('../aggregateQuery')
 
 function getAggregateQuery(lastOldestTime, timeStampCompareLength) {
   return [{ '$match': {
@@ -28,19 +27,4 @@ function getAggregateQuery(lastOldestTime, timeStampCompareLength) {
   ]
 }
 
-var findTemperaturesLastXMonths = function(dbobj, x, callback) {
-  const lastOldestTime = new Date(new Date() - (3600 * 24 * 30 * x * 1000)).toISOString()
-  doAggregateQuery(dbobj, x, callback, lastOldestTime, getAggregateQuery, 'temperatures')
-}
-
-var findTemperaturesLastXDays = function(dbobj, x, callback) {
-  const lastOldestTime = new Date(new Date() - (3600 * 24 * x * 1000)).toISOString()
-  doAggregateQuery(dbobj, x, callback, lastOldestTime, getAggregateQuery, 'temperatures')
-}
-
-var findTemperaturesLastXHours = function(dbobj, x, callback) {
-  const lastOldestTime = new Date(new Date() - (3600 * x * 1000)).toISOString()
-doAggregateQuery(dbobj, x, callback, lastOldestTime, getAggregateQuery, 'temperatures')
-}
-
-module.exports = durational_req_res.durational_req_res(findTemperaturesLastXHours, findTemperaturesLastXDays, findTemperaturesLastXMonths)
+module.exports = durational_req_res.durational_req_res(getAggregateQuery, 'temperatures')

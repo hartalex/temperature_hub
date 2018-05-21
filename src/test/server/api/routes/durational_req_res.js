@@ -1,38 +1,23 @@
 const durationalReqRes = require('../../../../server/api/routes/durational_req_res')
 const assert = require('assert')
 const doTest = require('./do_test')
+const mockdb = require('../db/mock-db')
 
 describe('durational_req_res', function() {
   describe('#durational_req_res (duration)', function()
   {
     it('default', function(done) {
       var req = {
-        params: {}
+        params: {},
+        db: mockdb
       }
-      var data = []
-      const dummyFunction = function(db, number, callback) {
-        callback(null, data)
+      const dummyQueryFunction = function(lastOldestTime, timeStampCompareLength) {
+        return [{}]
       }
-      doTest(done, durationalReqRes.durational_req_res(dummyFunction, dummyFunction, dummyFunction).bind(durationalReqRes), req, {
+      doTest(done, durationalReqRes.durational_req_res(dummyQueryFunction, 'collection').bind(durationalReqRes), req, {
         status: 200,
         result: 'ok',
-        data: []
-      })
-    })
-
-    it('callbackError', function(done) {
-      var req = {
-        params: {}
-      }
-      var data = []
-      const dummyFunction = function(db, number, callback) {
-        const error = 'callback error'
-        callback(error, data)
-      }
-      doTest(done, durationalReqRes.durational_req_res(dummyFunction, dummyFunction, dummyFunction).bind(durationalReqRes), req, {
-        status: 500,
-        result: 'fail',
-        reason: 'callback error'
+        data: [{}]
       })
     })
 
@@ -41,16 +26,16 @@ describe('durational_req_res', function() {
         var req = {
           params: {
             duration: durationalReqRes.validDurations[i]
-          }
+          },
+          db: mockdb
         }
-        var data = []
-        const dummyFunction = function(db, number, callback) {
-          callback(null, data)
+        const dummyQueryFunction = function(lastOldestTime, timeStampCompareLength) {
+          return [{}]
         }
-        doTest(done, durationalReqRes.durational_req_res(dummyFunction, dummyFunction, dummyFunction).bind(durationalReqRes), req, {
+        doTest(done, durationalReqRes.durational_req_res(dummyQueryFunction, 'collection').bind(durationalReqRes), req, {
           status: 200,
           result: 'ok',
-          data: []
+          data: [{}]
         })
       })
     }
@@ -59,13 +44,13 @@ describe('durational_req_res', function() {
       var req = {
         params: {
           duration: '00'
-        }
+        },
+        db: mockdb
       }
-      var data = []
-      const dummyFunction = function(db, number, callback) {
-        callback(null, data)
+      const dummyQueryFunction = function(lastOldestTime, timeStampCompareLength) {
+        return [{}]
       }
-      doTest(done, durationalReqRes.durational_req_res(dummyFunction, dummyFunction, dummyFunction).bind(durationalReqRes), req, {
+      doTest(done, durationalReqRes.durational_req_res(dummyQueryFunction, 'collection').bind(durationalReqRes), req, {
         status: 500,
         result: 'fail',
         reason: 'Duration could not be handled 00'

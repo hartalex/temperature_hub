@@ -2,10 +2,13 @@ const config = require('../../config')
 const slack = require('../data/slack')(config.slackUrl)
 const errorHandler = require('./errorHandler')(slack)
 const finish = require('./done')
-
+const doAggregateQuery = require('./aggregateQuery')
 
 module.exports = {
-  durational_req_res: function (hours, days, months) {
+  durational_req_res: function (getAggregateQuery, collection) {
+    var months = doAggregateQuery.findDataByTime(doAggregateQuery.months, getAggregateQuery, collection).bind(doAggregateQuery)
+    var days = doAggregateQuery.findDataByTime(doAggregateQuery.days, getAggregateQuery, collection).bind(doAggregateQuery)
+    var hours = doAggregateQuery.findDataByTime(doAggregateQuery.hours, getAggregateQuery, collection).bind(doAggregateQuery)
     return function(req, res, done) {
       var duration
       if ('duration' in req.params) {
