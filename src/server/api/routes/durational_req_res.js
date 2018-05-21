@@ -2,7 +2,6 @@ import jsonResponsePromise from '../../jsonResponsePromise'
 const config = require('../../config')
 const slack = require('../data/slack')(config.slackUrl)
 const errorHandler = require('./errorHandler')(slack)
-const finish = require('./done')
 const doAggregateQuery = require('./aggregateQuery')
 
 module.exports = {
@@ -17,36 +16,33 @@ module.exports = {
       }
       duration = this.validateDuration(duration)
       // Use connect method to connect to the Server
-      var dbobj = req.db
       return new Promise(function(resolve, reject) {
           function resolveCallback(error, temps) {
-            if (error) {
-              throw error;
-            }
+            if (error) { throw error }
             resolve(temps)
           }
           if (duration === '1h') {
-            hours(dbobj, 1, resolveCallback)
+            hours(req.db, 1, resolveCallback)
           } else if (duration === '12h') {
-            hours(dbobj, 12, resolveCallback)
+            hours(req.db, 12, resolveCallback)
           } else if (duration === '24h') {
-            hours(dbobj, 24, resolveCallback)
+            hours(req.db, 24, resolveCallback)
           } else if (duration === '3d') {
-            days(dbobj, 3, resolveCallback)
+            days(req.db, 3, resolveCallback)
           } else if (duration === '7d') {
-            days(dbobj, 7, resolveCallback)
+            days(req.db, 7, resolveCallback)
           } else if (duration === '14d') {
-            days(dbobj, 14, resolveCallback)
+            days(req.db, 14, resolveCallback)
           } else if (duration === '28d') {
-            days(dbobj, 28, resolveCallback)
+            days(req.db, 28, resolveCallback)
           } else if (duration === '1m') {
-            months(dbobj, 1, resolveCallback)
+            months(req.db, 1, resolveCallback)
           } else if (duration === '3m') {
-            months(dbobj, 3, resolveCallback)
+            months(req.db, 3, resolveCallback)
           } else if (duration === '6m') {
-            months(dbobj, 6, resolveCallback)
+            months(req.db, 6, resolveCallback)
           } else if (duration === '12m') {
-            months(dbobj, 12, resolveCallback)
+            months(req.db, 12, resolveCallback)
           } else {
             reject('Duration could not be handled ' + duration)
           }
