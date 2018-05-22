@@ -48,72 +48,17 @@ describe('mongodb', function () {
   })
 
   describe('#queryData()', function () {
-    it('db object is null should return error', function () {
-      db().queryData(null, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('query object is null should return error', function () {
-      db().queryData({}, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('collection object is null should return error', function () {
-      db().queryData({}, {}, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-    it('db mocked to no error should return not empty array', function () {
-      db().queryData(mockDB.queryData(), {}, {}, function (error, result) {
-        assert.equal(error, null)
-        assert.deepEqual(result, [])
-      })
-    })
-    it('db mocked to error should return error', function () {
-      db().queryData(mockDB.queryDataFail(), {}, {}, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
+    var database = db()
+    testQuery(database.queryData.bind(database),
+      mockDB.queryData.bind(mockDB),
+      mockDB.queryDataFail.bind(mockDB))
   })
 
   describe('#querydistinctData()', function () {
-    it('db object is null should return error', function () {
-      db().querydistinctData(null, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('query object is null should return error', function () {
-      db().querydistinctData({}, null, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-
-    it('collection object is null should return error', function () {
-      db().querydistinctData({}, {}, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
-    it('db mocked to no error should return not empty array', function () {
-      db().querydistinctData(mockDB.querydistinctData(), {}, {}, function (error, result) {
-        assert.deepEqual(result, [{}])
-      })
-    })
-    it('db mocked to error should return error', function () {
-      db().querydistinctData(mockDB.querydistinctDataFail(), {}, {}, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
+    var database = db()
+    testQuery(database.querydistinctData.bind(database),
+      mockDB.querydistinctData.bind(mockDB),
+      mockDB.querydistinctDataFail.bind(mockDB))
   })
 
 
