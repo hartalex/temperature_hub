@@ -31,7 +31,7 @@ describe('data_add', function() {
     })
 
     it('dataAdd door success', function(done) {
-      var input = {}
+      var input = { isOpen: true }
       doTest(done, dataAdd, {
         body: input,
         data: mockSuccess

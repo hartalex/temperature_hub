@@ -47,22 +47,21 @@ describe('mongodb', function () {
     })
   })
 
-  describe('#queryData()', function () {
-    var database = db()
-    testQuery(database.queryData.bind(database),
-      mockDB.queryData.bind(mockDB),
-      mockDB.queryDataFail.bind(mockDB))
-  })
+  var database = db()
+  doATest( '#queryData()',
+    database.queryData.bind(database),
+    mockDB.queryData.bind(mockDB),
+    mockDB.queryDataFail.bind(mockDB))
 
-  describe('#querydistinctData()', function () {
-    var database = db()
-    testQuery(database.querydistinctData.bind(database),
-      mockDB.querydistinctData.bind(mockDB),
-      mockDB.querydistinctDataFail.bind(mockDB))
-  })
+  doATest( '#querydistinctData()',
+    database.querydistinctData.bind(database),
+    mockDB.querydistinctData.bind(mockDB),
+    mockDB.querydistinctDataFail.bind(mockDB), [{}])
 
-
-function testQuery(func, mockdbGood, mockdbBad) {
+function testQuery(func, mockdbGood, mockdbBad, retobj) {
+  if (typeof retobj === 'undefined'){
+    retobj = {}
+  }
   it('db object is null should return error', function () {
     func(null, null, null, function (error, result) {
       assert.notEqual(error, null)
@@ -79,13 +78,9 @@ function testQuery(func, mockdbGood, mockdbBad) {
 
   testObjectIsNull(func)
 
-
-
-
-
   it('db mocked to no error should return empty obj', function () {
     func(mockdbGood(), {}, {}, function (error, result) {
-      assert.deepEqual(result, {})
+      assert.deepEqual(result, retobj)
     })
   })
   it('db mocked to error should return error', function () {
@@ -96,12 +91,10 @@ function testQuery(func, mockdbGood, mockdbBad) {
   })
 }
 
-  describe('#queryOneData()', function () {
-    var database = db()
-    testQuery(database.queryOneData.bind(database),
-      mockDB.queryOneData.bind(mockDB),
-      mockDB.queryOneDataFail.bind(mockDB))
-  })
+doATest( '#queryOneData()',
+  database.queryOneData.bind(database),
+  mockDB.queryOneData.bind(mockDB),
+  mockDB.queryOneDataFail.bind(mockDB))
 
   describe('#queryLastData()', function () {
     it('db object is null should return error', function () {
@@ -210,9 +203,6 @@ function testQuery(func, mockdbGood, mockdbBad) {
     var database = db()
     testObjectIsNull(database.deleteData.bind(database))
 
-
-
-
     it('db mocked to no error should return empty obj', function () {
       db().deleteData(mockDB.remove(), {}, {}, function (error, result) {
         assert.equal(error, null)
@@ -231,6 +221,11 @@ function testQuery(func, mockdbGood, mockdbBad) {
         assert.notEqual(error, null)
         assert.equal(typeof result, 'undefined')
       })
+    })
+  }
+  function doATest(testName, func, mockdbGood, mockdbBad, retobj) {
+    describe(testName, function () {
+      testQuery(func, mockdbGood, mockdbBad, retobj)
     })
   }
 })
