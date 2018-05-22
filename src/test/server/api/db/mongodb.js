@@ -132,12 +132,12 @@ function testQuery(func, mockdbGood, mockdbBad) {
     })
   })
 
-  it('collection object is null should return null', function () {
-    func({}, {}, null, function (error, result) {
-      assert.notEqual(error, null)
-      assert.equal(typeof result, 'undefined')
-    })
-  })
+  testObjectIsNull(func)
+
+
+
+
+
   it('db mocked to no error should return empty obj', function () {
     func(mockdbGood(), {}, {}, function (error, result) {
       assert.deepEqual(result, {})
@@ -262,12 +262,12 @@ function testQuery(func, mockdbGood, mockdbBad) {
       })
     })
 
-    it('obj object is null should return empty array', function () {
-      db().deleteData({}, {}, null, function (error, result) {
-        assert.notEqual(error, null)
-        assert.equal(typeof result, 'undefined')
-      })
-    })
+    var database = db()
+    testObjectIsNull(database.deleteData.bind(database))
+
+
+
+
     it('db mocked to no error should return empty obj', function () {
       db().deleteData(mockDB.remove(), {}, {}, function (error, result) {
         assert.equal(error, null)
@@ -280,4 +280,12 @@ function testQuery(func, mockdbGood, mockdbBad) {
       })
     })
   })
+  function testObjectIsNull(func) {
+    it('collection object is null should return null', function () {
+      func({}, {}, null, function (error, result) {
+        assert.notEqual(error, null)
+        assert.equal(typeof result, 'undefined')
+      })
+    })
+  }
 })
