@@ -19,7 +19,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.tempAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
 
@@ -103,7 +103,7 @@ describe('data', function() {
 
       var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
 
@@ -116,7 +116,7 @@ describe('data', function() {
 
       var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true})
       return dataobj.tempAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
     })
@@ -129,7 +129,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDb, mockDB.all(), undefined, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
 
@@ -227,7 +227,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
 
@@ -238,7 +238,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDbDupeFound, mockDB.all(), {NoDuplicateData:false}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
         assert.equal(mockSlack.SlackPost.callCount, 2)
       })
     })
@@ -250,7 +250,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDbDupeNotFound, mockDB.all(), {NoDuplicateData:false}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
         assert.equal(mockSlack.SlackPost.callCount, 3)
       })
     })
@@ -264,7 +264,7 @@ describe('data', function() {
 
       var dataobj = data(mockMongoDb, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
 
@@ -277,7 +277,7 @@ describe('data', function() {
 
       var dataobj = data(mockMongoDbDoorSensorName, mockDB.all(), {NoDuplicateData:true}, mockSlack)
       return dataobj.doorAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
   })
@@ -291,7 +291,7 @@ describe('data', function() {
       }
       var dataobj = data(mockMongoDb, mockDB.all())
       return dataobj.menuAdd(input).then(function(output) {
-        assert.equal(output.result, 'ok')
+        assert.deepEqual(output, input)
       })
     })
     it('menuAdd menuItem fail duplicate', function() {
