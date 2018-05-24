@@ -8,12 +8,14 @@ const doTest = require('./do_test')
 describe('menu_add', function() {
   describe('#function (req, res)', function() {
     it('menuAdd success', function(done) {
+      const input = {}
       doTest(done, menuAdd, {
-        body: {},
+        body: input,
         data: mockSuccess
       }, {
         status: 200,
-        result: 'ok'
+        result: 'ok',
+        data: input
       })
     })
 

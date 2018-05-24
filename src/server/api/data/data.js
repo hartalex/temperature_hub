@@ -101,7 +101,7 @@ module.exports = (db, dbobj, config, slack) => {
                   collection,
                   (result) => {
                     if (result == null) {
-                      resolve({})
+                      resolve(input)
                     } else {
                       reject('menuItem already exists')
                     }
@@ -109,12 +109,7 @@ module.exports = (db, dbobj, config, slack) => {
               })
             }) // Promise
             .then(() => {
-              return db.insertData(dbobj, collection, input)
-
-            }).then(() => {
-              return {
-                result: 'ok'
-              }
+              return insertDataPromise(input, db, dbobj, collection, input)
             })
     },
     tempAdd: (input) => {
@@ -150,11 +145,7 @@ module.exports = (db, dbobj, config, slack) => {
                   }, collection, temperature, {tempInFarenheit:0, humidity:0})
                 })
                 .then((temperature) => {
-                  return insertDataPromise(temperature, db, dbobj, collection)
-                }).then(() => {
-                  return {
-                    result: 'ok'
-                  }
+                  return insertDataPromise(temperature, db, dbobj, collection, input)
                 })
             })
     },
@@ -244,19 +235,15 @@ module.exports = (db, dbobj, config, slack) => {
                       name = obj.name
                     }
                     logging.log('debug', 'sending slack message about door', obj.door)
-                    retval = slack.SlackPost(name + ' is now ' + openstring, undefined, obj)
+                    retval = slack.SlackPost(name + ' is now ' + openstring, undefined, obj.door)
                   } else {
                     logging.log('debug', 'NOT sending slack message about door', obj.door)
                     retval = new Promise((resolve, reject) => {
-                      resolve(obj)
+                      resolve(obj.door)
                     })
                   }
                   return retval
-                }).then(() => {
-                  return {
-                    result: 'ok'
-                  }
-        })
+                })
       })
     }
   }

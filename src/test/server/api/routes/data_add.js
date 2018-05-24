@@ -8,13 +8,15 @@ const doTest = require('./do_test')
 describe('data_add', function() {
   describe('#function (req, res)', function() {
     it('dataAdd door success - no mock', function(done) {
+      var input = { sensorId: 'test',
+        isOpen: true }
       doTest(done, dataAdd, {
-        body: { sensorId: 'test',
-          isOpen: true },
+        body: input,
           data: mockSuccess
       }, {
         status: 200,
-        result: 'ok'
+        result: 'ok',
+        data: input
       })
     })
 
@@ -29,12 +31,14 @@ describe('data_add', function() {
     })
 
     it('dataAdd door success', function(done) {
+      var input = { isOpen: true }
       doTest(done, dataAdd, {
-        body: {},
+        body: input,
         data: mockSuccess
       }, {
         status: 200,
-        result: 'ok'
+        result: 'ok',
+        data: input
       })
     })
 
@@ -61,26 +65,25 @@ describe('data_add', function() {
     })
 
     it('dataAdd temp success - no mock', function(done) {
+      var input = { id: ' ', t: 65 }
       doTest(done, dataAdd, {
-        body: {
-          id: ' ',
-          t: 65
-        },
+        body: input,
         data: mockSuccess
       }, {
         status: 200,
-        result: 'ok'
+        result: 'ok',
+        data: input
       })
     })
     it('dataAdd temp success', function(done) {
+      var input = { id : '' }
       doTest(done, dataAdd, {
-        body: {
-          id: ''
-        },
+        body: input,
         data: mockSuccess
       }, {
         status: 200,
-        result: 'ok'
+        result: 'ok',
+        data: input
       })
     })
 
