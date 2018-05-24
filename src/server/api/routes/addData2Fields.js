@@ -4,12 +4,10 @@ import slackModule from '../data/slack'
 import errorHandlerModule from './errorHandler'
 import validation from '../data/validation'
 
-
-
-module.exports = (() => {
 const db = dbModule()
 const slack = slackModule(slackUrl)
 const errorHandler = errorHandlerModule(slack)
+
 function checkStringField(obj, field) {
   return validation.isNotUndefined(obj, 'svc')
   .then(() => {
@@ -22,6 +20,7 @@ function checkStringField(obj, field) {
     return validation.stringHasLength(obj[field], field)
   })
 }
+
 function checkExists(dbobj, collection, query, itemName) {
   return new Promise((resolve, reject) => {
     db.queryOneData(dbobj, query, collection,
@@ -35,6 +34,7 @@ function checkExists(dbobj, collection, query, itemName) {
     })
   }
 
+module.exports = (() => {
 return function (collection, field1, field2, itemName) {
   return function(req, res, done) {
       // Use connect method to connect to the Server
