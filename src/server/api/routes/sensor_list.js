@@ -9,7 +9,7 @@ module.exports = function(key, collection) {
     var dbobj = req.db
     // Use connect method to connect to the Server
     return new Promise(function (resolve, reject) {
-      db.querydistinctData(dbobj, 'sensorId', 'temperatures', function (err, data) {
+      db.querydistinctData(dbobj, key, collection, function (err, data) {
         if (err) { throw err; }
         db.queryData(dbobj, {}, 'sensors', function (err, sensors) {
           if (err) { throw err; }
