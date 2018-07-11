@@ -21,4 +21,4 @@ function getAggregateQuery (lastOldestTime, timeStampCompareLength) {
   ]
 }
 
-module.exports = durational_req_res.durational_req_res(getAggregateQuery, 'doors')
+module.exports = durational_req_res.durational_req_res(getAggregateQuery, 'doors').bind(durational_req_res)

@@ -27,4 +27,4 @@ function getAggregateQuery(lastOldestTime, timeStampCompareLength) {
   ]
 }
 
-module.exports = durational_req_res.durational_req_res(getAggregateQuery, 'temperatures')
+module.exports = durational_req_res.durational_req_res(getAggregateQuery, 'temperatures').bind(durational_req_res)

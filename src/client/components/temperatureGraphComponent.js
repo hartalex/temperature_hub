@@ -7,13 +7,13 @@ const getdata = function (duration, that) {
       var arraydata = []
       setTitle(sensorjson, arraydata)
       var lastArrayRow = [null, null, null, null, null, null, null, null, null]
-      json.forEach(function (element) {
+      json.data.forEach(function (element) {
         var datestring = element._id.minute
         if (datestring.charAt(datestring.length - 1) !== 'Z') {
           datestring += ':00.000Z'
         }
         var arrayRow = [new Date(datestring)]
-        setDataRow(arrayRow, sensorjson, lastArrayRow, element)
+        setDataRow(arrayRow, sensorjson.data, lastArrayRow, element)
         arraydata.push(arrayRow)
         lastArrayRow = arrayRow
       })
@@ -46,7 +46,7 @@ const setDataRow = function (arrayRow, sensorjson, lastArrayRow, element) {
 
 const setTitle = function(sensorjson, arraydata) {
   var titleRow = ['Time']
-  sensorjson.forEach(function (sensor) {
+  sensorjson.data.forEach(function (sensor) {
     var sensorName = sensor.sensorId
     if ('name' in sensor) {
       sensorName = sensor.name
