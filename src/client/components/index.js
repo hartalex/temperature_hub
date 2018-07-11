@@ -16,7 +16,7 @@ let store = createStore(Reducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window._
 
 export function renderRoot () {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
-  var isSummer = false
+  var isSummer = true
 
   var style = {
     textAlign: 'center',
