@@ -12,7 +12,7 @@ module.exports = function (req, res, done) {
   .then(function (sensorjson) {
     var retval = []
     var dbobj = req.db
-    Promise.all(sensorjson.map(function (sensor) {
+    Promise.all(sensorjson.list.map(function (sensor) {
       return new Promise(function (resolve, reject) {
         db.queryLastData(dbobj, {sensorId: sensor.sensorId}, {utc_timestamp: -1}, 'temperatures', function (error, temp) {
           if (error) { throw error }
