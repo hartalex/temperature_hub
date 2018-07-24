@@ -23,10 +23,9 @@ jobs:
     - stage: build
       script:
         - yarn run lint
-        - yarn run test-coverage
-        - yarn run coverage
+        - yarn run test
         - yarn global add codeclimate-test-reporter
-        - codeclimate-test-reporter < lcov.info
+        - codeclimate-test-reporter < coverage/lcov.info
         - yarn run build
     - stage: deploy
       script:
@@ -40,10 +39,9 @@ jobs:
       script:
         - ./updateDepends.sh
         - yarn run lint
-        - yarn run test-coverage
-        - yarn run coverage
+        - yarn run test
         - yarn global add codeclimate-test-reporter
-        - codeclimate-test-reporter < lcov.info
+        - codeclimate-test-reporter < coverage/lcov.info
         - yarn run build
       after_success:
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
