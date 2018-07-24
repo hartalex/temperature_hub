@@ -15,6 +15,7 @@ module.exports = function doTest(done, func, req, expected) {
     assert.equal(res.json.lastCall.arg.result, expected.result);
     logging.debug("reason");
     assert.equal(res.json.lastCall.arg.reason, expected.reason);
+    expect(res.json.lastCall.arg.reason).toBe(expected.reason);
     logging.debug("data");
     assert.deepEqual(res.json.lastCall.arg.data, expected.data);
     done();

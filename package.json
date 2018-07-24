@@ -48,12 +48,12 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
-    "babel-preset-react-app": "^3.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.3.0",
-    "babel-runtime": "6.26.0",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-react-app": "^3.1.1",
     "babel-register": "^6.26.0",
+    "babel-runtime": "6.26.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "dotenv": "4.0.0",
@@ -61,6 +61,7 @@
     "eslint": "^4.18.2",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-jsx": "0.0.2",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-node": "^6.0.1",
@@ -122,10 +123,50 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react",
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "standard",
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "standard",
+      "promise",
+      "react",
+      "jsx",
+      "jsx-a11y",
+      "import",
+      "jest"
+    ],
+    "globals": {
+      "fetch": false,
+      "describe": false,
+      "it": false,
+      "alert": false,
+      "URL": false
+    },
+    "rules": {
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
+    },
+    "env": {
+      "jest/globals": true
+    }
   }
 }
