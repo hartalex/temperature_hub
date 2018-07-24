@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        },
+        "test": {
+          "plugins": ["istanbul"]
+        }
+      }
+    ]
+  ]
+}

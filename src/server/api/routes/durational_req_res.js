@@ -29,7 +29,6 @@ module.exports = {
           }
           resolve(temps);
         };
-        console.log(req.db);
         if (duration.indexOf("h") > -1) {
           hours(req.db, parseInt(duration), resolveCallback);
         } else if (duration.indexOf("d") > -1) {

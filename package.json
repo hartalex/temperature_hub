@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node scripts/test.js --env=jsdom",
     "clean": "rimraf build",
-    "build": "yarn run clean && babel src/server -d build/server && webpack",
+    "build": "export NODE_ENV=production && yarn run clean && babel src/server -d build/server && webpack",
     "lint": "eslint src/**",
     "start": "node build/server/server.js",
     "prodstart": "node build/server/server.prod.js",
@@ -43,12 +43,17 @@
     "winston": "2.4.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "^3.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-minify": "^0.3.0",
     "babel-runtime": "6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "dotenv": "4.0.0",
