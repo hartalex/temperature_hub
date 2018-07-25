@@ -17,20 +17,24 @@ export async function checkDupesPromise(
 ) {
   return new Promise((resolve, reject) => {
     if (config.NoDuplicateData && config.NoDuplicateData === true) {
-      db.queryLastData(dbobj, query, sort, collection, existingData => {
-        if (existingData != null) {
-          var match = true;
-          var prop;
-          for (prop in dupeProp) {
-            match = match && existingData[prop] !== dupeObject[prop];
-          }
-          if (match) {
-            resolve(dupeObject);
-          } else {
-            reject("duplicate");
-          }
+      db.queryLastData(dbobj, query, sort, collection, (err, existingData) => {
+        if (err) {
+          reject(err);
         } else {
-          resolve(dupeObject);
+          if (existingData != null) {
+            var match = true;
+            var prop;
+            for (prop in dupeProp) {
+              match = match && existingData[prop] !== dupeObject[prop];
+            }
+            if (match) {
+              resolve(dupeObject);
+            } else {
+              reject("duplicate");
+            }
+          } else {
+            resolve(dupeObject);
+          }
         }
       });
     } else {
@@ -233,17 +237,21 @@ export function init(db, dbobj, config, slack) {
                     utc_timestamp: -1
                   },
                   collection,
-                  existingData => {
-                    if (
-                      existingData == null ||
-                      (existingData != null &&
-                        existingData.isOpen !== door.isOpen)
-                    ) {
-                      logging.log("debug", "door has changed", door);
-                      resolve({ changed: true, door: door });
+                  (err, existingData) => {
+                    if (err) {
+                      reject(err);
                     } else {
-                      logging.log("debug", "door has NOT changed");
-                      resolve({ changed: false, door: door });
+                      if (
+                        existingData == null ||
+                        (existingData != null &&
+                          existingData.isOpen !== door.isOpen)
+                      ) {
+                        logging.log("debug", "door has changed", door);
+                        resolve({ changed: true, door: door });
+                      } else {
+                        logging.log("debug", "door has NOT changed");
+                        resolve({ changed: false, door: door });
+                      }
                     }
                   }
                 );
@@ -259,22 +267,26 @@ export function init(db, dbobj, config, slack) {
                       sensorId: obj.door.sensorId
                     },
                     "sensors",
-                    doordb => {
-                      if (doordb == null) {
-                        logging.log(
-                          "debug",
-                          "did NOT find a name for sensor door",
-                          obj.door.sensorId
-                        );
+                    (err, doordb) => {
+                      if (err) {
+                        reject(err);
                       } else {
-                        logging.log(
-                          "debug",
-                          "did find a name for door sensor",
-                          doordb.name
-                        );
-                        obj.name = doordb.name;
+                        if (doordb == null) {
+                          logging.log(
+                            "debug",
+                            "did NOT find a name for sensor door",
+                            obj.door.sensorId
+                          );
+                        } else {
+                          logging.log(
+                            "debug",
+                            "did find a name for door sensor",
+                            doordb.name
+                          );
+                          obj.name = doordb.name;
+                        }
+                        resolve(obj);
                       }
-                      resolve(obj);
                     }
                   );
                 } else {

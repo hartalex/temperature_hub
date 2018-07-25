@@ -294,7 +294,7 @@ describe("data", function() {
     }
 
     it("menuAdd menuItem fail duplicate", function() {
-      return menuAddTestFail(mockMongoDbTemp, "menuItem already exists");
+      return menuAddTestFail(mockMongoDbTemp, null);
     });
 
     it("menuAdd menuItem fail db error", function() {
@@ -342,7 +342,7 @@ describe("data", function() {
       const config = { NoDuplicateData: true };
       const db = {
         queryLastData: function(dbobj, query, sort, collection, callback) {
-          callback(null);
+          callback(null, null);
         }
       };
       const dbobj = mockDB.all();
@@ -381,7 +381,7 @@ describe("data", function() {
             humidity: 45.2,
             utc_timestamp: "20180724"
           };
-          callback(databaseData);
+          callback(null, databaseData);
         }
       };
       const dbobj = mockDB.all();
@@ -422,7 +422,7 @@ describe("data", function() {
             humidity: 45.2,
             utc_timestamp: "20180724"
           };
-          callback(databaseData);
+          callback(null, databaseData);
         }
       };
       const dbobj = mockDB.all();
@@ -454,7 +454,7 @@ describe("data", function() {
       const config = { NoDuplicateData: true };
       const db = {
         queryLastData: function(dbobj, query, sort, collection, callback) {
-          callback(null);
+          callback(null, null);
         }
       };
       const dbobj = mockDB.all();
@@ -491,7 +491,7 @@ describe("data", function() {
             isOpen: false,
             utc_timestamp: "20180724"
           };
-          callback(databaseData);
+          callback(null, databaseData);
         }
       };
       const dbobj = mockDB.all();
@@ -530,7 +530,7 @@ describe("data", function() {
             isOpen: false,
             utc_timestamp: "20180724"
           };
-          callback(databaseData);
+          callback(null, databaseData);
         }
       };
       const dbobj = mockDB.all();
