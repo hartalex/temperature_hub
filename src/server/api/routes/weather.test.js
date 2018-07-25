@@ -1,4 +1,4 @@
-import weather from "../../../../server/api/routes/weather";
+import weather from "./weather";
 import doTest from "./do_test";
 
 describe("weather", function() {

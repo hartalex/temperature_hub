@@ -1,4 +1,4 @@
-const durationalReqRes = require("../../../../server/api/routes/durational_req_res");
+const durationalReqRes = require("./durational_req_res");
 const assert = require("assert");
 const doTest = require("./do_test");
 const mockdb = require("../db/mock-db").all();

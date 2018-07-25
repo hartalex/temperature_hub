@@ -1,11 +1,11 @@
+import { convertToDoor } from "./models/doorModel.js";
+import { convertToTemperature } from "./models/temperatureModel.js";
 const configImport = require("../../config");
 const validation = require("./validation");
-const temperatureModel = require("./models/temperatureModel");
-const doorModel = require("./models/doorModel");
 const slackPost = require("./slack");
 const logging = require("winston");
 
-export function checkDupesPromise(
+export async function checkDupesPromise(
   config,
   db,
   dbobj,
@@ -18,23 +18,19 @@ export function checkDupesPromise(
   return new Promise((resolve, reject) => {
     if (config.NoDuplicateData && config.NoDuplicateData === true) {
       db.queryLastData(dbobj, query, sort, collection, existingData => {
-        if (existingData == null || existingData != null) {
-          if (existingData != null) {
-            var match = true;
-            var prop;
-            for (prop in dupeProp) {
-              match = match && existingData[prop] !== dupeObject[prop];
-            }
-            if (match) {
-              resolve(dupeObject);
-            } else {
-              reject("duplicate");
-            }
-          } else {
+        if (existingData != null) {
+          var match = true;
+          var prop;
+          for (prop in dupeProp) {
+            match = match && existingData[prop] !== dupeObject[prop];
+          }
+          if (match) {
             resolve(dupeObject);
+          } else {
+            reject("duplicate");
           }
         } else {
-          reject("duplicate");
+          resolve(dupeObject);
         }
       });
     } else {
@@ -51,7 +47,7 @@ const insertDataPromise = (data, db, dbobj, collection, obj) => {
   });
 };
 
-module.exports = (db, dbobj, config, slack) => {
+export function init(db, dbobj, config, slack) {
   if (typeof config == "undefined") {
     config = configImport;
   }
@@ -150,7 +146,7 @@ module.exports = (db, dbobj, config, slack) => {
               return validation.isTypeNumber(input.t, "t");
             })
             .then(() => {
-              return temperatureModel(input);
+              return convertToTemperature(input);
             })
             .then(temperature => {
               return checkDupesPromise(
@@ -206,7 +202,7 @@ module.exports = (db, dbobj, config, slack) => {
             })
             .then(() => {
               logging.log("debug", "Modeling Door", input);
-              return doorModel(input);
+              return convertToDoor(input);
             })
             .then(door => {
               logging.log("debug", "Checking Dupes Promise", door);
@@ -327,4 +323,4 @@ module.exports = (db, dbobj, config, slack) => {
         });
     }
   };
-};
+}
