@@ -21,8 +21,8 @@ module.exports = (() => {
         },
         aggregate: function(query) {
           return {
-            toArray: function() {
-              return {};
+            toArray: function(callback) {
+              callback(null, {});
             }
           };
         },
@@ -32,8 +32,8 @@ module.exports = (() => {
               return {
                 limit: function(limit) {
                   return {
-                    toArray: function() {
-                      return [{}];
+                    toArray: function(callback) {
+                      callback(null, [{}]);
                     }
                   };
                 }
@@ -41,8 +41,8 @@ module.exports = (() => {
             }
           };
         },
-        findOne: function(query) {
-          return {};
+        findOne: function(query, callback) {
+          callback(null, {});
         },
         distinct: function(query) {
           return new Promise(function(resolve, reject) {
@@ -88,8 +88,8 @@ module.exports = (() => {
       simple.mock(this, "collection").returnWith({
         aggregate: function(query) {
           return {
-            toArray: function() {
-              return {};
+            toArray: function(callback) {
+              callback(null, {});
             }
           };
         }
@@ -100,8 +100,8 @@ module.exports = (() => {
       simple.mock(this, "collection").returnWith({
         aggregate: function(query) {
           return {
-            toArray: function() {
-              throw error;
+            toArray: function(callback) {
+              callback(error);
             }
           };
         }
@@ -150,8 +150,8 @@ module.exports = (() => {
     },
     queryOneData: function() {
       simple.mock(this, "collection").returnWith({
-        findOne: function(query) {
-          return {};
+        findOne: function(query, callback) {
+          callback(null, {});
         }
       });
       return this;
@@ -166,16 +166,16 @@ module.exports = (() => {
     },
     querydistinctData: function() {
       simple.mock(this, "collection").returnWith({
-        distinct: function(query) {
-          return [{}];
+        distinct: function(query, callback) {
+          callback(null, [{}]);
         }
       });
       return this;
     },
     querydistinctDataFail: function() {
       simple.mock(this, "collection").returnWith({
-        distinct: function(query) {
-          throw error;
+        distinct: function(query, callback) {
+          callback(error);
         }
       });
       return this;
@@ -184,8 +184,8 @@ module.exports = (() => {
       simple.mock(this, "collection").returnWith({
         find: function(query) {
           return {
-            toArray: function() {
-              return makeArray(obj);
+            toArray: function(callback) {
+              callback(null, makeArray(obj));
             }
           };
         }
@@ -196,8 +196,8 @@ module.exports = (() => {
       simple.mock(this, "collection").returnWith({
         find: function(query) {
           return {
-            toArray: function() {
-              throw error;
+            toArray: function(callback) {
+              callback(error);
             }
           };
         }

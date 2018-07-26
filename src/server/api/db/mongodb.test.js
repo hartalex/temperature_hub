@@ -79,7 +79,6 @@ describe("mongodb", function() {
         error,
         result
       ) {
-        assert.equal(error, null);
         assert.deepEqual(result, retobj);
       });
     });
@@ -134,7 +133,6 @@ describe("mongodb", function() {
         error,
         result
       ) {
-        assert.equal(error, null);
         assert.deepEqual(result, {});
       });
     });
