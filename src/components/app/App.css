@@ -1,0 +1,42 @@
+.App {
+  font-size: 1em;
+  min-width:320px;
+  text-align: center;
+}
+
+.App-header {
+  background-color: #6c9ae2;
+  color: white;
+  margin:0;
+  padding-bottom: 1em;
+  padding-top:1em;
+}
+
+.App-title {
+  font-size: 3em;
+}
+
+.App-courtesy {
+  font-size: 1em;
+}
+
+.Hidden {
+  visibility:hidden;
+}
+
+.App-courtesy > a {
+  color:white;
+}
+
+.App-courtesy > a:hover {
+  color: #ccdffc;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #6c9ae2;
+}
