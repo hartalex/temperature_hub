@@ -2,8 +2,8 @@ import React from 'react'
 import Colors from '../../colors'
 import getWeekDay from '../../weekDay.js'
 import PropTypes from 'prop-types'
-import ClientConfig from '../../config0.js'
-import Util from '../../util.js'
+import {hub_api_url} from '../../config0.js'
+import {calculateTodayTomorrowNextDay} from '../../util.js'
 
 class MenuDayComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -12,7 +12,7 @@ class MenuDayComponent extends React.Component {
     var renderInterval = 60000
     var backgroundColor = Colors.Black
     var foreColor = Colors.White
-    var date = Util.calculateTodayTomorrowNextDay(props.day)
+    var date = calculateTodayTomorrowNextDay(props.day)
     if (updateInterval === 0) {
       updateInterval = 60000
     }
@@ -47,7 +47,7 @@ class MenuDayComponent extends React.Component {
     var that = this
 
     setInterval(() => {
-      var date = Util.calculateTodayTomorrowNextDay(props.date)
+      var date = calculateTodayTomorrowNextDay(props.date)
 
       if (that.state.data.date !== date) {
         that.state.data.date = date
@@ -59,7 +59,7 @@ class MenuDayComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/menu/list/' + that.state.data.date).then(function (response) {
+    fetch(hub_api_url + '/menu/list/' + that.state.data.date).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

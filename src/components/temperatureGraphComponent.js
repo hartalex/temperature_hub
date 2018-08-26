@@ -1,5 +1,5 @@
 import LineGraphComponent from './lineGraphComponent'
-import ClientConfig from '../config0.js'
+import {hub_api_url} from '../config0.js'
 import PropTypes from 'prop-types'
 
 const getdata = function (duration, that) {
@@ -58,7 +58,7 @@ const setTitle = function(sensorjson, arraydata) {
 }
 
 const fetchSensorData = function() {
-  return fetch(ClientConfig.hub_api_url + '/temp/sensor/list').then(function (response) {
+  return fetch(hub_api_url + '/temp/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
@@ -66,7 +66,7 @@ const fetchSensorData = function() {
   })
 }
 const fetchGraphData = function (duration) {
-  return fetch(ClientConfig.hub_api_url + '/temp/' + duration + '/graph').then(function (response) {
+  return fetch(hub_api_url + '/temp/' + duration + '/graph').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }

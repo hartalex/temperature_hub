@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React from 'react'
 import Colors from '../colors'
-import Util from '../util'
+import {timeAgo} from '../util'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
 
@@ -27,7 +27,7 @@ const TemperatureComponent = ({sensorName, myTempData}) => {
         "tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":sensorName,"outdated":true,
       }
     }
-      const updateTimeInMinutes = Util.timeAgo(myTempData.lastUpdate)
+      const updateTimeInMinutes = timeAgo(myTempData.lastUpdate)
       var temp = Math.trunc(myTempData.tempInFarenheit)
       var tempDecimal = Math.abs(Math.trunc((myTempData.tempInFarenheit - temp) * 100))
       state.style.color = temperatureColor(temp)

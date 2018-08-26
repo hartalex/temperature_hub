@@ -1,10 +1,10 @@
 import React from 'react'
 import Colors from '../colors'
-import Util from '../util'
+import {timeAgo} from '../util'
 import temperatureColor from '../temperatureColor'
 import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
-import ClientConfig from '../config0.js'
+import {hub_api_url} from '../config0.js'
 import AlertCheck from '../alertCheck'
 
 // 3 Day Forecast
@@ -73,7 +73,7 @@ class Forecast3DayComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/forecast').then(function (response) {
+    fetch(hub_api_url + '/forecast').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -139,7 +139,7 @@ class Forecast3DayComponent extends React.Component {
   render () {
     var retval
     if (this.state.data !== null) {
-      const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      const updateTimeInMinutes = timeAgo(this.state.data.lastUpdate)
       retval = (
         <div style={this.state.style}>
           <div style={{textAlign: 'left', color: Colors.White}}>Forecast</div>

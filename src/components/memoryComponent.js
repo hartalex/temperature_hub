@@ -1,7 +1,7 @@
 import React from 'react'
 import Colors from '../colors'
 import PropTypes from 'prop-types'
-import ClientConfig from '../config0.js'
+import {hub_api_url} from '../config0.js'
 
 class MemoryComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -51,7 +51,7 @@ class MemoryComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/memory/list/' + that.state.data.date).then(function (response) {
+    fetch(hub_api_url + '/memory/list/' + that.state.data.date).then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

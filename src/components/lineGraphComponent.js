@@ -1,10 +1,10 @@
 import { Chart } from 'react-google-charts'
-import React from 'react'
+import React, {Component} from 'react'
 import Colors from '../colors'
-import Util from '../util'
+import {timeAgo} from '../util'
 import PropTypes from 'prop-types'
 
-class LineGraphComponent extends React.Component {
+class LineGraphComponent extends Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -45,7 +45,7 @@ class LineGraphComponent extends React.Component {
   render () {
     var retval
     if (this.state.data !== null) {
-      const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      const updateTimeInMinutes = timeAgo(this.state.data.lastUpdate)
       retval = (<div style={this.state.style}><Chart
         chartType='LineChart'
         data={this.state.data.array}
@@ -66,8 +66,9 @@ class LineGraphComponent extends React.Component {
 }
 
 LineGraphComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
+  updateIntervalInMinutes: PropTypes.string,
   title: PropTypes.string,
   duration: PropTypes.number
 }
+
 export default LineGraphComponent

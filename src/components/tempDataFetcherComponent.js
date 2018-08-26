@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React from 'react'
 import PropTypes from 'prop-types'
-import ClientConfig from '../config0.js'
+import {hub_api_url} from '../config0.js'
 
 class TempDataFetcherComponent extends React.Component {
   constructor (props) {
@@ -14,7 +14,7 @@ class TempDataFetcherComponent extends React.Component {
     setInterval(() => { this.getData(props.setTempData, props.setTempDataFail, this) }, updateInterval)
   }
   getData (setTempData, setTempDataFail, obj) {
-    fetch(ClientConfig.hub_api_url + '/temp/current').then(function (response) {
+    fetch(hub_api_url + '/temp/current').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server, ' + response.status)
       }

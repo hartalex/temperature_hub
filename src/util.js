@@ -1,5 +1,4 @@
-module.exports = {
-  timeAgo (time) {
+export function timeAgo (time) {
     var retval = Math.trunc((new Date() - new Date(time)) / 1000)
     if (retval > 60) {
       retval = Math.trunc(retval / 60)
@@ -13,8 +12,8 @@ module.exports = {
       retval = retval + ' sec'
     }
     return retval
-  },
-  calculateTodayTomorrowNextDay(propDay) {
+  }
+export function calculateTodayTomorrowNextDay(propDay) {
     var retval
     var day = 0;
     if (propDay === 'Today') {
@@ -27,5 +26,3 @@ module.exports = {
     retval = new Date((new Date().getTime() + 24 * day * 60 * 60 * 1000) - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
     return retval
   }
-
-}

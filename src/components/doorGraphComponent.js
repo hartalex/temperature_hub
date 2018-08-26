@@ -1,15 +1,15 @@
-import LineGraphComponent from './lineGraphComponent'
-import ClientConfig from '../config0.js'
+import LineGraphComponent from './lineGraphComponent.js'
+import {hub_api_url} from '../config0.js'
 import PropTypes from 'prop-types'
 
 const getData = function (duration, that) {
-  fetch(ClientConfig.hub_api_url + '/door/sensor/list').then(function (response) {
+  fetch(hub_api_url + '/door/sensor/list').then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response from server')
     }
     return response.json()
   }).then(function (sensorjson) {
-    fetch(ClientConfig.hub_api_url + '/door/' + duration + '/graph').then(function (response) {
+    fetch(hub_api_url + '/door/' + duration + '/graph').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }

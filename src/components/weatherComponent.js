@@ -1,6 +1,6 @@
 import React from 'react'
 import Colors from '../colors'
-import Util from '../util'
+import {timeAgo} from '../util'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
 import AlertCheck from '../alertCheck'
@@ -82,13 +82,13 @@ class WeatherComponent extends React.Component {
   render () {
     var retval
     if (this.state.data !== null) {
-      const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      const updateTimeInMinutes = timeAgo(this.state.data.lastUpdate)
       retval = (
         <div style={this.state.style}>
           <div style={{textAlign: 'left', color: Colors.White}}>Current</div>
           <div style={this.state.innerStyle}>
             <div style={{padding: '5px 0', color: Colors.White}}>{this.state.data.day}</div>
-            <img src={this.state.data.icon} />
+            <img src={this.state.data.icon} alt="weather" />
             <div style={{margin: 'auto', width: '100px'}}>
               <div style={{color: temperatureColor(this.state.data.temperature), fontSize: '50px', float: 'left'}}>{Math.trunc(this.state.data.temperature)}</div>
               <div style={{float: 'left', padding: '10px 2px'}}>

@@ -1,4 +1,4 @@
-  export default {'Black': '#000000',
+const Colors = {'Black': '#000000',
     'White': '#FFFFFF',
     'Red': '#FF0000',
     'Blue': '#0000FF',
@@ -8,3 +8,5 @@
     'SoftGreen': '#AAFFAA',
     'SoftYellow': '#FFFFAA',
     'Yellow': '#FFFF00'}
+
+export default Colors

@@ -1,10 +1,10 @@
 import React from 'react'
 import Colors from '../colors'
-import Util from '../util'
+import {timeAgo} from '../util'
 import PropTypes from 'prop-types'
 import moonIcons from '../moonIcons'
 import Time from './timeComponent.js'
-import ClientConfig from '../config0.js'
+import {hub_api_url} from '../config0.js'
 import AlertCheck from '../alertCheck'
 
 class MoonComponent extends React.Component {
@@ -57,7 +57,7 @@ class MoonComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/moonPhases').then(function (response) {
+    fetch(hub_api_url + '/moonPhases').then(function (response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
       }
@@ -105,7 +105,7 @@ class MoonComponent extends React.Component {
   render () {
     var retval
     if (this.state.data !== null) {
-      const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
+      const updateTimeInMinutes = timeAgo(this.state.data.lastUpdate)
       retval = (
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
