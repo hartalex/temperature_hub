@@ -109,7 +109,7 @@ class MemoryComponent extends React.Component {
   }
 }
 MemoryComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
+  updateIntervalInMinutes: PropTypes.string,
   day: PropTypes.number,
   date: PropTypes.string
 }

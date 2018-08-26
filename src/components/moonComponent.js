@@ -138,8 +138,7 @@ class MoonComponent extends React.Component {
 }
 
 MoonComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number
+  updateIntervalInMinutes: PropTypes.string
 }
-
 
 export default MoonComponent

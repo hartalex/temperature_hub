@@ -44,7 +44,7 @@ class TempDataFetcherComponent extends React.Component {
 }
 
 TempDataFetcherComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
+  updateIntervalInMinutes: PropTypes.string,
   setTempData: PropTypes.func,
   setTempDataFail: PropTypes.func
 }

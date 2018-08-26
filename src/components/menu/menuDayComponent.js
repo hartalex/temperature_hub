@@ -134,8 +134,8 @@ class MenuDayComponent extends React.Component {
   }
 }
 MenuDayComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number,
-  day: PropTypes.number,
+  updateIntervalInMinutes: PropTypes.string,
+  day: PropTypes.string,
   date: PropTypes.string
 }
 

@@ -1,5 +1,6 @@
 import LineGraphComponent from './lineGraphComponent'
 import ClientConfig from '../config0.js'
+import PropTypes from 'prop-types'
 
 const getData = function (duration, that) {
   fetch(ClientConfig.hub_api_url + '/door/sensor/list').then(function (response) {
@@ -77,4 +78,9 @@ class DoorGraph extends LineGraphComponent {
     getData)
   }
 }
+
+DoorGraph.propTypes = {
+    updateIntervalInMinutes: PropTypes.string
+}
+
 export default DoorGraph

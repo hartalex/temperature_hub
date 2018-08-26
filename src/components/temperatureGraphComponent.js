@@ -1,5 +1,6 @@
 import LineGraphComponent from './lineGraphComponent'
 import ClientConfig from '../config0.js'
+import PropTypes from 'prop-types'
 
 const getdata = function (duration, that) {
   fetchSensorData().then(function (sensorjson) {
@@ -74,11 +75,14 @@ const fetchGraphData = function (duration) {
 }
 
 class TemperatureGraph extends LineGraphComponent {
-
   constructor (props) {
     super(props,
       'TemperatureGraph', getdata )
   }
-
 }
+
+TemperatureGraph.propTypes = {
+    updateIntervalInMinutes: PropTypes.string
+}
+
 export default TemperatureGraph

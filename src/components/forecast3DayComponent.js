@@ -164,6 +164,6 @@ class Forecast3DayComponent extends React.Component {
   }
 }
 Forecast3DayComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number
+  updateIntervalInMinutes: PropTypes.string
 }
 export default Forecast3DayComponent
