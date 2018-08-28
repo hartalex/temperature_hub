@@ -1,4 +1,4 @@
-export function getActions(dispatch) {
+export const getActions = (dispatch) => {
   return {
     actions: {
       fetchDataStart: function(query) {

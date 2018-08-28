@@ -1,7 +1,7 @@
-import Colors from './colors'
+import {Colors} from '../colors.js'
 
-module.exports = function (temp) {
-  var retval
+export const temperatureColor = (temp) => {
+  let retval
   if (temp === 0) {
     retval = Colors.White
   } else if (temp > 75) {

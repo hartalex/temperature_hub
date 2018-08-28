@@ -1,13 +1,13 @@
 import React from 'react'
-import Colors from '../colors'
-import {timeAgo} from '../util'
 import PropTypes from 'prop-types'
-import moonIcons from '../moonIcons'
-import Time from './timeComponent.js'
-import {hub_api_url} from '../config0.js'
-import AlertCheck from '../alertCheck'
+import {Colors} from '../../colors.js'
+import {timeAgo} from '../../util/time.js'
+import {getMoonIcon} from './moonIcons.js'
+import {TimeComponent} from '../time/timeComponent.js'
+import {hub_api_url} from '../../config.js'
+import {alertCheck} from '../../util/alertCheck.js'
 
-class MoonComponent extends React.Component {
+export class MoonComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -51,7 +51,7 @@ class MoonComponent extends React.Component {
     }
     var that = this
 
-    setInterval(AlertCheck(that, alertCheckInterval), renderInterval)
+    setInterval(alertCheck(that, alertCheckInterval), renderInterval)
 
     this.getData(this)
     setInterval(() => { that.getData(that) }, updateInterval)
@@ -110,21 +110,21 @@ class MoonComponent extends React.Component {
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
             <div style={{margin: 'auto', width: '130px'}}>
-             <img src={moonIcons(this.state.data.ageOfMoon)} alt="moon" height='96' width='96'/>
+             <img src={getMoonIcon(this.state.data.ageOfMoon)} alt="moon" height='96' width='96'/>
               <div style={{clear: 'both', color: Colors.White}} >{this.state.data.phaseofMoon}</div>
               <div style={{float: 'left', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.data.percentIlluminated}% </div>
               <div style={{float: 'left'}}> Age {this.state.data.ageOfMoon}</div>
 
               <div style={{clear: 'both', fontSize: '8px', float: 'left', textAlign: 'center', paddingTop: '20px'}}>
                 <div style={{width: '65px', fontSize: '10px'}}>Sun</div>
-                <Time name='rise' hour={this.state.data.sunrise.hour} minute={this.state.data.sunrise.minute}/>
-                <Time name='set' hour={this.state.data.sunset.hour} minute={this.state.data.sunset.minute}/>
+                <TimeComponent name='rise' hour={this.state.data.sunrise.hour} minute={this.state.data.sunrise.minute}/>
+                <TimeComponent name='set' hour={this.state.data.sunset.hour} minute={this.state.data.sunset.minute}/>
               </div>
 
               <div style={{float: 'left', fontSize: '8px', textAlign: 'center', paddingTop: '20px'}}>
                 <div style={{width: '65px', fontSize: '10px'}}>Moon</div>
-                <Time name='rise' hour={this.state.data.moonrise.hour} minute={this.state.data.moonrise.minute}/>
-                <Time name='set' hour={this.state.data.moonset.hour} minute={this.state.data.moonset.minute}/>
+                <TimeComponent name='rise' hour={this.state.data.moonrise.hour} minute={this.state.data.moonrise.minute}/>
+                <TimeComponent name='set' hour={this.state.data.moonset.hour} minute={this.state.data.moonset.minute}/>
               </div>
             </div>
           </div>
@@ -135,10 +135,7 @@ class MoonComponent extends React.Component {
     }
     return retval
   }
+  propTypes: {
+    updateIntervalInMinutes: PropTypes.string
+  }
 }
-
-MoonComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.string
-}
-
-export default MoonComponent

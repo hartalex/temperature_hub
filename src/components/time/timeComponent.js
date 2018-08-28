@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
-class TimeComponent extends React.Component {
+export class TimeComponent extends Component {
   constructor (props, graphId, getData) {
     super(props)
     this.state = {
@@ -54,14 +54,10 @@ componentWillReceiveProps(nextProps) {
       this.setState({data: data})
     }
   }
+  propTypes: {
+    name: PropTypes.string,
+    hour: PropTypes.string,
+    minute: PropTypes.string,
+    pmam: PropTypes.string
+  }
 }
-
-TimeComponent.propTypes = {
-  name: PropTypes.string,
-  hour: PropTypes.string,
-  minute: PropTypes.string,
-  pmam: PropTypes.string
-}
-
-
-export default TimeComponent

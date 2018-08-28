@@ -30,6 +30,4 @@ const mapStateToProps = function(state, props) {
   }
 }
 
-const ErrorComponent = connect(mapStateToProps)(errorRender)
-
-export default ErrorComponent
+export const ErrorComponent = connect(mapStateToProps)(errorRender)

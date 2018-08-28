@@ -1,9 +1,9 @@
-import { connect } from 'react-redux'
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {hub_api_url} from '../config0.js'
+import { connect } from 'react-redux'
+import {hub_api_url} from '../../config.js'
 
-class TempDataFetcherComponent extends React.Component {
+class TempDataFetcherComponent extends Component {
   constructor (props) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -60,9 +60,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const reduxTempDataFetcherComponent = connect(
+export const TemperatureDataFetcherComponent = connect(
   null,
   mapDispatchToProps
 )(TempDataFetcherComponent)
-
-export default reduxTempDataFetcherComponent

@@ -1,4 +1,4 @@
-const Colors = {'Black': '#000000',
+export const Colors = {'Black': '#000000',
     'White': '#FFFFFF',
     'Red': '#FF0000',
     'Blue': '#0000FF',
@@ -8,5 +8,3 @@ const Colors = {'Black': '#000000',
     'SoftGreen': '#AAFFAA',
     'SoftYellow': '#FFFFAA',
     'Yellow': '#FFFF00'}
-
-export default Colors

@@ -1,4 +1,5 @@
 import React from 'react'
+
 export function renderRoot () {
   var style = {
     textAlign: 'center',

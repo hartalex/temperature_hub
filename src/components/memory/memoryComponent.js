@@ -1,9 +1,9 @@
 import React from 'react'
-import Colors from '../colors'
 import PropTypes from 'prop-types'
-import {hub_api_url} from '../config0.js'
+import {Colors} from '../../colors.js'
+import {hub_api_url} from '../../config.js'
 
-class MemoryComponent extends React.Component {
+export class MemoryComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -107,11 +107,9 @@ class MemoryComponent extends React.Component {
     }
     return retval
   }
+  propTypes: {
+    updateIntervalInMinutes: PropTypes.string,
+    day: PropTypes.number,
+    date: PropTypes.string
+  }
 }
-MemoryComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.string,
-  day: PropTypes.number,
-  date: PropTypes.string
-}
-
-export default MemoryComponent

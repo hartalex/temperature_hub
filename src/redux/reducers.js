@@ -1,40 +1,26 @@
-import defaultAction from './reducers/default'
-import fetchDataStart from './reducers/fetchDataStart'
-import fetchDataComplete from './reducers/fetchDataComplete'
-import setError from './reducers/setError'
-import clearError from './reducers/clearError'
+import {defaultReduce} from './reducers/defaultReduce.js'
+import {setTemps} from './reducers/setTemps.js'
+import {setTempsFail} from './reducers/setTempsFail.js'
 
-export const initialState = {
-  loadingIsHidden:true,
-  error: null,
-  data: [],
-  data_page: {
-    total:0,
-    offset:0,
-    count: 0
-  },
-  query:'',
-  offset: 0
-}
+const initialState = {tempData: [{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Living Room","outdated":true},
+{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Basement","outdated":true},
+{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Fish Tank","outdated":true},
+{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Bedroom","outdated":true},
+{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Outside","outdated":true},
+{"tempInFarenheit":0,"lastUpdate":"2018-02-05T18:42:00.789Z","sensorName":"Garage","outdated":true}]}
 
-export function reduce(state, action) {
+export const reducers = (state, action) => {
   if (typeof state === 'undefined') { state = initialState }
   let getNextState
   switch(action.type) {
-    case 'FetchDataStart':
-      getNextState = fetchDataStart
+    case 'SetTemps':
+      getNextState = setTemps
       break;
-    case 'FetchDataComplete':
-      getNextState = fetchDataComplete
-      break;
-    case 'SetError':
-      getNextState = setError
-      break;
-    case 'ClearError':
-      getNextState = clearError
+    case 'SetTempsFail':
+          getNextState = setTempsFail
       break;
     default:
-      getNextState = defaultAction
+      getNextState = defaultReduce
   }
   return getNextState(state, action)
 }

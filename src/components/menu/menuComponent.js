@@ -1,7 +1,8 @@
-import React from 'react'
-import MenuDay from './menuDayComponent.js'
+import React, {Component} from 'react'
+import {MenuDayComponent} from './menuDayComponent.js'
 import "./menuComponent.css"
-class MenuComponent extends React.Component {
+
+export class MenuComponent extends Component {
   constructor (props, graphId, getData) {
     super(props)
   }
@@ -10,11 +11,10 @@ class MenuComponent extends React.Component {
     retval = (
       <div className="menu">
         <div style={{textAlign: 'left'}}>Menu</div>
-        <MenuDay day='Today' date='Today' updateIntervalInMinutes='60' />
-        <MenuDay day='Tomorrow' date='Tomorrow' updateIntervalInMinutes='60' />
-        <MenuDay day='NextDay' date='NextDay' updateIntervalInMinutes='60' />
+        <MenuDayComponent day='Today' date='Today' updateIntervalInMinutes='60' />
+        <MenuDayComponent day='Tomorrow' date='Tomorrow' updateIntervalInMinutes='60' />
+        <MenuDayComponent day='NextDay' date='NextDay' updateIntervalInMinutes='60' />
       </div>)
     return retval
   }
 }
-export default MenuComponent

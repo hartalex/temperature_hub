@@ -1,14 +1,13 @@
 import React from 'react'
-import Colors from '../colors'
-import {timeAgo} from '../util'
-import temperatureColor from '../temperatureColor'
-import getWeekDay from '../weekDay.js'
 import PropTypes from 'prop-types'
-import {hub_api_url} from '../config0.js'
-import AlertCheck from '../alertCheck'
+import {Colors} from '../../colors.js'
+import {timeAgo, getWeekDay} from '../../util/time.js'
+import {temperatureColor} from '../../util/temperatureColor.js'
+import {hub_api_url} from '../../config.js'
+import {alertCheck} from '../../util/alertCheck.js'
 
 // 3 Day Forecast
-class Forecast3DayComponent extends React.Component {
+export class Forecast3DayComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -67,7 +66,7 @@ class Forecast3DayComponent extends React.Component {
     }
     var that = this
 
-    setInterval(AlertCheck(that, alertCheckInterval), renderInterval)
+    setInterval(alertCheck(that, alertCheckInterval), renderInterval)
 
     this.getData(this)
     setInterval(() => { that.getData(that) }, updateInterval)
@@ -162,8 +161,7 @@ class Forecast3DayComponent extends React.Component {
     }
     return retval
   }
+  propTypes: {
+    updateIntervalInMinutes: PropTypes.string
+  }
 }
-Forecast3DayComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.string
-}
-export default Forecast3DayComponent

@@ -1,4 +1,17 @@
-export function timeAgo (time) {
+const weekdays = [
+'Sunday',
+'Monday',
+'Tuesday',
+'Wednesday',
+'Thursday',
+'Friday',
+'Saturday'
+]
+export const getWeekDay= (i) => {
+  return weekdays[i%7]
+}
+
+export const timeAgo =(time) =>{
     var retval = Math.trunc((new Date() - new Date(time)) / 1000)
     if (retval > 60) {
       retval = Math.trunc(retval / 60)
@@ -13,7 +26,7 @@ export function timeAgo (time) {
     }
     return retval
   }
-export function calculateTodayTomorrowNextDay(propDay) {
+export const calculateTodayTomorrowNextDay = (propDay) =>{
     var retval
     var day = 0;
     if (propDay === 'Today') {

@@ -1,5 +1,5 @@
 import React from 'react'
-import ClientConfig from '../config.js'
+import {hub_api_url} from '../config.js'
 
 export function renderRoot () {
   var style = {
@@ -14,7 +14,7 @@ export function renderRoot () {
       secondMemory: document.getElementById('secondMemory').value,
     }
     var json = JSON.stringify(obj)
-    fetch(ClientConfig.hub_api_url + '/memory/add',
+    fetch(hub_api_url + '/memory/add',
       {
         headers: {
           'Accept': 'application/json',

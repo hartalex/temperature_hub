@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import {fetchJsonResponseHandler} from './fetchJsonResponseHandler.js'
-import {API_URL} from '../config'
+import {API_URL} from '../config.js'
 const DEFAULT_LAST_QUERY = 'FIRST_RUN'
 
 var lastQueryValue = DEFAULT_LAST_QUERY

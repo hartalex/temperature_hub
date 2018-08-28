@@ -1,11 +1,12 @@
-import { connect } from 'react-redux'
 import React from 'react'
-import Colors from '../colors'
-import {timeAgo} from '../util'
-import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import {Colors} from '../../colors.js'
+import {timeAgo} from '../../util/time.js'
+import {temperatureColor} from '../../util/temperatureColor.js'
 
-const TemperatureComponent = ({sensorName, myTempData}) => {
+
+const TemperatureRender = ({sensorName, myTempData}) => {
     var state = {
       style: {
         width: '140px',
@@ -49,7 +50,7 @@ const TemperatureComponent = ({sensorName, myTempData}) => {
     return retval
 }
 
-TemperatureComponent.propTypes = {
+TemperatureRender.propTypes = {
   sensorName: PropTypes.string,
   myTempData: PropTypes.shape({
       lastUpdate: PropTypes.string,
@@ -74,8 +75,6 @@ const mapStateToProps = function(state, props) {
   }
 }
 
-const reduxTemperatureComponent = connect(
+export const TemperatureComponent = connect(
   mapStateToProps
-)(TemperatureComponent)
-
-export default reduxTemperatureComponent
+)(TemperatureRender)

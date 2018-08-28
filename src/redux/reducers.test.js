@@ -1,7 +1,7 @@
-import {reduce} from './reducers.js'
+import {reducers} from './reducers.js'
 
-it('reduce FetchDataStart', () => {
-  expect(reduce({}, {type:'FetchDataStart'})).toEqual(
+it('reducers FetchDataStart', () => {
+  expect(reducers({}, {type:'FetchDataStart'})).toEqual(
     {
       'data': undefined,
       'data_page': undefined,
@@ -11,8 +11,8 @@ it('reduce FetchDataStart', () => {
       'query': undefined})
 })
 
-it('reduce FetchDataComplete Clear', () => {
-expect(reduce({}, {type:'FetchDataComplete'})).toEqual(
+it('reducers FetchDataComplete Clear', () => {
+expect(reducers({}, {type:'FetchDataComplete'})).toEqual(
   {'data': undefined,
    'error': undefined,
    'loadingIsHidden': true,
@@ -21,8 +21,8 @@ expect(reduce({}, {type:'FetchDataComplete'})).toEqual(
 )
 })
 
-it('reduce FetchDataComplete new Data', () => {
-expect(reduce({data:[]}, {type:'FetchDataComplete', data: []})).toEqual({
+it('reducers FetchDataComplete new Data', () => {
+expect(reducers({data:[]}, {type:'FetchDataComplete', data: []})).toEqual({
   'data': undefined,
   'data_page': {
     'count': undefined,
@@ -35,8 +35,8 @@ expect(reduce({data:[]}, {type:'FetchDataComplete', data: []})).toEqual({
 )
 })
 
-it('reduce FetchDataComplete isMore', () => {
-expect(reduce({data:[]}, {type:'FetchDataComplete', data: {data:[]}, isMore: true})).toEqual({
+it('reducers FetchDataComplete isMore', () => {
+expect(reducers({data:[]}, {type:'FetchDataComplete', data: {data:[]}, isMore: true})).toEqual({
   'data': [],
   'data_page': {
     'count': undefined,
@@ -49,12 +49,12 @@ expect(reduce({data:[]}, {type:'FetchDataComplete', data: {data:[]}, isMore: tru
 )
 })
 
-it('reduce SetError', () => {
-expect(reduce({}, {type:'SetError'})).toEqual({})
+it('reducers SetError', () => {
+expect(reducers({}, {type:'SetError'})).toEqual({})
 })
 
-it('reduce ClearError', () => {
-  expect(reduce({}, {type:'ClearError'})).toEqual(
+it('reducers ClearError', () => {
+  expect(reducers({}, {type:'ClearError'})).toEqual(
     {data:undefined,
      data_page:undefined,
      error: null,
@@ -63,6 +63,6 @@ it('reduce ClearError', () => {
      query: undefined})
 })
 
-it('reduce Default', () => {
-  expect(reduce({}, {type:'default'})).toEqual({})
+it('reducers Default', () => {
+  expect(reducers({}, {type:'default'})).toEqual({})
 })

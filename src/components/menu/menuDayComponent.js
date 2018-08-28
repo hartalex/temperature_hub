@@ -1,11 +1,10 @@
-import React from 'react'
-import Colors from '../../colors'
-import getWeekDay from '../../weekDay.js'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {hub_api_url} from '../../config0.js'
-import {calculateTodayTomorrowNextDay} from '../../util.js'
+import {Colors} from '../../colors.js'
+import {getWeekDay, calculateTodayTomorrowNextDay} from '../../util/time.js'
+import {hub_api_url} from '../../config.js'
 
-class MenuDayComponent extends React.Component {
+export class MenuDayComponent extends Component {
   constructor (props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
@@ -132,11 +131,9 @@ class MenuDayComponent extends React.Component {
     }
     return retval
   }
+  propTypes : {
+    updateIntervalInMinutes: PropTypes.string,
+    day: PropTypes.string,
+    date: PropTypes.string
+  }
 }
-MenuDayComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.string,
-  day: PropTypes.string,
-  date: PropTypes.string
-}
-
-export default MenuDayComponent

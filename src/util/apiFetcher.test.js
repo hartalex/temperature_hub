@@ -1,4 +1,4 @@
-import {apiFetchData, fetchData} from './apiFetcher'
+import {apiFetchData, fetchData} from './apiFetcher.js'
 
 const fetchDataGood = (offset) => {
   it('fetchData Good', async () => {
