@@ -1,30 +1,35 @@
 import 'whatwg-fetch'
-import {fetchJsonResponseHandler} from './fetchJsonResponseHandler.js'
-import {API_URL} from '../config.js'
+import { fetchJsonResponseHandler } from './fetchJsonResponseHandler.js'
+import { API_URL } from '../config.js'
 const DEFAULT_LAST_QUERY = 'FIRST_RUN'
 
 var lastQueryValue = DEFAULT_LAST_QUERY
 var lastQueryTime = new Date(0)
 var lastOffset = -1
 
-const queryHasNotChanged = (query, offset) =>{
+const queryHasNotChanged = (query, offset) => {
   return query === lastQueryValue && lastOffset === offset
 }
 
-const queryHasChanged = (query, offset) =>{
+const queryHasChanged = (query, offset) => {
   return query !== lastQueryValue || lastOffset !== offset
 }
 
-const nSecondsHaveElapsed = (seconds) => {
+const nSecondsHaveElapsed = seconds => {
   return new Date() - new Date(lastQueryTime) > seconds * 1000
 }
 
 export async function apiFetchData(query, offset, actions) {
-  if (typeof offset === 'undefined') { offset = 0 }
+  if (typeof offset === 'undefined') {
+    offset = 0
+  }
   if (query === '') {
     // clear current data
     actions.fetchDataComplete()
-  } else if ( queryHasChanged(query, offset) || (queryHasNotChanged(query, offset) && nSecondsHaveElapsed(5))) {
+  } else if (
+    queryHasChanged(query, offset) ||
+    (queryHasNotChanged(query, offset) && nSecondsHaveElapsed(5))
+  ) {
     // fetch from api
     fetchData(query, offset, actions)
   }
@@ -36,12 +41,13 @@ export async function fetchData(query, offset, actions) {
   lastOffset = offset
   actions.fetchDataStart(query)
   try {
-    let response = await fetch(API_URL + '?offset=' + offset + '&q=' + query,
-      {headers: {'Content-Type': 'application/json'}})
+    let response = await fetch(API_URL + '?offset=' + offset + '&q=' + query, {
+      headers: { 'Content-Type': 'application/json' }
+    })
     let data = await fetchJsonResponseHandler(response)
     // got data
     actions.fetchDataComplete(data, offset !== 0)
-  } catch(error) {
+  } catch (error) {
     let msg = error
     // display error
     if (error && error.message) {

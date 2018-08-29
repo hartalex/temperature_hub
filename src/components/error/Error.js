@@ -1,14 +1,13 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import './Error.css'
 
-
-const errorRender = ({error}) => {
-  var className = "Error"
+const errorRender = ({ error }) => {
+  var className = 'Error'
   if (error === null || typeof error === 'undefined') {
-    className = "ErrorHidden";
-    error = {title:'', description:''}
+    className = 'ErrorHidden'
+    error = { title: '', description: '' }
   }
   return (
     <div className={className}>
@@ -21,7 +20,8 @@ const errorRender = ({error}) => {
 errorRender.propTypes = {
   error: PropTypes.shape({
     title: PropTypes.string,
-    description: PropTypes.string})
+    description: PropTypes.string
+  })
 }
 
 const mapStateToProps = function(state, props) {

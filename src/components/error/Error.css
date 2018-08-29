@@ -2,16 +2,16 @@
   background-color: #e8767c;
   border-radius: 1em;
   color: white;
-  display:block;
-  height:100px;
-  margin:auto;
-  max-width:1024px;
-  padding-left:1em;
-  padding-right:1em;
+  display: block;
+  height: 100px;
+  margin: auto;
+  max-width: 1024px;
+  padding-left: 1em;
+  padding-right: 1em;
   text-align: center;
 }
 
 .ErrorHidden {
   display: none;
-  height:100px;
+  height: 100px;
 }

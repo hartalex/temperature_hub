@@ -1,15 +1,15 @@
 .App {
   font-size: 1em;
-  min-width:320px;
+  min-width: 320px;
   text-align: center;
 }
 
 .App-header {
   background-color: #6c9ae2;
   color: white;
-  margin:0;
+  margin: 0;
   padding-bottom: 1em;
-  padding-top:1em;
+  padding-top: 1em;
 }
 
 .App-title {
@@ -21,14 +21,14 @@
 }
 
 .Hidden {
-  visibility:hidden;
+  visibility: hidden;
 }
 
-.App-courtesy > a {
-  color:white;
+.App-courtesy>a {
+  color: white;
 }
 
-.App-courtesy > a:hover {
+.App-courtesy>a:hover {
   color: #ccdffc;
 }
 

@@ -1,4 +1,4 @@
-import {fetchJsonResponseHandler} from './fetchJsonResponseHandler.js'
+import { fetchJsonResponseHandler } from './fetchJsonResponseHandler.js'
 
 it('fetchJsonResponseHandler ok', () => {
   let response = {}
@@ -13,10 +13,9 @@ it('fetchJsonResponseHandler not ok', () => {
   let response = {}
   response.ok = false
   expect(() => {
-   fetchJsonResponseHandler(response)
- }).toThrow();
+    fetchJsonResponseHandler(response)
+  }).toThrow()
 })
-
 
 it('fetchJsonResponseHandler status 200', () => {
   let response = {}
@@ -31,6 +30,6 @@ it('fetchJsonResponseHandler status not 200', () => {
   let response = {}
   response.status = 404
   expect(() => {
-   fetchJsonResponseHandler(response)
- }).toThrow();
+    fetchJsonResponseHandler(response)
+  }).toThrow()
 })

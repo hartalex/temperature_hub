@@ -1,6 +1,6 @@
-import {Colors} from '../colors.js'
+import { Colors } from '../colors.js'
 
-export const temperatureColor = (temp) => {
+export const temperatureColor = temp => {
   let retval
   if (temp === 0) {
     retval = Colors.White

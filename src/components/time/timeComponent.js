@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 export class TimeComponent extends Component {
-  constructor (props, graphId, getData) {
+  constructor(props, graphId, getData) {
     super(props)
     this.state = {
       data: {
@@ -27,21 +27,32 @@ export class TimeComponent extends Component {
     }
     that.setState(that.state)
   }
-  render () {
+  render() {
     var retval
     if (this.state.data.name !== '') {
-      retval = (<div>{this.state.data.name}: {this.state.data.hour}:{this.state.data.minute} {this.state.data.pmam}</div>)
+      retval = (
+        <div>
+          {this.state.data.name}: {this.state.data.hour}:
+          {this.state.data.minute} {this.state.data.pmam}
+        </div>
+      )
     } else {
-      retval = (<div>{this.state.data.hour}:{this.state.data.minute} {this.state.data.pmam}</div>)
+      retval = (
+        <div>
+          {this.state.data.hour}:{this.state.data.minute} {this.state.data.pmam}
+        </div>
+      )
     }
     return retval
   }
 
-componentWillReceiveProps(nextProps) {
-   var data = this.state.data
-   if (nextProps.name !== data.name ||
-       nextProps.hour !== data.hour ||
-       nextProps.minute !== data.minute) {
+  componentWillReceiveProps(nextProps) {
+    var data = this.state.data
+    if (
+      nextProps.name !== data.name ||
+      nextProps.hour !== data.hour ||
+      nextProps.minute !== data.minute
+    ) {
       data.hour = nextProps.hour
       data.minute = nextProps.minute
       data.name = nextProps.name
@@ -51,7 +62,7 @@ componentWillReceiveProps(nextProps) {
       } else {
         data.pmam = 'am'
       }
-      this.setState({data: data})
+      this.setState({ data: data })
     }
   }
   propTypes: {

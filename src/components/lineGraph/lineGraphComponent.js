@@ -1,12 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Chart } from 'react-google-charts'
-import {Colors} from '../../colors.js'
-import {timeAgo} from '../../util/time.js'
-
+import { Colors } from '../../colors.js'
+import { timeAgo } from '../../util/time.js'
 
 export class LineGraphComponent extends Component {
-  constructor (props, graphId, getData) {
+  constructor(props, graphId, getData) {
     super(props)
     var updateInterval = props.updateIntervalInMinutes * 60000
     var renderInterval = 60000
@@ -20,9 +19,9 @@ export class LineGraphComponent extends Component {
         backgroundColor: Colors.Black,
         curveType: 'none',
         titleTextStyle: { color: Colors.White },
-        vAxis: {textStyle: { color: Colors.White }},
-        hAxis: {textStyle: { color: Colors.White }},
-        legend: {textStyle: { color: Colors.White }, position: 'bottom'}
+        vAxis: { textStyle: { color: Colors.White } },
+        hAxis: { textStyle: { color: Colors.White } },
+        legend: { textStyle: { color: Colors.White }, position: 'bottom' }
       },
       data: null,
       style: {
@@ -41,30 +40,42 @@ export class LineGraphComponent extends Component {
       getData(props.duration, that)
     }, updateInterval)
 
-    setInterval(() => { that.setState(that.state) }, renderInterval)
+    setInterval(() => {
+      that.setState(that.state)
+    }, renderInterval)
   }
-  render () {
+  render() {
     var retval
     if (this.state.data !== null) {
       const updateTimeInMinutes = timeAgo(this.state.data.lastUpdate)
-      retval = (<div style={this.state.style}><Chart
-        chartType='LineChart'
-        data={this.state.data.array}
-        options={this.state.options}
-        graph_id={this.state.graph_id}
-        width={this.state.style.width}
-        height='190px'
-        legend_toggle
-      />
-      <div style={{fontSize: '50%', textAlign: 'right', color: this.state.style.color}}>{updateTimeInMinutes}</div>
-      </div>
-    )
+      retval = (
+        <div style={this.state.style}>
+          <Chart
+            chartType="LineChart"
+            data={this.state.data.array}
+            options={this.state.options}
+            graph_id={this.state.graph_id}
+            width={this.state.style.width}
+            height="190px"
+            legend_toggle
+          />
+          <div
+            style={{
+              fontSize: '50%',
+              textAlign: 'right',
+              color: this.state.style.color
+            }}
+          >
+            {updateTimeInMinutes}
+          </div>
+        </div>
+      )
     } else {
-      retval = (<div style={this.state.style}>Fetching Data</div>)
+      retval = <div style={this.state.style}>Fetching Data</div>
     }
     return retval
   }
-  propTypes : {
+  propTypes: {
     updateIntervalInMinutes: PropTypes.string,
     title: PropTypes.string,
     duration: PropTypes.number

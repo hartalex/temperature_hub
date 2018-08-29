@@ -1,13 +1,19 @@
-import {apiFetchData, fetchData} from './apiFetcher.js'
+import { apiFetchData, fetchData } from './apiFetcher.js'
 
-const fetchDataGood = (offset) => {
+const fetchDataGood = offset => {
   it('fetchData Good', async () => {
     let query = ''
     let actions = {}
     actions.fetchDataStart = jest.fn()
     actions.fetchDataComplete = jest.fn()
     actions.setError = jest.fn()
-    global.fetch = jest.fn().mockResolvedValue({ok:true, status:200, json: () => {return {}} })
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => {
+        return {}
+      }
+    })
     global.fetchJsonResponseHandler = jest.fn().mockResolvedValue({})
     await fetchData(query, offset, actions)
     expect(actions.fetchDataStart).toBeCalledWith(query)
@@ -31,13 +37,11 @@ const fetchDataBad = (error, errorString) => {
   })
 }
 
-
 fetchDataGood(0)
 fetchDataGood(1)
 
 fetchDataBad('error', 'error')
-fetchDataBad({message:'error'}, 'error')
-
+fetchDataBad({ message: 'error' }, 'error')
 
 it('apiFetchData empty query', async () => {
   let query = ''
