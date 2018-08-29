@@ -13,7 +13,7 @@ stages:
   - name: build
     if: type IN (push, pull_request)
   - name: deploy
-    if: branch IN (prod) and type = push
+    if: branch IN (prod, newreact) and type = push
 services:
   - docker
 node_js:
