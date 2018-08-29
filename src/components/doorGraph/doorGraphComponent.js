@@ -38,10 +38,9 @@ const getData = function(duration, that) {
               datestring += ':00.000Z'
             }
             var arrayRow = [new Date(datestring)]
-            for (var i = 0; i < sensorjson.length; i++) {
-              var sensor = sensorjson[i]
+            sensorjson.map(arrayRow, (sensor, i) => {
               var tempData = lastArrayRow[i + 1]
-              element.results.forEach(function(temp) {
+              element.results.map(temp => {
                 if (sensor.sensorId === temp.sensorId) {
                   if (temp.isOpen === true) {
                     tempData = 1
@@ -50,9 +49,11 @@ const getData = function(duration, that) {
                   }
                   tempData *= i + 1
                 }
+                return null
               })
               arrayRow.push(tempData)
-            }
+              return null
+            })
             lastArrayRow[0] = new Date(
               new Date(arrayRow[0] - 60000).toISOString()
             )

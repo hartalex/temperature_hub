@@ -2,9 +2,9 @@
   width: '440px';
   height: '200px';
   border: '5px solid darkgray';
-  background: Black;
-  textAlign: 'center';
+  background: black;
+  text-align: 'center';
   float: 'left';
   color: White;
-  fontSize: '14px';
+  font-size: '14px';
 }

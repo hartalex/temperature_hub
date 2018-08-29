@@ -53,16 +53,17 @@ const getdata = function(duration, that) {
 }
 
 const setDataRow = function(arrayRow, sensorjson, lastArrayRow, element) {
-  for (var i = 0; i < sensorjson.length; i++) {
-    var sensor = sensorjson[i]
+  sensorjson.map((sensor, i) => {
     var tempData = lastArrayRow[i + 1]
-    element.results.forEach(function(temp) {
+    element.results.map(temp => {
       if (sensor.sensorId === temp.sensorId) {
         tempData = temp.tempInFarenheit
       }
+      return null
     })
     arrayRow.push(tempData)
-  }
+    return null
+  })
 }
 
 const setTitle = function(sensorjson, arraydata) {
