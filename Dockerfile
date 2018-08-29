@@ -8,7 +8,7 @@ RUN mkdir -p /root/temperature_hub/build
 COPY ./build /root/temperature_hub/build
 COPY ./package.json /root/temperature_hub/package.json
 WORKDIR /root/temperature_hub
-RUN yarn install
+RUN npm install --prefix /root/temperature_hub
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["yarn","run", "prodstart"]
+ENTRYPOINT ["npm","run", "prodstart"]
