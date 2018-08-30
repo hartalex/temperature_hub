@@ -6,6 +6,7 @@ ENV TAG ${TAG}
 ENV NODE_ENV production
 RUN mkdir -p /root/temperature_hub/build
 COPY ./build /root/temperature_hub/build
+COPY ./src /root/temperature_hub/src
 COPY ./package.json /root/temperature_hub/package.json
 WORKDIR /root/temperature_hub
 RUN npm install --prefix /root/temperature_hub
