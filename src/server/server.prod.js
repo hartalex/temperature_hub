@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path')
 const cache = require('express-cache-headers')
 var expressWinston = require('express-winston')
 var winston = require('winston')
@@ -7,11 +7,9 @@ var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
 var fs = require('fs')
 var https = require('https')
-var http = require('http')
-var forceSsl = require('express-force-ssl')
 var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
 var cert = fs.readFileSync('/etc/ssl/certs/ssl-hub.hartcode.com.crt')
-const logging = new winston.Logger({
+const logging = winston.createLogger({
   transports: [new winston.transports.Console({ timestamp: true })]
 })
 
@@ -31,22 +29,15 @@ app.use(
     ]
   })
 )
-app.use(forceSsl)
-app.set('view engine', 'ejs')
 
 app.use(cache(300))
 apiRoutes(app)
   .then(function() {
     webRoutes(app)
     app.use(
-      '/img',
+      '/static',
       cache(3600),
-      express.static(path.join(__dirname, '/../client/img'))
-    )
-    app.use(
-      '/js',
-      cache(0),
-      express.static(path.join(__dirname, '/../client/js'))
+      express.static(path.join(__dirname, '/build/static'))
     )
 
     app.use(
@@ -60,9 +51,7 @@ apiRoutes(app)
         ]
       })
     )
-    https.createServer(options, app).listen(443)
-
-    http.createServer(app).listen(80)
+    https.createServer(options, app).listen(3000)
   })
   .catch(function(err) {
     logging.log('error', 'server.prod.js', err)

@@ -9,6 +9,5 @@ COPY ./build /root/temperature_hub/build
 COPY ./package.json /root/temperature_hub/package.json
 WORKDIR /root/temperature_hub
 RUN npm install --prefix /root/temperature_hub
-EXPOSE 80
-EXPOSE 443
-ENTRYPOINT ["npm","run", "prodstart"]
+EXPOSE 3000
+ENTRYPOINT ["npm","run", "serve"]

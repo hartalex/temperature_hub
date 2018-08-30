@@ -1,6 +1,7 @@
+const path = require('path')
 module.exports = function(app) {
   app.get('/', function(req, res) {
-    res.render('mainBlack', { title: 'Hub', jsFile: 'index.js' })
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
   })
   app.get('/menuEntry', function(req, res) {
     res.render('mainWhite', { title: 'Menu Entry', jsFile: 'menuEntry.js' })
