@@ -1,42 +1,41 @@
----
 - hosts: hub.cloud.hartcode.com
   remote_user: hartalex
   vars:
-   commit: "{{ lookup('env', 'TRAVIS_COMMIT') }}"
-   tag: "{{ lookup('env', 'TRAVIS_BRANCH') }}"
+    commit: "{{ lookup('env', 'TRAVIS_COMMIT') }}"
+    tag: "{{ lookup('env', 'TRAVIS_BRANCH') }}"
   tasks:
     - name: get latest container
       become: true
-      command: "gcloud docker -- pull gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}"
+      command: 'gcloud docker -- pull gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}'
     - name: restart hub.hartcode.com
       become: true
       docker_container:
-        name: "temp_hub"
-        image: "gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}"
+        name: 'temp_hub_{{tag}}'
+        image: 'gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}'
         state: started
         restart: yes
         recreate: yes
         restart_policy: always
         ports:
-          - "80:80"
-          - "443:443"
+          - '80:80'
+          - '443:443'
         volumes:
-          - "/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js"
-          - "/home/hartalex/temp_hub/logdir:/var/log"
+          - '/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js'
+          - '/home/hartalex/temp_hub/logdir:/var/log'
         network_mode: host
-    - name: restart mongo 
+    - name: restart mongo
       become: true
       docker_container:
-        name: "mongo"
-        image: "mongo:latest"
+        name: 'mongo'
+        image: 'mongo:latest'
         state: started
         restart: yes
         recreate: yes
         restart_policy: always
         ports:
-          - "127.0.0.1:27017:27017"
+          - '127.0.0.1:27017:27017'
         volumes:
-          - "/home/hartalex/mongodb/datadir:/data/db"
+          - '/home/hartalex/mongodb/datadir:/data/db'
         network_mode: host
     - wait_for: timeout=5
     - name: Get JSON from page
@@ -44,4 +43,4 @@
       register: json_response
     - name: Validate commit
       fail: msg="The commits don't match"
-      when:  "(json_response.content|from_json)['commit'] is defined and (json_response.content|from_json)['commit'] != commit"
+      when: "(json_response.content|from_json)['commit'] is defined and (json_response.content|from_json)['commit'] != commit"

@@ -6,7 +6,8 @@ cache:
 language:
   - node_js
   - python
-python: 2.7
+python:
+  - '3.6'
 stages:
   - name: update_depends
     if: type IN (cron)
