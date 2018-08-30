@@ -23,6 +23,7 @@
           - '/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js'
           - '/home/hartalex/temp_hub/logdir:/var/log'
           - '/etc/ssl:/etc/ssl'
+        network_mode: host
     - name: restart mongo
       become: true
       docker_container:
