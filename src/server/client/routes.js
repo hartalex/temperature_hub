@@ -9,4 +9,7 @@ module.exports = function(app) {
   app.get('/memoryEntry', function(req, res) {
     res.render('mainWhite', { title: 'Memory Entry', jsFile: 'memoryEntry.js' })
   })
+  app.get('/info', (req, res) => {
+    res.json({ commit: process.env.COMMIT, tag: process.env.TAG })
+  })
 }
