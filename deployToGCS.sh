@@ -11,5 +11,5 @@ case "$TRAVIS_BRANCH" in
     * ) echo "No Certs";;
 esac
 gcloud auth activate-service-account --key-file client-secret.json;
-docker build --build-arg CERT_NAME=$CERT_NAME--build-arg COMMIT=$TRAVIS_COMMIT --build-arg TAG=$TRAVIS_BRANCH -t gcr.io/hartonline-cloud/$1:$TRAVIS_BRANCH-$TRAVIS_COMMIT .;
+docker build --build-arg CERT_NAME=$CERT_NAME --build-arg COMMIT=$TRAVIS_COMMIT --build-arg TAG=$TRAVIS_BRANCH -t gcr.io/hartonline-cloud/$1:$TRAVIS_BRANCH-$TRAVIS_COMMIT .;
 gcloud docker -- push gcr.io/hartonline-cloud/$1:$TRAVIS_BRANCH-$TRAVIS_COMMIT;
