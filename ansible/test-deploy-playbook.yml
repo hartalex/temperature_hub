@@ -1,13 +1,13 @@
-- hosts: hub.cloud.hartcode.com
+- hosts: homehub.cloud.test.hartcode.com
   remote_user: hartalex
   vars:
     commit: "{{ lookup('env', 'TRAVIS_COMMIT') }}"
     tag: "{{ lookup('env', 'TRAVIS_BRANCH') }}"
   tasks:
-    - name: get latest container
+    - name: get container
       become: true
       command: 'gcloud docker -- pull gcr.io/hartonline-cloud/temperature_hub:{{tag}}-{{commit}}'
-    - name: restart hub.hartcode.com
+    - name: restart docker container
       become: true
       docker_container:
         name: 'temp_hub_{{tag}}'
@@ -17,8 +17,8 @@
         recreate: yes
         restart_policy: always
         ports:
-          - '0.0.0.0:443:3000'
-          - '0.0.0.0:80:3000'
+          - '80:3000'
+          - '443:3000'
         volumes:
           - '/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js'
           - '/home/hartalex/temp_hub/logdir:/var/log'
