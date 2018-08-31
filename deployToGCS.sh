@@ -5,7 +5,7 @@ if [ ! -d ${HOME}/google-cloud-sdk ]; then
   export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
   curl https://sdk.cloud.google.com | bash;
 fi;
-case "$TRAVIS_COMMIT" in
+case "$TRAVIS_BRANCH" in
     "newreact" ) export CERT_NAME=hub.test.hartcode.com;;
     "prod" ) export CERT_NAME=ssl-hub.hartcode.com;;
     * ) echo "No Certs";;
