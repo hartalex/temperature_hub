@@ -6,8 +6,8 @@ if [ ! -d ${HOME}/google-cloud-sdk ]; then
   curl https://sdk.cloud.google.com | bash;
 fi;
 case "$TRAVIS_COMMIT" in
-    *newreact* ) export CERT_NAME=hub.test.hartcode.com;;
-    *prod* ) export CERT_NAME=ssl-hub.hartcode.com;;
+    "newreact" ) export CERT_NAME=hub.test.hartcode.com;;
+    "prod" ) export CERT_NAME=ssl-hub.hartcode.com;;
     * ) echo "No Certs";;
 esac
 gcloud auth activate-service-account --key-file client-secret.json;
