@@ -7,8 +7,9 @@ var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
 var fs = require('fs')
 var https = require('https')
-var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
-var cert = fs.readFileSync('/etc/ssl/certs/ssl-hub.hartcode.com.crt')
+var certname = process.env.CERT_NAME
+var key = fs.readFileSync(`/etc/ssl/private/${certname}.key`)
+var cert = fs.readFileSync(`/etc/ssl/certs/${certname}.crt`)
 const logging = winston.createLogger({
   transports: [new winston.transports.Console({ timestamp: true })]
 })
@@ -32,7 +33,7 @@ app.use(
 
 app.use(cache(300))
 apiRoutes(app)
-  .then(function() {
+  .then(function () {
     webRoutes(app)
     app.use(
       '/static',
@@ -53,6 +54,6 @@ apiRoutes(app)
     )
     https.createServer(options, app).listen(3000)
   })
-  .catch(function(err) {
+  .catch(function (err) {
     logging.log('error', 'server.prod.js', err)
   })
