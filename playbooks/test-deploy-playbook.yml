@@ -37,7 +37,7 @@
         volumes:
           - '/home/hartalex/mongodb/datadir:/data/db'
         network_mode: host
-    - wait_for: timeout=5
+    - wait_for: timeout=30
     - name: Get JSON from page
       uri: url="http://127.0.0.1:3000/info" return_content=yes
       register: json_response
