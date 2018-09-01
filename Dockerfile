@@ -1,6 +1,7 @@
 FROM node:9-alpine
 ARG COMMIT=local
 ARG TAG=local
+ARG CERT_NAME=local
 ENV COMMIT ${COMMIT}
 ENV TAG ${TAG}
 ENV CERT_NAME ${CERT_NAME}
