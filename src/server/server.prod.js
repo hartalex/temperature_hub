@@ -6,6 +6,7 @@ var express = require('express')
 var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
 var fs = require('fs')
+var forceSsl = require('express-force-ssl')
 var https = require('https')
 var http = require('http')
 var certname = process.env.CERT_NAME
@@ -36,7 +37,9 @@ app.use(
     ]
   })
 )
-
+if (certname) {
+  app.use(forceSsl)
+}
 logging.info('Setting Up Routes')
 app.use(cache(300))
 apiRoutes(app)
@@ -60,9 +63,9 @@ apiRoutes(app)
       })
     )
     if (certname) {
-      https.createServer(options, app).listen(3000)
+      https.createServer(options, app).listen(443)
     } else {
-      http.createServer(app).listen(3000)
+      http.createServer(app).listen(80)
     }
   })
   .catch(function(err) {

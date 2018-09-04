@@ -12,5 +12,6 @@ COPY ./src /root/temperature_hub/src
 COPY ./package.json /root/temperature_hub/package.json
 WORKDIR /root/temperature_hub
 RUN npm install --prefix /root/temperature_hub
-EXPOSE 3000
+EXPOSE 443
+EXPOSE 80
 ENTRYPOINT ["npm","run", "serve"]

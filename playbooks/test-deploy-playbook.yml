@@ -17,7 +17,8 @@
         recreate: yes
         restart_policy: always
         ports:
-          - '3000:3000'
+          - '443:443'
+          - '80:80'
         volumes:
           - '/home/hartalex/temp_hub/config.js:/root/temperature_hub/build/server/config.js'
           - '/home/hartalex/temp_hub/logdir:/var/log'
@@ -39,7 +40,7 @@
         network_mode: host
     - wait_for: timeout=30
     - name: Get JSON from page
-      uri: url="https://127.0.0.1:3000/info" return_content=yes
+      uri: url="https://homehub.cloud.test.hartcode.com/info" return_content=yes
       register: json_response
     - name: Validate commit
       fail: msg="The commits don't match"
