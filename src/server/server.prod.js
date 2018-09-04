@@ -7,17 +7,23 @@ var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
 var fs = require('fs')
 var https = require('https')
+var http = require('http')
 var certname = process.env.CERT_NAME
-var key = fs.readFileSync(`/etc/ssl/private/${certname}.key`)
-var cert = fs.readFileSync(`/etc/ssl/certs/${certname}.crt`)
+var options = {}
+if (certname) {
+  console.log('CertName Found, reading certs for ${certname}')
+  let key = fs.readFileSync(`/etc/ssl/private/${certname}.key`)
+  let cert = fs.readFileSync(`/etc/ssl/certs/${certname}.crt`)
+  options = {
+    key,
+    cert
+  }
+}
+
 const logging = winston.createLogger({
   transports: [new winston.transports.Console({ timestamp: true })]
 })
 
-var options = {
-  key: key,
-  cert: cert
-}
 const app = express()
 app.use(
   expressWinston.logger({
@@ -31,14 +37,15 @@ app.use(
   })
 )
 
+logging.info('Setting Up Routes')
 app.use(cache(300))
 apiRoutes(app)
-  .then(function () {
+  .then(function() {
     webRoutes(app)
     app.use(
       '/static',
       cache(3600),
-      express.static(path.join(__dirname, '/build/static'))
+      express.static(path.join(__dirname, '../../build/static'))
     )
 
     app.use(
@@ -52,8 +59,12 @@ apiRoutes(app)
         ]
       })
     )
-    https.createServer(options, app).listen(3000)
+    if (certname) {
+      https.createServer(options, app).listen(3000)
+    } else {
+      http.createServer(app).listen(3000)
+    }
   })
-  .catch(function (err) {
+  .catch(function(err) {
     logging.log('error', 'server.prod.js', err)
   })
