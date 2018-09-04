@@ -7,6 +7,12 @@ chmod 400 ansible
 ssh-add ansible
 
 case "$TRAVIS_BRANCH" in
+    "newreact" ) export API_URL=homehub.cloud.test.hartcode.com;;
+    "prod" ) export API_URL=hub.hartcode.com;;
+    * ) echo "No EnV";;
+esac
+
+case "$TRAVIS_BRANCH" in
     "newreact" ) ansible-playbook -i playbooks/inventory.yml playbooks/test-deploy-playbook.yml;;
     "prod" ) ansible-playbook -i playbooks/inventory.yml playbooks/prod-deploy-playbook.yml;;
     * ) echo "No Deploy";;
