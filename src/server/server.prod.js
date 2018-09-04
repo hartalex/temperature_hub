@@ -64,9 +64,8 @@ apiRoutes(app)
     )
     if (certname) {
       https.createServer(options, app).listen(443)
-    } else {
-      http.createServer(app).listen(80)
     }
+    http.createServer(app).listen(80)
   })
   .catch(function(err) {
     logging.log('error', 'server.prod.js', err)
