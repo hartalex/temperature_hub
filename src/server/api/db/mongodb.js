@@ -44,6 +44,7 @@ module.exports = function(client) {
                     setTimeout(() => {
                       client.connect(
                         url,
+                        { useNewUrlParser: true },
                         connectCallback(retryMax, retryCnt)
                       )
                     }, 15000)
@@ -59,6 +60,7 @@ module.exports = function(client) {
             }
             client.connect(
               url,
+              { useNewUrlParser: true },
               connectCallback(retryMax)
             )
           }
