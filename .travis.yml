@@ -3,6 +3,7 @@ cache:
   directories:
     - '$HOME/google-cloud-sdk/'
     - node_modules
+    - '$HOME/.cache/'
 language:
   - node_js
   - python
