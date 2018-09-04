@@ -3,6 +3,7 @@
   vars:
     commit: "{{ lookup('env', 'TRAVIS_COMMIT') }}"
     tag: "{{ lookup('env', 'TRAVIS_BRANCH') }}"
+    api_url: "{{ lookup('env', 'API_URL') }}"
   tasks:
     - name: get container
       become: true
@@ -25,6 +26,8 @@
           - '/home/hartalex/temp_hub/logdir:/var/log'
           - '/etc/ssl:/etc/ssl'
         network_mode: host
+        env:
+          - API_URL: {{api_url}}
     - name: restart mongo
       become: true
       docker_container:
