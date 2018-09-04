@@ -27,7 +27,7 @@
           - '/etc/ssl:/etc/ssl'
         network_mode: host
         env:
-          - API_URL: {{api_url}}
+          - API_URL: "{{api_url}}"
     - name: restart mongo
       become: true
       docker_container:
