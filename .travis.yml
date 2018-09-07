@@ -27,7 +27,7 @@ jobs:
         - . ./scripts/build.sh
     - stage: deploy
       script:
-        - yarn run build
+        - . ./scripts/build.sh
         - pip install ansible --user
         - pip install docker --user
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
