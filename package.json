@@ -68,11 +68,9 @@
     "lint": "eslint *.js"
   },
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/util/**/*.{js,jsx,mjs}",
-      "src/redux/**/*.{js,jsx,mjs}",
-      "src/components/**/*.{js,jsx,mjs}"
-    ],
+      "src/**/*.{js,jsx,mjs}"],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
     ],
