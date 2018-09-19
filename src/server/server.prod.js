@@ -12,7 +12,7 @@ var http = require('http')
 var certname = process.env.CERT_NAME
 var options = {}
 if (certname) {
-  console.log('CertName Found, reading certs for ${certname}')
+  console.log(`CertName Found, reading certs for ${certname}`)
   let key = fs.readFileSync(`/etc/ssl/private/${certname}.key`)
   let cert = fs.readFileSync(`/etc/ssl/certs/${certname}.crt`)
   options = {
