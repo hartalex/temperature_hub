@@ -1,4 +1,4 @@
-const jsonResponsePromise = require('../../../jsonResponsePromise')
+const jsonResponseHandler = require('../../../jsonResponseHandler')
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const db = require('../../db/mongodb')()
