@@ -1,4 +1,4 @@
-import { Colors } from '../colors.js'
+import { Colors } from 'src/colors.js'
 
 export const temperatureColor = temp => {
   let retval
