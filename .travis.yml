@@ -19,7 +19,7 @@ stages:
 services:
   - docker
 node_js:
-  - 9.5.0
+  - 10.10.0
 jobs:
   include:
     - stage: build

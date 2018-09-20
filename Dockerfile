@@ -1,4 +1,4 @@
-FROM node:9-alpine
+FROM node:10.10-alpine
 ARG COMMIT=local
 ARG TAG=local
 ARG CERT_NAME=local
