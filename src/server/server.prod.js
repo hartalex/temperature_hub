@@ -21,16 +21,8 @@ if (certname) {
     cert
   }
 }
-
-var whitelist = ['https://homehub.cloud.test.hartcode.com', 'https://hub.test.hartcode.com']
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: new RegExp("/\.hartcode\.com$/")
 }
 
 const logging = winston.createLogger({
