@@ -22,7 +22,7 @@ if (certname) {
   }
 }
 var corsOptions = {
-  origin: new RegExp("/\.hartcode\.com$/")
+  origin: ["https://hub.test.hartcode.com", "https://homehub.cloud.test.hartcode.com")
 }
 
 const logging = winston.createLogger({
