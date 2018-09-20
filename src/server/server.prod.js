@@ -41,6 +41,7 @@ app.use(
     ]
   })
 )
+app.options(cors(corsOptions))
 app.use(cors(corsOptions))
 if (certname) {
   app.use(forceSsl)
