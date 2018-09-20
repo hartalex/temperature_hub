@@ -10,6 +10,7 @@ var forceSsl = require('express-force-ssl')
 var https = require('https')
 var http = require('http')
 var certname = process.env.CERT_NAME
+var cors = require('cors')
 var options = {}
 if (certname) {
   console.log(`CertName Found, reading certs for ${certname}`)
@@ -18,6 +19,17 @@ if (certname) {
   options = {
     key,
     cert
+  }
+}
+
+var whitelist = ['https://homehub.cloud.test.hartcode.com', 'https://hub.test.hartcode.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
   }
 }
 
@@ -37,6 +49,7 @@ app.use(
     ]
   })
 )
+app.use(cors(corsOptions))
 if (certname) {
   app.use(forceSsl)
 }
