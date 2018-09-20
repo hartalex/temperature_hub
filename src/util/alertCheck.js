@@ -1,4 +1,4 @@
-import { Colors } from '../colors'
+import { Colors } from 'src/colors'
 
 export const alertCheck = function(that, alertCheckInterval) {
   return () => {

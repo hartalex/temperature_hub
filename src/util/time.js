@@ -26,6 +26,7 @@ export const timeAgo = time => {
   }
   return retval
 }
+
 export const calculateTodayTomorrowNextDay = propDay => {
   var retval
   var day = 0
@@ -36,6 +37,7 @@ export const calculateTodayTomorrowNextDay = propDay => {
   } else if (propDay === 'NextDay') {
     day = 2
   }
+
   retval = new Date(
     new Date().getTime() +
       24 * day * 60 * 60 * 1000 -
