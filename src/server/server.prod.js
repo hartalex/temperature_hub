@@ -22,7 +22,10 @@ if (certname) {
   }
 }
 var corsOptions = {
-  origin: new RegExp("/\.hartcode\.com$/")
+  origin: new RegExp("/\.hartcode\.com$/"),
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
 }
 
 const logging = winston.createLogger({
@@ -41,7 +44,7 @@ app.use(
     ]
   })
 )
-app.options(cors(corsOptions))
+
 app.use(cors(corsOptions))
 if (certname) {
   app.use(forceSsl)
