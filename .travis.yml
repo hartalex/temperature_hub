@@ -32,8 +32,8 @@ jobs:
         - pip install docker --user
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
         - tar xvf secrets.tar
-        - ./deployToGCS.sh temperature_hub
-        - ./deployAnsible.sh
+        - ./scripts/deployToGCS.sh temperature_hub
+        - ./scripts/deployAnsible.sh
     - stage: update_depends
       script:
         - ./scripts/updateDepends.sh
