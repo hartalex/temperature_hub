@@ -36,7 +36,7 @@ jobs:
         - ./deployAnsible.sh
     - stage: update_depends
       script:
-        - ./updateDepends.sh
+        - ./scripts/updateDepends.sh
         - yarn run lint
         - yarn run test
         - yarn run coverage
