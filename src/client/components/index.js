@@ -27,7 +27,7 @@ export function renderRoot () {
     <div className='body' style={style}>
       <DoorGraph title='Doors' duration='24h' updateIntervalInMinutes='5'/>
       <TemperatureGraph title='Temperatures' duration='24h' updateIntervalInMinutes='5'/>
-      <Temperature sensorName='Greenhouse'/>
+      <Temperature sensorName='Basement'/>
       <Temperature sensorName='Living Room'/>
       <Temperature sensorName='Fish Tank'/>
 
