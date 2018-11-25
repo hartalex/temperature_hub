@@ -1,74 +1,47 @@
-module.exports = {
-  isTypeObject: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (val !== null && typeof val === 'object') {
-        resolve()
-      } else {
-        reject(valueName + ' is not an object')
-      }
-    }) // Promise
-  }, // isTypeObject
-  isTypeString: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (typeof val === 'string') {
-        resolve()
-      } else {
-        reject(valueName + ' is not a string')
-      }
-    }) // Promise
-  }, // isTypeString
-  isTypeNumber: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (val !== null && typeof val === 'number') {
-        resolve()
-      } else {
-        reject(valueName + ' is not a number')
-      }
-    }) // Promise
-  }, // isTypeNumber
-  isTypeBoolean: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (val !== null && typeof val === 'boolean') {
-        resolve()
-      } else {
-        reject(valueName + ' is not a boolean')
-      }
-    }) // Promise
-  }, // isTypeBoolean
-  isNotNull: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (val !== null) {
-        resolve()
-      } else {
-        reject(valueName + ' is null')
-      }
-    }) // Promise
-  }, // isNotNull
-  isNotUndefined: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (typeof val !== 'undefined') {
-        resolve()
-      } else {
-        reject(valueName + ' is undefined')
-      }
-    }) // Promise
-  }, // isNotUndefined
-  stringHasLength: function(val, valueName) {
-    return new Promise(function (resolve, reject) {
-      if (val && val.length && val.length > 0) {
-        resolve()
-      } else {
-        reject(valueName + ' is an empty string')
-      }
-    }) // Promise
-  }, // stringHasLength
-  hasProperty: function(val, property) {
-    return new Promise(function (resolve, reject) {
-      if (val && typeof val !== 'boolean' && property in val) {
-        resolve()
-      } else {
-        reject('Property ' + property + ' is missing')
-      }
-    }) // Promise
-  } // hasProperty
+export async function isTypeObject(val, valueName) {
+  if (val === null || typeof val !== "object") {
+    throw valueName + " is not an object";
+  }
+}
+
+export async function isTypeString(val, valueName) {
+  if (typeof val !== "string") {
+    throw valueName + " is not a string";
+  }
+}
+
+export async function isTypeNumber(val, valueName) {
+  if (val === null || typeof val !== "number") {
+    throw valueName + " is not a number";
+  }
+}
+
+export async function isTypeBoolean(val, valueName) {
+  if (val === null || typeof val !== "boolean") {
+    throw valueName + " is not a boolean";
+  }
+}
+
+export async function isNotNull(val, valueName) {
+  if (val === null) {
+    throw valueName + " is null";
+  }
+}
+
+export async function isNotUndefined(val, valueName) {
+  if (typeof val === "undefined") {
+    throw valueName + " is undefined";
+  }
+}
+
+export async function stringHasLength(val, valueName) {
+  if (!val || !val.length || val.length <= 0) {
+    throw valueName + " is an empty string";
+  }
+}
+
+export async function hasProperty(val, property) {
+  if ((!val && typeof val !== "boolean") || !(property in val)) {
+    throw "Property " + property + " is missing";
+  }
 }

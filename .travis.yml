@@ -3,7 +3,7 @@ cache:
   directories:
     - "$HOME/google-cloud-sdk/"
     - node_modules
-language: 
+language:
   - node_js
   - python
 python: 2.7
@@ -17,34 +17,32 @@ stages:
 services:
   - docker
 node_js:
-  - node
+  - 9.11.1
 jobs:
   include:
     - stage: build
       script:
-        - npm run lint
-        - npm run test
-        - npm run coverage
-        - npm install -g codeclimate-test-reporter
-        - codeclimate-test-reporter < lcov.info
-        - npm run build
+        - yarn run lint
+        - yarn run test
+        - yarn global add codeclimate-test-reporter
+        - codeclimate-test-reporter < coverage/lcov.info
+        - yarn run build
     - stage: deploy
       script:
-        - npm run build
+        - yarn run build
         - pip install ansible --user
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
         - tar xvf secrets.tar
-        - ./deployToGCS.sh temperature_hub 
+        - ./deployToGCS.sh temperature_hub
         - ./deployAnsible.sh
     - stage: update_depends
       script:
         - ./updateDepends.sh
-        - npm run lint
-        - npm run test
-        - npm run coverage
-        - npm install -g codeclimate-test-reporter
-        - codeclimate-test-reporter < lcov.info
-        - npm run build
+        - yarn run lint
+        - yarn run test
+        - yarn global add codeclimate-test-reporter
+        - codeclimate-test-reporter < coverage/lcov.info
+        - yarn run build
       after_success:
         - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
         - git config --global user.email "travis@travis-ci.org"

@@ -4,6 +4,7 @@ import Util from '../util'
 import temperatureColor from '../temperatureColor'
 import PropTypes from 'prop-types'
 import AlertCheck from '../alertCheck'
+import jsonResponseHandler from '../../server/jsonResponseHandler'
 
 // Current Weather
 class WeatherComponent extends React.Component {
@@ -47,12 +48,9 @@ class WeatherComponent extends React.Component {
     setInterval(() => { that.getData(that) }, updateInterval)
   }
   getData (that) {
-    fetch('http://hub.hartcode.com/forecast').then(function (response) {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server')
-      }
-      return response.json()
-    }).then(function (currentjson) {
+    fetch('http://hub.hartcode.com/forecast')
+    .then(jsonResponseHandler)
+    .then(function (currentjson) {
       if (currentjson.weather) {
         that.state.data.weatherDescription = currentjson.weather[0].description
         that.state.data.icon = currentjson.weather[0].icon

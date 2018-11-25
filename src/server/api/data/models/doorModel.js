@@ -1,10 +1,7 @@
-module.exports =
-  function(input) {
-    return new Promise(function (resolve, reject) {
-      var door = {}
-      door.sensorId = input.sensorId
-      door.isOpen = input.isOpen
-      door.utc_timestamp = input.utc_timestamp
-      resolve(door)
-    }) // Promise
-  }
+export async function convertToDoor(input) {
+  return {
+    sensorId: input.sensorId,
+    isOpen: input.isOpen,
+    utc_timestamp: input.utc_timestamp
+  };
+}

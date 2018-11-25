@@ -1,83 +1,67 @@
-const slackPost = require('../data/slack')
-const config = require('../../config')
-const logging = require('winston')
+import jsonResponsePromise from "../../jsonResponsePromise";
+const config = require("../../config");
+const slack = require("../data/slack")(config.slackUrl);
+const errorHandler = require("./errorHandler")(slack);
+const doAggregateQuery = require("./aggregateQuery");
 
-module.exports = function (hours, days, months) {
-  var slack = slackPost(config.slackUrl)
-  return function (req, res) {
-  var duration
-  if ('duration' in req.params) {
-    duration = req.params.duration
-  }
-  duration = validateDuration(duration)
-  // Use connect method to connect to the Server
-    var dbobj = req.db
-    return new Promise(function (resolve, reject) {
-      if (duration === '1h') {
-        hours(dbobj, 1, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '12h') {
-        hours(dbobj, 12, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '24h') {
-        hours(dbobj, 24, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '3d') {
-        days(dbobj, 3, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '7d') {
-        days(dbobj, 7, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '14d') {
-        days(dbobj, 14, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '28d') {
-        days(dbobj, 28, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '1m') {
-        months(dbobj, 1, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '3m') {
-        months(dbobj, 3, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '6m') {
-        months(dbobj, 6, function (temps) {
-          resolve(temps)
-        })
-      } else if (duration === '12m') {
-        months(dbobj, 12, function (temps) {
-          resolve(temps)
-        })
-      } else {
-        reject('Duration could not be handled' + duration)
+module.exports = {
+  durational_req_res: function(getAggregateQuery, collection) {
+    let months = doAggregateQuery
+      .findDataByTime(doAggregateQuery.months, getAggregateQuery, collection)
+      .bind(doAggregateQuery);
+    let days = doAggregateQuery
+      .findDataByTime(doAggregateQuery.days, getAggregateQuery, collection)
+      .bind(doAggregateQuery);
+    let hours = doAggregateQuery
+      .findDataByTime(doAggregateQuery.hours, getAggregateQuery, collection)
+      .bind(doAggregateQuery);
+    return function(req, res, done) {
+      let duration;
+      if ("duration" in req.params) {
+        duration = req.params.duration;
       }
-  }).then(function (result) {
-    res.json(result)
-  })
-  .catch(function (err) {
-    logging.log('error', req.method + ' ' + req.url, err)
-    slack.SlackPost(err, req).catch(function(slackErr) {
-      logging.log('error', 'slack in '+ req.method + ' ' + req.url, slackErr)
-    })
-    res.json([])
-  })
-}
-}
-
-function validateDuration (duration) {
-  const validDurations = ['1h', '12h', '24h', '3d', '7d', '14d', '28d', '1m', '3m', '6m', '12m']
-  var retval = validDurations[0]
-  if (validDurations.indexOf(duration) !== -1) {
-    retval = validDurations[validDurations.indexOf(duration)]
+      duration = this.validateDuration(duration);
+      // Use connect method to connect to the Server
+      return new Promise(function(resolve, reject) {
+        let resolveCallback = (error, temps) => {
+          if (error) {
+            throw error;
+          }
+          resolve(temps);
+        };
+        if (duration.indexOf("h") > -1) {
+          hours(req.db, parseInt(duration), resolveCallback);
+        } else if (duration.indexOf("d") > -1) {
+          days(req.db, parseInt(duration), resolveCallback);
+        } else if (duration.indexOf("m") > -1) {
+          months(req.db, parseInt(duration), resolveCallback);
+        } else {
+          reject("Duration could not be handled " + duration);
+        }
+      })
+        .then(jsonResponsePromise(res, done))
+        .catch(errorHandler(req, res, done));
+    };
+  },
+  validDurations: [
+    "1h",
+    "12h",
+    "24h",
+    "3d",
+    "7d",
+    "14d",
+    "28d",
+    "1m",
+    "3m",
+    "6m",
+    "12m",
+    "00"
+  ],
+  validateDuration: function(duration) {
+    var retval = this.validDurations[0];
+    if (this.validDurations.indexOf(duration) !== -1) {
+      retval = this.validDurations[this.validDurations.indexOf(duration)];
+    }
+    return retval;
   }
-  return retval
-}
+};

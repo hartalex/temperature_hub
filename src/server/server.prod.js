@@ -11,7 +11,12 @@ var http = require('http')
 var forceSsl = require('express-force-ssl')
 var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
 var cert = fs.readFileSync( '/etc/ssl/certs/ssl-hub.hartcode.com.crt' )
-const logging = require('winston')
+const logging = new (winston.Logger)({
+  transports: [
+    new (winston.transports.Console)({timestamp: true})
+  ]
+})
+
 var options = {
 	key: key,
 	cert: cert
@@ -21,7 +26,8 @@ app.use(expressWinston.logger({
   transports: [
     new winston.transports.Console({
       msg: "HTTP {{req.method}} {{req.url}}",
-      colorize: true
+      colorize: true,
+			timestamp: true
     })
   ]
 }))
@@ -38,7 +44,8 @@ apiRoutes(app).then(function() {
   transports: [
     new winston.transports.Console({
       json:true,
-      colorize: true
+      colorize: true,
+			timestamp: true
    })
   ]
   }))
