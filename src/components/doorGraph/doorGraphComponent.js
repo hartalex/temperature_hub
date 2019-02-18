@@ -3,7 +3,12 @@ import { LineGraphComponent } from '../lineGraph/lineGraphComponent.js'
 import { hub_api_url } from '../../config.js'
 
 const getData = function(duration, that) {
-  fetch(hub_api_url + '/door/sensor/list')
+  fetch(hub_api_url + '/door/sensor/list', {
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8'
+    },
+    mode: 'no-cors'
+  })
     .then(function(response) {
       if (response.status >= 400) {
         throw new Error('Bad response from server')
@@ -11,7 +16,12 @@ const getData = function(duration, that) {
       return response.json()
     })
     .then(function(sensorjson) {
-      fetch(hub_api_url + '/door/' + duration + '/graph')
+      fetch(hub_api_url + '/door/' + duration + '/graph', {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        mode: 'no-cors'
+      })
         .then(function(response) {
           if (response.status >= 400) {
             throw new Error('Bad response from server')

@@ -32,16 +32,14 @@ export class App extends Component {
             duration="24h"
             updateIntervalInMinutes="5"
           />
-          <Forecast3DayComponent updateIntervalInMinutes="60" />
-          <MoonComponent updateIntervalInMinutes="60" />
-          <MemoryComponent updateIntervalInMinutes="60" />
-          <MenuComponent />
-          <TemperatureComponent sensorName="Greenhouse" />
+
           <TemperatureComponent sensorName="Living Room" />
           <TemperatureComponent sensorName="Fish Tank" />
           <TemperatureComponent sensorName="Bedroom" />
           <TemperatureComponent sensorName="Outside" />
           <TemperatureComponent sensorName="Garage" />
+          <Forecast3DayComponent updateIntervalInMinutes="60" />
+          <MoonComponent updateIntervalInMinutes="60" />
           <TemperatureDataFetcherComponent updateIntervalInMinutes="5" />
         </div>
       </Provider>

@@ -63,7 +63,13 @@ export class MoonComponent extends React.Component {
     }, updateInterval)
   }
   getData(that) {
-    fetch(hub_api_url + '/moonPhases')
+    fetch(hub_api_url + '/moonPhases', {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Origin: 'hub.hartcode.com'
+      },
+      mode: 'no-cors'
+    })
       .then(function(response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')

@@ -61,7 +61,12 @@ export class MemoryComponent extends React.Component {
     }, updateInterval)
   }
   getData(that) {
-    fetch(hub_api_url + '/memory/list/' + that.state.data.date)
+    fetch(hub_api_url + '/memory/list/' + that.state.data.date, {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      mode: 'no-cors'
+    })
       .then(function(response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')

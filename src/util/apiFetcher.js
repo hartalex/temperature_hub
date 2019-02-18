@@ -42,7 +42,11 @@ export async function fetchData(query, offset, actions) {
   actions.fetchDataStart(query)
   try {
     let response = await fetch(API_URL + '?offset=' + offset + '&q=' + query, {
-      headers: { 'Content-Type': 'application/json' }
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     })
     let data = await fetchJsonResponseHandler(response)
     // got data

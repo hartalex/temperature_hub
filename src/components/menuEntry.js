@@ -20,6 +20,7 @@ export function renderRoot() {
         'Content-Type': 'application/json'
       },
       method: 'POST',
+      mode: 'no-cors',
       body: json
     })
       .then(function(res) {

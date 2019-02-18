@@ -76,7 +76,12 @@ export class Forecast3DayComponent extends React.Component {
     }, updateInterval)
   }
   getData(that) {
-    fetch(hub_api_url + '/forecast')
+    fetch(hub_api_url + '/forecast', {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      mode: 'no-cors'
+    })
       .then(function(response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server')

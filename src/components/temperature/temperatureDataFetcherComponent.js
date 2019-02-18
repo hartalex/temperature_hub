@@ -16,7 +16,12 @@ class TempDataFetcherComponent extends Component {
     }, updateInterval)
   }
   getData(setTempData, setTempDataFail, obj) {
-    fetch(hub_api_url + '/temp/current')
+    fetch(hub_api_url + '/temp/current', {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      mode: 'no-cors'
+    })
       .then(function(response) {
         if (response.status >= 400) {
           throw new Error('Bad response from server, ' + response.status)
