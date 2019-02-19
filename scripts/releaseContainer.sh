@@ -3,4 +3,4 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 chmod +x ./kubectl
 sed -i "s/(TRAVIS_COMMIT)/$TRAVIS_COMMIT/g" kube.conf.json
 ./kubectl apply -f kube.conf.json
-./kubectl rollout status deployment.v1.apps/temperature_hub
+./kubectl rollout status deployment.v1.apps/temperature-hub

@@ -6,7 +6,7 @@ const gcloud = spawnSync('gcloud', [
   'images',
   'list-tags',
   "--format='json'",
-  'gcr.io/hartonline-cloud/temperature_hub'
+  'gcr.io/hartonline-cloud/temperature-hub'
 ])
 if (gcloud.status === 0) {
   // array of images in gcloud
@@ -15,18 +15,18 @@ if (gcloud.status === 0) {
     console.log(`Found ${arr.length - MAX_CONTAINERS} images ready to be cleaned up.`)
     for (var i = MAX_CONTAINERS; i < arr.length; i++) {
       const image = arr[i]
-      console.log(`Deleting image gcr.io/hartonline-cloud/temperature_hub@${image.digest}`)
+      console.log(`Deleting image gcr.io/hartonline-cloud/temperature-hub@${image.digest}`)
       const d = spawnSync('gcloud', [
         'container',
         'images',
         'delete',
-        `gcr.io/hartonline-cloud/temperature_hub@${image.digest}`,
+        `gcr.io/hartonline-cloud/temperature-hub@${image.digest}`,
         '--force-delete-tags'
       ])
       if (d.status === 0) {
-        console.log(`Successfully deleted image gcr.io/hartonline-cloud/temperature_hub@${image.digest}`)
+        console.log(`Successfully deleted image gcr.io/hartonline-cloud/temperature-hub@${image.digest}`)
       } else {
-        console.error(`Failed to delete image gcr.io/hartonline-cloud/temperature_hub@${image.digest}`)
+        console.error(`Failed to delete image gcr.io/hartonline-cloud/temperature-hub@${image.digest}`)
         console.error(d.stderr.toString())
         return -1
       }
