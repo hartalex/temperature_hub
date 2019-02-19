@@ -12,4 +12,4 @@ COPY ./build ./build
 COPY ./views ./views
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["npm","run", "prod"]
+ENTRYPOINT ["npm","run", "prodstart"]
