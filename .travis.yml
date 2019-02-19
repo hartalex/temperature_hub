@@ -3,57 +3,31 @@ cache:
   directories:
     - "$HOME/google-cloud-sdk/"
     - node_modules
-language:
-  - node_js
-  - python
-python: 2.7
+language: node_js
 stages:
-  - name: update_depends
-    if: type IN (cron)
-  - name: build
+  - name: test
+  - name: buildContainer
     if: type IN (push, pull_request)
-  - name: deploy
-    if: branch IN (prod) and type = push
-services:
+  - name: releaseContainer
+    if: branch IN (test, prod, master) and type = push
+services: 
   - docker
 node_js:
-  - 9.11.1
+  - "11.9.0"
+before_install:
+  - ./scripts/setup.sh
 jobs:
   include:
-    - stage: build
+    - stage: test
       script:
-        - yarn run lint
-        - yarn run test
-        - yarn global add codeclimate-test-reporter
-        - codeclimate-test-reporter < coverage/lcov.info
-        - yarn run build
-    - stage: deploy
+        - ./scripts/test.sh
+    - stage: buildContainer
       script:
-        - yarn run build
-        - pip install ansible --user
-        - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
-        - tar xvf secrets.tar
-        - ./deployToGCS.sh temperature_hub
-        - ./deployAnsible.sh
-    - stage: update_depends
+        - ./scripts/buildContainer.sh
+    - stage: releaseContainer
       script:
-        - ./updateDepends.sh
-        - yarn run lint
-        - yarn run test
-        - yarn global add codeclimate-test-reporter
-        - codeclimate-test-reporter < coverage/lcov.info
-        - yarn run build
-      after_success:
-        - openssl aes-256-cbc -K $encrypted_71512d77c8b2_key  -iv $encrypted_71512d77c8b2_iv  -in secrets.tar.enc -out secrets.tar -d
-        - git config --global user.email "travis@travis-ci.org"
-        - git config --global user.name "Travis CI"
-        - tar xvf secrets.tar
-        - chmod 400 travis
-        - eval "$(ssh-agent -s)"
-        - ssh-add travis
-        - git remote add deploy git@github.com:hartcode/hartcode.com.git
-        - npm version patch -f -m "%s - Cron Auto Update Dependencies [ci skip]"
-        - git push deploy HEAD:master
+        - ./scripts/releaseContainer.sh
+        - npm run cleanOldContainers
 notifications:
     slack: hartcode:GqPCaLxnPqXfPJBMjJbEvG81
 addons:

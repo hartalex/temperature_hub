@@ -1,0 +1,21 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "temperature_hub"
+  },
+  "spec": {
+    "selector": {
+      "app": "temperature_hub"
+    },
+    "ports": [
+      {
+        "name": "http",
+        "protocol": "TCP",
+        "port": 80,
+        "targetPort": 8811
+      }
+    ],
+    "type": "LoadBalancer"
+  }
+}

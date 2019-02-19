@@ -1,15 +1,15 @@
-FROM node:9-alpine
+FROM node:11.9.0-alpine
 ARG COMMIT=local
-ARG TAG=local
 ENV COMMIT ${COMMIT}
-ENV TAG ${TAG}
 ENV NODE_ENV production
-RUN mkdir -p /root/temperature_hub/build
-COPY ./build /root/temperature_hub/build
-COPY ./views /root/temperature_hub/views
-COPY ./package.json /root/temperature_hub/package.json
-WORKDIR /root/temperature_hub
-RUN yarn install
+RUN addgroup -S nodejs && adduser -S -G nodejs -s /bin/sh -h /home/nodejs nodejs
+USER nodejs
+RUN mkdir -p /home/nodejs/app
+WORKDIR /home/nodejs/app
+COPY ./package.json .
+RUN npm install --production
+COPY ./build ./build
+COPY ./views ./views
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["yarn","run", "prodstart"]
+ENTRYPOINT ["npm","run", "prod"]

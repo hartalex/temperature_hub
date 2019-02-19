@@ -1,0 +1,111 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "temperature_hub",
+    "labels": {
+      "app": "temperature_hub",
+      "version": "v1"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "temperature_hub"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "temperature_hub"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "mongo",
+            "persistentVolumeClaim": {
+              "claimName": "mongo-pv-claim"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "application",
+            "image": "gcr.io/hartonline-cloud/temperature_hub:(TRAVIS_COMMIT)",
+            "resources": {
+              "limits": {
+                "cpu": ".05",
+                "memory": "50Mi"
+              }
+            },
+            "env": [
+              {
+                "name": "slackUrl",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "temperature-hub-secret",
+                    "key": "slackUrl"
+                  }
+                }
+              },
+              {
+                "name": "wunderground_key",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "temperature-hub-secret",
+                    "key": "wunderground_key"
+                  }
+                }
+              },
+              {
+                "name": "openweathermap_key",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "temperature-hub-secret",
+                    "key": "openweathermap_key"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ],
+            "livenessProbe": {
+              "httpGet": {
+                "port": 80,
+                "path": "/info"
+              },
+              "initialDelaySeconds": 30,
+              "periodSeconds": 3
+            }
+          },
+          {
+            "name": "mongo",
+            "image": "mongo:4.1",
+            "resources": {
+              "limits": {
+                "cpu": ".2",
+                "memory": "500Mi"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/data/db",
+                "name": "mongo"
+              }
+            ],
+            "ports": [
+              {
+                "containerPort": 27017
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
