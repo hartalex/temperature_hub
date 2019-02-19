@@ -5,7 +5,6 @@ cache:
     - node_modules
 language: node_js
 stages:
-  - name: test
   - name: buildContainer
     if: type IN (push, pull_request)
   - name: releaseContainer
@@ -18,9 +17,6 @@ before_install:
   - ./scripts/setup.sh
 jobs:
   include:
-    - stage: test
-      script:
-        - ./scripts/test.sh
     - stage: buildContainer
       script:
         - ./scripts/buildContainer.sh
