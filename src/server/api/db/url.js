@@ -1,2 +1,2 @@
 // Connection URL
-module.exports = 'mongodb://localhost:27017'
+module.exports = 'mongodb://mongo:27017'
