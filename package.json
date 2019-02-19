@@ -11,7 +11,8 @@
     "start": "node build/server/server.js",
     "prodstart": "node build/server/server.prod.js",
     "version": "node -v",
-    "coverage": "nyc report --reporter=text-lcov > lcov.info"
+    "coverage": "nyc report --reporter=text-lcov > lcov.info",
+    "cleanOldContainers": "node scripts/cleanOldContainers.js"
   },
   "repository": {
     "type": "git",
