@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node scripts/test.js --env=jsdom",
     "clean": "rimraf build",
-    "build": "export NODE_ENV=production && yarn run clean && babel src/server -d build/server && webpack",
+    "build": "export NODE_ENV=production && npm run clean && babel src/server -d build/server && webpack",
     "lint": "eslint src/**",
     "start": "node build/server/server.js",
     "prodstart": "node build/server/server.prod.js",
@@ -87,17 +87,9 @@
     "webpack-node-externals": "^1.6.0"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/client/**/*.{js,jsx,mjs}",
-      "src/server/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
+    "collectCoverageFrom": [ "src/client/**/*.{js,jsx,mjs}", "src/server/**/*.{js,jsx,mjs}" ],
+    "setupFiles": [ "<rootDir>/config/polyfills.js" ],
+    "testMatch": [ "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}", "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}" ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
     "transform": {
@@ -105,21 +97,11 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
+    "transformIgnorePatterns": [ "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$" ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node",
-      "mjs"
-    ]
+    "moduleFileExtensions": [ "web.js", "js", "json", "web.jsx", "jsx", "node", "mjs" ]
   },
   "babel": {
     "presets": [
@@ -135,25 +117,13 @@
     ]
   },
   "eslintConfig": {
-    "extends": [
-      "standard",
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
+    "extends": [ "standard", "eslint:recommended", "plugin:react/recommended" ],
     "parserOptions": {
       "ecmaFeatures": {
         "jsx": true
       }
     },
-    "plugins": [
-      "standard",
-      "promise",
-      "react",
-      "jsx",
-      "jsx-a11y",
-      "import",
-      "jest"
-    ],
+    "plugins": [ "standard", "promise", "react", "jsx", "jsx-a11y", "import", "jest" ],
     "globals": {
       "fetch": false,
       "describe": false,
