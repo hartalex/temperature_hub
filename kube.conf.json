@@ -9,7 +9,7 @@
     }
   },
   "spec": {
-    "replicas": 1,
+    "replicas": 2,
     "selector": {
       "matchLabels": {
         "app": "temperature-hub"
@@ -82,27 +82,6 @@
               "initialDelaySeconds": 30,
               "periodSeconds": 3
             }
-          },
-          {
-            "name": "mongo",
-            "image": "mongo:4.1",
-            "resources": {
-              "limits": {
-                "cpu": ".2",
-                "memory": "400Mi"
-              }
-            },
-            "volumeMounts": [
-              {
-                "mountPath": "/data/db",
-                "name": "mongo"
-              }
-            ],
-            "ports": [
-              {
-                "containerPort": 27017
-              }
-            ]
           }
         ]
       }
