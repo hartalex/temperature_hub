@@ -28,8 +28,8 @@
             "image": "gcr.io/hartonline-cloud/temperature-hub:(TRAVIS_COMMIT)",
             "resources": {
               "limits": {
-                "cpu": ".05",
-                "memory": "50Mi"
+                "cpu": ".1",
+                "memory": "100Mi"
               }
             },
             "env": [
