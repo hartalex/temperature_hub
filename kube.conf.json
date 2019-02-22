@@ -63,12 +63,12 @@
             ],
             "ports": [
               {
-                "containerPort": 80
+                "containerPort": 8220
               }
             ],
             "livenessProbe": {
               "httpGet": {
-                "port": 80,
+                "port": 8220,
                 "path": "/info"
               },
               "initialDelaySeconds": 30,

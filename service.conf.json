@@ -13,7 +13,7 @@
         "name": "http",
         "protocol": "TCP",
         "port": 80,
-        "targetPort": 8811
+        "targetPort": 8220
       }
     ],
     "type": "LoadBalancer"

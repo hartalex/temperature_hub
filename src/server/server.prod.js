@@ -5,10 +5,10 @@ var winston = require('winston')
 var express = require('express')
 var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
-var fs = require('fs')
-var https = require('https')
+//var fs = require('fs')
+//var https = require('https')
 var http = require('http')
-var forceSsl = require('express-force-ssl')
+//var forceSsl = require('express-force-ssl')
 //var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
 //var cert = fs.readFileSync( '/etc/ssl/certs/ssl-hub.hartcode.com.crt' )
 const logging = new winston.Logger({
@@ -31,7 +31,7 @@ app.use(
     ]
   })
 )
-app.use(forceSsl)
+//app.use(forceSsl)
 app.set('view engine', 'ejs')
 
 app.use(cache(300))
@@ -54,7 +54,7 @@ apiRoutes(app)
     )
     //https.createServer(options, app).listen(443)
 
-    http.createServer(app).listen(80)
+    http.createServer(app).listen(8220)
   })
   .catch(function (err) {
     logging.log('error', 'server.prod.js', err)
