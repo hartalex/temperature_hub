@@ -22,14 +22,6 @@
         }
       },
       "spec": {
-        "volumes": [
-          {
-            "name": "mongo",
-            "persistentVolumeClaim": {
-              "claimName": "mongo-pv-claim"
-            }
-          }
-        ],
         "containers": [
           {
             "name": "application",
