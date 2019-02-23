@@ -97,7 +97,5 @@ module.exports = function (app, mymongodb) {
     })
   }
 
-  return registerAPIRoutes()
-  //mongoConnectPromise
-  //.then(registerAPIRoutes)
+  return mongoConnectPromise.then(registerAPIRoutes)
 }
