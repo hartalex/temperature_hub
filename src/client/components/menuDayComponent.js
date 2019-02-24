@@ -69,8 +69,8 @@ class MenuDayComponent extends React.Component {
         return response.json()
       })
       .then(function (currentjson) {
-        if (currentjson.length > 0) {
-          var menu = currentjson[0]
+        if (currentjson.data && currentjson.data.length > 0) {
+          var menu = currentjson.data[0]
           that.state.data.date = menu.date
           that.state.data.firstOption = menu.firstOption
           that.state.data.secondOption = menu.secondOption
