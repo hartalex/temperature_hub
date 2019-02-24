@@ -11,9 +11,12 @@ module.exports = function (req, res, done) {
       id: 1
     }
 
-    db.queryData(dbobj, query, 'button', function (err, button) {
+    db.queryOneData(dbobj, query, 'button', function (err, button) {
       if (err) {
         throw err
+      }
+      if (!button) {
+        button = { id: 1, count: 0 }
       }
       resolve(button)
     })

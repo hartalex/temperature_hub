@@ -320,6 +320,9 @@ export function init (db, dbobj, config, slack) {
           }
         )
       }).then((button) => {
+        if (!button.count) {
+          button.count = 0
+        }
         button.count++
         return insertDataPromise(button, db, dbobj, collection, button)
       })
