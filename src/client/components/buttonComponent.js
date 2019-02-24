@@ -2,8 +2,6 @@ import React from 'react'
 import Colors from '../colors'
 import Util from '../util'
 import PropTypes from 'prop-types'
-import moonIcons from '../moonIcons'
-import Time from './timeComponent.js'
 import ClientConfig from '../config.js'
 import AlertCheck from '../alertCheck'
 
@@ -18,7 +16,7 @@ class ButtonComponent extends React.Component {
     var renderInterval = 60000
     this.state = {
       data: {
-        count: '-',
+        count: 0,
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
@@ -73,11 +71,11 @@ class ButtonComponent extends React.Component {
   }
   render () {
     var retval
-    if (this.state.data !== null) {
+    if (this.state && this.state.data !== null) {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
       retval = (
-        <div style={state.style}>
-          <div style={state.innerStyle}>
+        <div style={this.state.style}>
+          <div style={this.state.innerStyle}>
             <div style={{ margin: 'auto', width: '100px' }}>
               <div style={{ fontSize: '62px', float: 'left' }}>{this.state.data.count}</div>
             </div>
