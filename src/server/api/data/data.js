@@ -294,6 +294,35 @@ export function init (db, dbobj, config, slack) {
               return retval
             })
         })
+    },
+    buttonPress: (input) => {
+      const time = new Date()
+      // Use connect method to connect to the Server
+      var collection = 'button'
+      return new Promise((resolve, reject) => {
+        db.queryOneData(
+          dbobj,
+          {
+            id: 1
+          },
+          'button',
+          (err, button) => {
+            if (err) {
+              reject(err)
+            } else {
+              if (button == null) {
+                logging.log('debug', 'did NOT find a button')
+              } else {
+                logging.log('debug', 'did find a button')
+              }
+              resolve(button)
+            }
+          }
+        )
+      }).then((button) => {
+        button.count++
+        return insertDataPromise(button, db, dbobj, collection, button)
+      })
     }
   }
 }

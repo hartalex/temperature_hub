@@ -28,6 +28,9 @@ const weather = require('./weather')
 const memoryAdd = require('./memory/memory_add')
 const memoryList = require('./memory/memory_list')
 
+const buttonAdd = require('./button/AddButtonPresses.js')
+const buttonList = require('./button/GetButtonPresses.js')
+
 const jsonParser = bodyParser.json()
 const logging = require('winston')
 
@@ -91,6 +94,10 @@ module.exports = function (app, mymongodb) {
       // memory
       app.post('/memory/add', jsonParser, memoryAdd)
       app.get('/memory/list/:date', cache(3600), memoryList)
+
+      // button
+      app.post('/button', jsonParser, buttonAdd)
+      app.get('/button', buttonList)
 
       app.get('/info', info)
       resolve()
