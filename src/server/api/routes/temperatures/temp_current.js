@@ -7,7 +7,7 @@ const slack = require('../../data/slack')(config.slackUrl)
 const errorHandler = require('../errorHandler')(slack)
 
 module.exports = function (req, res, done) {
-  fetch('https://hub.hartcode.com/temp/sensor/list')
+  fetch('http://hub.hartcode.com/temp/sensor/list')
   .then(jsonResponseHandler)
   .then(function (sensorjson) {
     var retval = []
