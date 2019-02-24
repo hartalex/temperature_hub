@@ -40,7 +40,7 @@ class MemoryComponent extends React.Component {
 
     setInterval(() => {
       var date
-        date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
+      date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substring(0, 10)
       if (that.state.data.date !== date) {
         that.state.data.date = date
       }
@@ -48,39 +48,44 @@ class MemoryComponent extends React.Component {
     }, renderInterval)
 
     this.getData(this)
-    setInterval(() => { that.getData(that) }, updateInterval)
+    setInterval(() => {
+      that.getData(that)
+    }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/memory/list/' + that.state.data.date).then(function (response) {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server')
-      }
-      return response.json()
-    }).then(function (currentjson) {
-      var memory = currentjson
-      if (memory) {
-        that.state.data.date = memory.date
-        that.state.data.firstMemory = memory.firstMemory
-        that.state.data.secondMemory = memory.secondMemory
-        var style = JSON.parse(JSON.stringify(that.state.style))
-        style.backgroundColor = Colors.Black
-        style.color = Colors.White
-        that.state.style = style
-      } else {
-        that.state.data.firstMemory = null
-        that.state.data.secondMemory = null
-      }
-      that.state.data.lastUpdate = new Date().toISOString()
-      that.setState(that.state)
-    }).catch(function(error) {
-      that.state.data ={
-        date: that.state.data.date,
-        firstMemory: null,
-        secondMemory: null,
-        lastUpdate: '2017-01-01T00:00:00.000Z'
-      }
-      that.setState(that.state)
-    })
+    fetch(ClientConfig.hub_api_url + '/memory/list/' + that.state.data.date)
+      .then(function (response) {
+        if (response.status >= 400) {
+          throw new Error('Bad response from server')
+        }
+        return response.json()
+      })
+      .then(function (currentjson) {
+        var memory = currentjson.data
+        if (memory) {
+          that.state.data.date = memory.date
+          that.state.data.firstMemory = memory.firstMemory
+          that.state.data.secondMemory = memory.secondMemory
+          var style = JSON.parse(JSON.stringify(that.state.style))
+          style.backgroundColor = Colors.Black
+          style.color = Colors.White
+          that.state.style = style
+        } else {
+          that.state.data.firstMemory = null
+          that.state.data.secondMemory = null
+        }
+        that.state.data.lastUpdate = new Date().toISOString()
+        that.setState(that.state)
+      })
+      .catch(function (error) {
+        that.state.data = {
+          date: that.state.data.date,
+          firstMemory: null,
+          secondMemory: null,
+          lastUpdate: '2017-01-01T00:00:00.000Z'
+        }
+        that.setState(that.state)
+      })
   }
   render () {
     var retval
@@ -91,19 +96,19 @@ class MemoryComponent extends React.Component {
       }
       retval = (
         <div style={this.state.style}>
-          <div style={{textAlign: 'center'}}>Memory</div>
-          <ol style={{fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px'}}>
-          { this.state.data.firstMemory !== null &&
-          <li style={{fontSize: '12px', clear: 'left'}}>{this.state.data.firstMemory}</li>
-          }
-          { this.state.data.secondMemory !== null &&
-            <li style={{fontSize: '12px', padding: '5px 0', clear: 'left'}}>Or {this.state.data.secondMemory}</li>
-          }
+          <div style={{ textAlign: 'center' }}>Memory</div>
+          <ol style={{ fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px' }}>
+            {this.state.data.firstMemory !== null && (
+              <li style={{ fontSize: '12px', clear: 'left' }}>{this.state.data.firstMemory}</li>
+            )}
+            {this.state.data.secondMemory !== null && (
+              <li style={{ fontSize: '12px', padding: '5px 0', clear: 'left' }}>Or {this.state.data.secondMemory}</li>
+            )}
           </ol>
         </div>
       )
     } else {
-      retval = (<div style={this.state.style}>Fetching Data</div>)
+      retval = <div style={this.state.style}>Fetching Data</div>
     }
     return retval
   }
