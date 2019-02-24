@@ -11,6 +11,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import Reducers from '../reducers'
+import Button from './buttonComponent.js'
 
 let store = createStore(Reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -34,6 +35,7 @@ export function renderRoot () {
         <Temperature sensorName="Bedroom" />
         <Temperature sensorName="Outside" />
         <Temperature sensorName="Garage" />
+        <Button updateIntervalInMinutes="5" />
         <Moon updateIntervalInMinutes="60" />
         <DoorGraph title="Doors" duration="24h" updateIntervalInMinutes="5" />
         <TemperatureGraph title="Temperatures" duration="24h" updateIntervalInMinutes="5" />
