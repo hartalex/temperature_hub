@@ -77,7 +77,7 @@ class ButtonComponent extends React.Component {
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
             <div style={{ margin: 'auto', width: '100px' }}>
-              <div style={{ fontSize: '15px', float: 'left' }}>{this.state.data.count}</div>
+              <div style={{ fontSize: '32px', float: 'left' }}>{this.state.data.count}</div>
             </div>
           </div>
           <div style={{ color: Colors.White, fontSize: '7px', textAlign: 'right' }}>{updateTimeInMinutes}</div>
