@@ -97,7 +97,7 @@ module.exports = function (app, mymongodb) {
 
       // button
       app.post('/button', jsonParser, buttonAdd)
-      app.get('/button', cache(00), buttonList)
+      app.get('/button', cache(1), buttonList)
 
       app.get('/info', info)
       resolve()
