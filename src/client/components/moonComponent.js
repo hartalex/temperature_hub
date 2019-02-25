@@ -18,32 +18,36 @@ class MoonComponent extends React.Component {
     var renderInterval = 60000
     this.state = {
       data: {
-        percentIlluminated:0,
-        ageOfMoon:0,
-        phaseofMoon:'',
+        percentIlluminated: 0,
+        ageOfMoon: 0,
+        phaseofMoon: '',
         sunrise: {
-          hour:'00',
-          minute:'00'},
+          hour: '00',
+          minute: '00'
+        },
         sunset: {
-          hour:'00',
-          minute:'00'},
+          hour: '00',
+          minute: '00'
+        },
         moonrise: {
-          hour:'00',
-          minute:'00'},
+          hour: '00',
+          minute: '00'
+        },
         moonset: {
-          hour:'00',
-          minute:'00'},
+          hour: '00',
+          minute: '00'
+        },
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
-        width: '140px',
-        height: '200px',
-        border: '5px solid darkgray',
+        width: '127px',
+        height: '125px',
+        border: '1px solid darkgray',
         background: Colors.Black,
         textAlign: 'center',
         float: 'left',
         color: Colors.White,
-        fontSize: '14px'
+        fontSize: '10px'
       },
       innerStyle: {
         padding: '2px 0'
@@ -54,15 +58,19 @@ class MoonComponent extends React.Component {
     setInterval(AlertCheck(that, alertCheckInterval), renderInterval)
 
     this.getData(this)
-    setInterval(() => { that.getData(that) }, updateInterval)
+    setInterval(() => {
+      that.getData(that)
+    }, updateInterval)
   }
   getData (that) {
-    fetch(ClientConfig.hub_api_url + '/moonPhases').then(function (response) {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server')
-      }
-      return response.json()
-    }).then(function (currentjson) {
+    fetch(ClientConfig.hub_api_url + '/moonPhases')
+      .then(function (response) {
+        if (response.status >= 400) {
+          throw new Error('Bad response from server')
+        }
+        return response.json()
+      })
+      .then(function (currentjson) {
         var moonData = currentjson
         that.state.data.percentIlluminated = moonData.percentIlluminated
         that.state.data.ageOfMoon = moonData.ageOfMoon
@@ -80,27 +88,32 @@ class MoonComponent extends React.Component {
         var styleClone = JSON.parse(JSON.stringify(that.state.style))
         that.state.style = styleClone
         that.setState(that.state)
-    }).catch(function(error) {
-      that.state.data ={
-        percentIlluminated:0,
-        ageOfMoon:0,
-        phaseofMoon:'',
-        sunrise: {
-          hour:'00',
-          minute:'00'},
-        sunset: {
-          hour:'00',
-          minute:'00'},
-        moonrise: {
-          hour:'00',
-          minute:'00'},
-        moonset: {
-          hour:'00',
-          minute:'00'},
-        lastUpdate: '2017-01-01T00:00:00.000Z'
-      }
-      that.setState(that.state)
-    })
+      })
+      .catch(function (error) {
+        that.state.data = {
+          percentIlluminated: 0,
+          ageOfMoon: 0,
+          phaseofMoon: '',
+          sunrise: {
+            hour: '00',
+            minute: '00'
+          },
+          sunset: {
+            hour: '00',
+            minute: '00'
+          },
+          moonrise: {
+            hour: '00',
+            minute: '00'
+          },
+          moonset: {
+            hour: '00',
+            minute: '00'
+          },
+          lastUpdate: '2017-01-01T00:00:00.000Z'
+        }
+        that.setState(that.state)
+      })
   }
   render () {
     var retval
@@ -109,29 +122,34 @@ class MoonComponent extends React.Component {
       retval = (
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
-            <div style={{margin: 'auto', width: '130px'}}>
-             <img src={moonIcons(this.state.data.ageOfMoon)} height='96' width='96'/>
-              <div style={{clear: 'both', color: Colors.White}} >{this.state.data.phaseofMoon}</div>
-              <div style={{float: 'left', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.data.percentIlluminated}% </div>
-              <div style={{float: 'left'}}> Age {this.state.data.ageOfMoon}</div>
+            <div style={{ margin: 'auto', width: '125px' }}>
+              <img src={moonIcons(this.state.data.ageOfMoon)} height="60" width="60" />
+              <div style={{ clear: 'both', color: Colors.White }}>{this.state.data.phaseofMoon}</div>
+              <div style={{ float: 'left', paddingLeft: '20px', paddingRight: '20px' }}>
+                {this.state.data.percentIlluminated}%{' '}
+              </div>
+              <div style={{ float: 'left' }}> Age {this.state.data.ageOfMoon}</div>
 
-              <div style={{clear: 'both', fontSize: '8px', float: 'left', textAlign: 'center', paddingTop: '20px'}}>
-                <div style={{width: '65px', fontSize: '10px'}}>Sun</div>
-                <Time name='rise' hour={this.state.data.sunrise.hour} minute={this.state.data.sunrise.minute}/>
-                <Time name='set' hour={this.state.data.sunset.hour} minute={this.state.data.sunset.minute}/>
+              <div style={{ clear: 'both', fontSize: '6px', float: 'left', textAlign: 'center' }}>
+                <div style={{ width: '60px', fontSize: '8px' }}>Sun</div>
+                <Time name="rise" hour={this.state.data.sunrise.hour} minute={this.state.data.sunrise.minute} />
+                <Time name="set" hour={this.state.data.sunset.hour} minute={this.state.data.sunset.minute} />
               </div>
 
-              <div style={{float: 'left', fontSize: '8px', textAlign: 'center', paddingTop: '20px'}}>
-                <div style={{width: '65px', fontSize: '10px'}}>Moon</div>
-                <Time name='rise' hour={this.state.data.moonrise.hour} minute={this.state.data.moonrise.minute}/>
-                <Time name='set' hour={this.state.data.moonset.hour} minute={this.state.data.moonset.minute}/>
+              <div style={{ float: 'left', fontSize: '6px', textAlign: 'center' }}>
+                <div style={{ width: '60px', fontSize: '8px' }}>Moon</div>
+                <Time name="rise" hour={this.state.data.moonrise.hour} minute={this.state.data.moonrise.minute} />
+                <Time name="set" hour={this.state.data.moonset.hour} minute={this.state.data.moonset.minute} />
               </div>
             </div>
           </div>
-          <div style={{clear: 'both', color: Colors.White, fontSize: '7px', textAlign: 'right'}}>{updateTimeInMinutes}</div>
-        </div>)
+          <div style={{ clear: 'both', color: Colors.White, fontSize: '7px', textAlign: 'right' }}>
+            {updateTimeInMinutes}
+          </div>
+        </div>
+      )
     } else {
-      retval = (<div style={this.state.style}>Fetching Data</div>)
+      retval = <div style={this.state.style}>Fetching Data</div>
     }
     return retval
   }
@@ -140,6 +158,5 @@ class MoonComponent extends React.Component {
 MoonComponent.propTypes = {
   updateIntervalInMinutes: PropTypes.number
 }
-
 
 export default MoonComponent

@@ -20,14 +20,14 @@ class ButtonComponent extends React.Component {
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
-        width: '140px',
-        height: '200px',
-        border: '5px solid darkgray',
+        width: '127px',
+        height: '125px',
+        border: '1px solid darkgray',
         background: Colors.Black,
         textAlign: 'center',
         float: 'left',
         color: Colors.White,
-        fontSize: '14px'
+        fontSize: '10px'
       },
       innerStyle: {
         padding: '2px 0'
@@ -77,7 +77,7 @@ class ButtonComponent extends React.Component {
         <div style={this.state.style}>
           <div style={this.state.innerStyle}>
             <div style={{ margin: 'auto', width: '100px' }}>
-              <div style={{ fontSize: '62px', float: 'left' }}>{this.state.data.count}</div>
+              <div style={{ fontSize: '15px', float: 'left' }}>{this.state.data.count}</div>
             </div>
           </div>
           <div style={{ color: Colors.White, fontSize: '7px', textAlign: 'right' }}>{updateTimeInMinutes}</div>

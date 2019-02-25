@@ -19,19 +19,20 @@ class LineGraphComponent extends React.Component {
         backgroundColor: Colors.Black,
         curveType: 'none',
         titleTextStyle: { color: Colors.White },
-        vAxis: {textStyle: { color: Colors.White }},
-        hAxis: {textStyle: { color: Colors.White }},
-        legend: {textStyle: { color: Colors.White }, position: 'bottom'}
+        vAxis: { textStyle: { color: Colors.White } },
+        hAxis: { textStyle: { color: Colors.White } },
+        legend: { textStyle: { color: Colors.White }, position: 'bottom' }
       },
       data: null,
       style: {
-        width: '590px',
-        height: '200px',
-        border: '5px solid darkgray',
+        width: '500px',
+        height: '125px',
+        border: '1px solid darkgray',
         background: Colors.Black,
         textAlign: 'center',
         color: Colors.White,
-        float: 'left'
+        float: 'left',
+        fontSize: '10px'
       }
     }
     var that = this
@@ -40,26 +41,32 @@ class LineGraphComponent extends React.Component {
       getData(props.duration, that)
     }, updateInterval)
 
-    setInterval(() => { that.setState(that.state) }, renderInterval)
+    setInterval(() => {
+      that.setState(that.state)
+    }, renderInterval)
   }
   render () {
     var retval
     if (this.state.data !== null) {
       const updateTimeInMinutes = Util.timeAgo(this.state.data.lastUpdate)
-      retval = (<div style={this.state.style}><Chart
-        chartType='LineChart'
-        data={this.state.data.array}
-        options={this.state.options}
-        graph_id={this.state.graph_id}
-        width={this.state.style.width}
-        height='190px'
-        legend_toggle
-      />
-      <div style={{fontSize: '50%', textAlign: 'right', color: this.state.style.color}}>{updateTimeInMinutes}</div>
-      </div>
-    )
+      retval = (
+        <div style={this.state.style}>
+          <Chart
+            chartType="LineChart"
+            data={this.state.data.array}
+            options={this.state.options}
+            graph_id={this.state.graph_id}
+            width={this.state.style.width}
+            height="110px"
+            legend_toggle
+          />
+          <div style={{ fontSize: '50%', textAlign: 'right', color: this.state.style.color }}>
+            {updateTimeInMinutes}
+          </div>
+        </div>
+      )
     } else {
-      retval = (<div style={this.state.style}>Fetching Data</div>)
+      retval = <div style={this.state.style}>Fetching Data</div>
     }
     return retval
   }

@@ -34,13 +34,13 @@ class MenuDayComponent extends React.Component {
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
-        height: '150px',
-        width: '140px',
+        height: '90px',
+        width: '123px',
         background: backgroundColor,
         textAlign: 'center',
         float: 'left',
         color: foreColor,
-        fontSize: '14px',
+        fontSize: '10px',
         padding: '10px 0'
       }
     }

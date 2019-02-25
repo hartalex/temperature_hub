@@ -26,14 +26,14 @@ class MemoryComponent extends React.Component {
         lastUpdate: '2017-01-01T00:00:00.000Z'
       },
       style: {
-        width: '440px',
-        height: '200px',
-        border: '5px solid darkgray',
+        width: '377px',
+        height: '125px',
+        border: '1px solid darkgray',
         background: backgroundColor,
         textAlign: 'center',
         float: 'left',
         color: foreColor,
-        fontSize: '14px'
+        fontSize: '10px'
       }
     }
     var that = this

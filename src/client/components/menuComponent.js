@@ -10,14 +10,14 @@ class MenuComponent extends React.Component {
     this.state = {
       data: null,
       style: {
-        width: '440px',
-        height: '200px',
-        border: '5px solid darkgray',
+        width: '377px',
+        height: '125px',
+        border: '1px solid darkgray',
         background: backgroundColor,
         textAlign: 'center',
         float: 'left',
         color: foreColor,
-        fontSize: '14px'
+        fontSize: '10px'
       }
     }
   }
@@ -25,11 +25,12 @@ class MenuComponent extends React.Component {
     var retval
     retval = (
       <div style={this.state.style}>
-        <div style={{textAlign: 'left'}}>Menu</div>
-        <MenuDay day='Today' date='Today' updateIntervalInMinutes='60' />
-        <MenuDay day='Tomorrow' date='Tomorrow' updateIntervalInMinutes='60' />
-        <MenuDay day='NextDay' date='NextDay' updateIntervalInMinutes='60' />
-      </div>)
+        <div style={{ textAlign: 'left' }}>Menu</div>
+        <MenuDay day="Today" date="Today" updateIntervalInMinutes="60" />
+        <MenuDay day="Tomorrow" date="Tomorrow" updateIntervalInMinutes="60" />
+        <MenuDay day="NextDay" date="NextDay" updateIntervalInMinutes="60" />
+      </div>
+    )
     return retval
   }
 }
