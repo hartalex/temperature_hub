@@ -41,6 +41,13 @@ const insertDataPromise = (data, db, dbobj, collection, obj) => {
     })
   })
 }
+const updateDataPromise = (data, db, dbobj, query, collection, obj) => {
+  return db.updateData(dbobj, query, collection, data).then(() => {
+    return new Promise((resolve, reject) => {
+      resolve(obj)
+    })
+  })
+}
 
 export function init (db, dbobj, config, slack) {
   if (typeof config == 'undefined') {
@@ -320,11 +327,14 @@ export function init (db, dbobj, config, slack) {
           }
         )
       }).then((button) => {
+        if (!button) {
+          button = { id: 1, count: 0 }
+        }
         if (!button.count) {
           button.count = 0
         }
         button.count++
-        return insertDataPromise(button, db, dbobj, collection, button)
+        return updateDataPromise({ $set: { id: 1, count: button.count } }, db, dbobj, { id: 1 }, collection, button)
       })
     }
   }
