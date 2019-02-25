@@ -8,12 +8,12 @@ import AlertCheck from '../alertCheck'
 class ButtonComponent extends React.Component {
   constructor (props, graphId, getData) {
     super(props)
-    var updateInterval = props.updateIntervalInMinutes * 60000
+    var updateInterval = props.updateIntervalInSeconds * 1000
     if (updateInterval === 0) {
       updateInterval = 60000
     }
     var alertCheckInterval = updateInterval * 1.5
-    var renderInterval = 60000
+    var renderInterval = 30000
     this.state = {
       data: {
         count: 0,
@@ -91,7 +91,7 @@ class ButtonComponent extends React.Component {
 }
 
 ButtonComponent.propTypes = {
-  updateIntervalInMinutes: PropTypes.number
+  updateIntervalInSeconds: PropTypes.number
 }
 
 export default ButtonComponent
