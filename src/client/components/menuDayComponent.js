@@ -121,15 +121,15 @@ class MenuDayComponent extends React.Component {
       retval = (
         <div style={this.state.style}>
           <div style={{ textAlign: 'center' }}>{getWeekDay(day)}</div>
-          <ol style={{ fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px' }}>
+          <ol style={{ fontSize: '10px', textAlign: 'left', margin: 0, padding: '5px' }}>
             {this.state.data.firstOption !== null && (
-              <li style={{ fontSize: '12px', clear: 'left' }}>{this.state.data.firstOption}</li>
+              <li style={{ fontSize: '8px', clear: 'left' }}>{this.state.data.firstOption}</li>
             )}
             {this.state.data.secondOption !== null && (
-              <li style={{ fontSize: '12px', padding: '5px 0', clear: 'left' }}>Or {this.state.data.secondOption}</li>
+              <li style={{ fontSize: '8px', clear: 'left' }}>Or {this.state.data.secondOption}</li>
             )}
           </ol>
-          <div style={{ fontSize: '10px', padding: '5px 0', clear: 'left' }}>{this.state.data.otherStuff}</div>
+          <div style={{ fontSize: '8px', clear: 'left' }}>{this.state.data.otherStuff}</div>
         </div>
       )
     } else {

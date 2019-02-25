@@ -97,12 +97,12 @@ class MemoryComponent extends React.Component {
       retval = (
         <div style={this.state.style}>
           <div style={{ textAlign: 'center' }}>Memory</div>
-          <ol style={{ fontSize: '10px', textAlign: 'left', margin: 0, padding: '20px' }}>
+          <ol style={{ fontSize: '8px', textAlign: 'left', margin: 0, padding: '20px' }}>
             {this.state.data.firstMemory !== null && (
-              <li style={{ fontSize: '12px', clear: 'left' }}>{this.state.data.firstMemory}</li>
+              <li style={{ fontSize: '8px', clear: 'left' }}>{this.state.data.firstMemory}</li>
             )}
             {this.state.data.secondMemory !== null && (
-              <li style={{ fontSize: '12px', padding: '5px 0', clear: 'left' }}>Or {this.state.data.secondMemory}</li>
+              <li style={{ fontSize: '8px', padding: '5px 0', clear: 'left' }}>Or {this.state.data.secondMemory}</li>
             )}
           </ol>
         </div>

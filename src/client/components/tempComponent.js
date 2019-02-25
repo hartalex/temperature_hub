@@ -42,7 +42,7 @@ const TemperatureComponent = ({ sensorName, myTempData }) => {
     <div style={state.style}>
       <div style={state.innerStyle}>
         <div style={{ margin: 'auto', width: '100px' }}>
-          <div style={{ fontSize: '32px', float: 'left' }}>{temp}</div>
+          <div style={{ fontSize: '50px', float: 'left' }}>{temp}</div>
           <div style={{ float: 'left', padding: '20px 2px 0px 0px' }}>{tempDecimal}</div>
         </div>
         <div style={{ clear: 'both', color: Colors.White }}>{myTempData.sensorName}</div>
