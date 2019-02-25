@@ -39,6 +39,7 @@ export function renderRoot () {
         <Moon updateIntervalInMinutes="60" />
         <DoorGraph title="Doors" duration="24h" updateIntervalInMinutes="5" />
         <TemperatureGraph title="Temperatures" duration="24h" updateIntervalInMinutes="5" />
+        <TempDataFetcherComponent updateIntervalInMinutes="5" />
       </div>
     </Provider>
   )
