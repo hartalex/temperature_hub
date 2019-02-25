@@ -35,7 +35,7 @@ export function renderRoot () {
         <Temperature sensorName="Bedroom" />
         <Temperature sensorName="Outside" />
         <Temperature sensorName="Garage" />
-        <Button updateIntervalInSeconds="10" />
+        <Button updateIntervalInSeconds="60" />
         <Moon updateIntervalInMinutes="60" />
         <DoorGraph title="Doors" duration="24h" updateIntervalInMinutes="5" />
         <TemperatureGraph title="Temperatures" duration="24h" updateIntervalInMinutes="5" />
