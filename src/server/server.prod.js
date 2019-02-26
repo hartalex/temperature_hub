@@ -3,7 +3,6 @@ const cache = require('express-cache-headers')
 var expressWinston = require('express-winston')
 var winston = require('winston')
 var express = require('express')
-var apiRoutes = require('./api/routes/routes')
 var webRoutes = require('./client/routes')
 //var fs = require('fs')
 //var https = require('https')
@@ -12,7 +11,7 @@ var http = require('http')
 //var key = fs.readFileSync('/etc/ssl/private/ssl-hub.hartcode.com.key')
 //var cert = fs.readFileSync( '/etc/ssl/certs/ssl-hub.hartcode.com.crt' )
 const logging = new winston.Logger({
-  transports: [new winston.transports.Console({ timestamp: true })]
+  transports: [ new winston.transports.Console({ timestamp: true }) ]
 })
 
 var options = {
@@ -35,27 +34,22 @@ app.use(
 app.set('view engine', 'ejs')
 
 app.use(cache(300))
-apiRoutes(app)
-  .then(function () {
-    webRoutes(app)
-    app.use('/img', cache(3600), express.static(path.join(__dirname, '/../client/img')))
-    app.use('/js', cache(0), express.static(path.join(__dirname, '/../client/js')))
+webRoutes(app)
 
-    app.use(
-      expressWinston.errorLogger({
-        transports: [
-          new winston.transports.Console({
-            json: true,
-            colorize: true,
-            timestamp: true
-          })
-        ]
+app.use('/img', cache(3600), express.static(path.join(__dirname, '/../client/img')))
+app.use('/js', cache(0), express.static(path.join(__dirname, '/../client/js')))
+
+app.use(
+  expressWinston.errorLogger({
+    transports: [
+      new winston.transports.Console({
+        json: true,
+        colorize: true,
+        timestamp: true
       })
-    )
-    //https.createServer(options, app).listen(443)
+    ]
+  })
+)
+//https.createServer(options, app).listen(443)
 
-    http.createServer(app).listen(8220)
-  })
-  .catch(function (err) {
-    logging.log('error', 'server.prod.js', err)
-  })
+http.createServer(app).listen(8220)
