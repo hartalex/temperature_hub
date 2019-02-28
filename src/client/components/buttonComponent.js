@@ -38,7 +38,6 @@ class ButtonComponent extends React.Component {
 
     const socket = socketio(ClientConfig.hub_api_url + '/buttonSocket')
     socket.on('button', function (button) {
-      console.log(button)
       if (button.count) {
         that.state.data.count = button.count
       }
