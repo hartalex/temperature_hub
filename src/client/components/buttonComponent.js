@@ -4,6 +4,7 @@ import Util from '../util'
 import PropTypes from 'prop-types'
 import ClientConfig from '../config.js'
 import AlertCheck from '../alertCheck'
+import socketio from 'socket.io-client'
 
 class ButtonComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -35,39 +36,17 @@ class ButtonComponent extends React.Component {
     }
     var that = this
 
-    setInterval(AlertCheck(that, alertCheckInterval), renderInterval)
-
-    this.getData(this)
-    setInterval(() => {
-      that.getData(that)
-    }, updateInterval)
-  }
-  getData (that) {
-    fetch(ClientConfig.hub_api_url + '/button')
-      .then(function (response) {
-        if (response.status >= 400) {
-          throw new Error('Bad response from server')
-        }
-        return response.json()
-      })
-      .then(function (currentjson) {
-        if (currentjson && currentjson.data) {
-          if (currentjson.data.count) {
-            that.state.data.count = currentjson.data.count
-          }
-          that.state.data.lastUpdate = new Date().toISOString()
-          var styleClone = JSON.parse(JSON.stringify(that.state.style))
-          that.state.style = styleClone
-          that.setState(that.state)
-        }
-      })
-      .catch(function (error) {
-        that.state.data = {
-          count: '-',
-          lastUpdate: '2017-01-01T00:00:00.000Z'
-        }
-        that.setState(that.state)
-      })
+    const socket = socketio(ClientConfig.hub_api_url + '/buttonSocket')
+    socket.on('button', function (button) {
+      console.log(button)
+      if (button.count) {
+        that.state.data.count = button.count
+      }
+      that.state.data.lastUpdate = new Date().toISOString()
+      var styleClone = JSON.parse(JSON.stringify(that.state.style))
+      that.state.style = styleClone
+      that.setState(that.state)
+    })
   }
   render () {
     var retval
