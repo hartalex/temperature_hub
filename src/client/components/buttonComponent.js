@@ -4,7 +4,7 @@ import Util from '../util'
 import PropTypes from 'prop-types'
 import ClientConfig from '../config.js'
 import AlertCheck from '../alertCheck'
-//import socketio from 'socket.io-client'
+import socketio from 'socket.io-client'
 
 class ButtonComponent extends React.Component {
   constructor (props, graphId, getData) {
@@ -36,7 +36,7 @@ class ButtonComponent extends React.Component {
     }
     var that = this
 
-    /* const socket = socketio(ClientConfig.hub_api_url + '/buttonSocket')
+    const socket = socketio(ClientConfig.hub_api_url + '/buttonSocket')
     socket.on('button', function (button) {
       if (button.count) {
         that.state.data.count = button.count
@@ -46,7 +46,6 @@ class ButtonComponent extends React.Component {
       that.state.style = styleClone
       that.setState(that.state)
     })
-    */
   }
   render () {
     var retval
