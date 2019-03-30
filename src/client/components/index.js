@@ -30,13 +30,11 @@ export function renderRoot () {
         {!isSummer && <Memory updateIntervalInMinutes="60" />}
         <Temperature sensorName="Basement" />
         <Temperature sensorName="Living Room" />
-        <Temperature sensorName="Fish Tank" />
-        <Forecast3Day updateIntervalInMinutes="60" />
+        <Temperature sensorName="Fish Tank" /
         <Temperature sensorName="Bedroom" />
         <Temperature sensorName="Outside" />
         <Temperature sensorName="Garage" />
         <Button updateIntervalInSeconds="60" />
-        <Moon updateIntervalInMinutes="60" />
         <DoorGraph title="Doors" duration="24h" updateIntervalInMinutes="5" />
         <TemperatureGraph title="Temperatures" duration="24h" updateIntervalInMinutes="5" />
         <TempDataFetcherComponent updateIntervalInMinutes="5" />
