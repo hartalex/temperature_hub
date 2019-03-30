@@ -30,7 +30,7 @@ export function renderRoot () {
         {!isSummer && <Memory updateIntervalInMinutes="60" />}
         <Temperature sensorName="Basement" />
         <Temperature sensorName="Living Room" />
-        <Temperature sensorName="Fish Tank" /
+        <Temperature sensorName="Fish Tank" />
         <Temperature sensorName="Bedroom" />
         <Temperature sensorName="Outside" />
         <Temperature sensorName="Garage" />
