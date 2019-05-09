@@ -73,6 +73,14 @@
               },
               "initialDelaySeconds": 30,
               "periodSeconds": 3
+            },
+            "readinessProbe": {
+              "httpGet": {
+                "port": 8220,
+                "path": "/info"
+              },
+              "initialDelaySeconds": 30,
+              "periodSeconds": 3
             }
           }
         ]

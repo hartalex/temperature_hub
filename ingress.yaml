@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hub-hartcode-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: hub-hartcode-prod
+    networking.gke.io/managed-certificates: hub-hartcode-cert-prod
+spec:
+  backend:
+    serviceName: temperature-hub-nodeport
+    servicePort: hubhartcodehttp
