@@ -2,7 +2,7 @@
   "kind": "Service",
   "apiVersion": "v1",
   "metadata": {
-    "name": "temperature-hub-nodeport"
+    "name": "temperature-hub"
   },
   "spec": {
     "selector": {
@@ -10,12 +10,12 @@
     },
     "ports": [
       {
-        "name": "hubhartcodehttp",
+        "name": "http",
         "protocol": "TCP",
         "port": 80,
         "targetPort": 8220
       }
     ],
-    "type": "NodePort"
+    "type": "LoadBalancer"
   }
 }
