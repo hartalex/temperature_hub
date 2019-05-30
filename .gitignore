@@ -5,3 +5,4 @@ build
 coverage
 lcov.info
 *.retry
+*.swp
