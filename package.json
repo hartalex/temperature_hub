@@ -75,8 +75,10 @@
     "file-loader": "^1.1.11",
     "image-webpack-loader": "4.3.1",
     "jest": "23.1.0",
+    "nyc": "^11.6.0",
     "promise": "8.0.1",
     "raf": "3.4.0",
+    "react-test-renderer": "^16.8.6",
     "redux-devtools": "^3.4.1",
     "resolve-url-loader": "^2.3.0",
     "rimraf": "^2.6.2",
@@ -87,8 +89,7 @@
     "webpack-cli": "^2.0.11",
     "webpack-dev-server": "^3.1.1",
     "webpack-hot-middleware": "^2.21.2",
-    "webpack-node-externals": "^1.6.0",
-    "nyc": "^11.6.0"
+    "webpack-node-externals": "^1.6.0"
   },
   "jest": {
     "collectCoverageFrom": [
