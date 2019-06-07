@@ -20,7 +20,7 @@ let store = createStore(
 
 export function renderRoot() {
   // TODO: make this a data point, I don't want to have to manually turn this off and again
-  var isSummer = false;
+  var isSummer = true;
 
   var style = {
     textAlign: 'center',
