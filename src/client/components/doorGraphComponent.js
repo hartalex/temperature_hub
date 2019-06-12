@@ -70,7 +70,6 @@ const getDoorData = async function(duration, that) {
   } catch (error) {
     that.state.data = null;
     that.setState(that.state);
-    console.error(error);
   }
 };
 
