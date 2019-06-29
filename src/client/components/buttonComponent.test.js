@@ -3,8 +3,8 @@ import ButtonComponent from './buttonComponent.js';
 import renderer from 'react-test-renderer';
 import mockdate from 'mockdate';
 
-describe('Button Component', async () => {
-  it('Renders', async () => {
+describe('Button Component', () => {
+  it('Renders', () => {
     mockdate.set('2017-01-01T00:00:00.000Z');
 
     const component = renderer.create(<ButtonComponent />);
