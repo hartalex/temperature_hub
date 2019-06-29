@@ -17,7 +17,7 @@ module.exports = function(api) {
     ignore,
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
-      'transform-regenerator',
+      '@babel/transform-runtime',
       ['minify-mangle-names', {eval: true, topLevel: true}],
     ],
   };

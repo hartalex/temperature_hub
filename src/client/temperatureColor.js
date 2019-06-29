@@ -1,15 +1,15 @@
-import Colors from './colors'
+import Colors from './colors';
 
-module.exports = function (temp) {
-  var retval
+export default function(temp) {
+  var retval;
   if (temp === 0) {
-    retval = Colors.White
+    retval = Colors.White;
   } else if (temp > 75) {
-    retval = Colors.SoftRed
+    retval = Colors.SoftRed;
   } else if (temp > 63) {
-    retval = Colors.SoftGreen
+    retval = Colors.SoftGreen;
   } else {
-    retval = Colors.SoftBlue
+    retval = Colors.SoftBlue;
   }
-  return retval
+  return retval;
 }
