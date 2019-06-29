@@ -75,6 +75,7 @@
     "file-loader": "^1.1.11",
     "image-webpack-loader": "4.3.1",
     "jest": "23.1.0",
+    "mockdate": "^2.0.3",
     "nyc": "^11.6.0",
     "promise": "8.0.1",
     "raf": "3.4.0",
