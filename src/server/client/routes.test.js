@@ -12,12 +12,10 @@ describe('routes', function() {
         json: jest.fn().mockReturnThis(),
       };
       var app = {
-        get: function(obj, callback) {
-          callback(req, res);
-        },
+        get: jest.fn(),
       };
       routes(app);
-      assert.equal(cnt, 3);
+      expect(app.get).toHaveBeenCalledTimes(4);
     });
   });
 });
