@@ -9,22 +9,25 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpack from 'webpack'
 import webpackConfig from '../../webpack.dev.config'
 
-const log = new winston.Logger({
-  transports: [new winston.transports.Console({ timestamp: true })]
-})
-
-const port = 8080
-
-const app = express()
-
 const winstonConsoleBase = {
   colorize: true,
   timestamp: true
 }
 
+const log = new winston.Logger({
+  transports: [new winston.transports.Console(winstonConsoleBase)]
+})
+
+const {
+  env: { NODE_ENV }
+} = process
+const port = 8080
+
+const app = express()
+
 app.set('view engine', 'ejs')
 
-if (process.env.NODE_ENV !== 'production') {
+if (NODE_ENV !== 'production') {
   const compiler = webpack(webpackConfig)
   app.use(
     webpackDevMiddleware(compiler, {

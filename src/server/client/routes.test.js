@@ -1,6 +1,9 @@
 import routes from './routes.js'
 import express from 'express'
 import request from 'supertest'
+jest.unmock('express')
+jest.unmock('webpack-dev-middleware')
+jest.unmock('webpack-hot-middleware')
 
 describe('routes', () => {
   describe('#function (app)', () => {
