@@ -8,8 +8,7 @@
     "clean": "rimraf build",
     "build": "NODE_ENV=production npm run clean && babel src/server -d build/server && webpack",
     "lint": "eslint src/**",
-    "start": "NODE_ENV=development node src/server/server.js",
-    "prodstart": "node build/server/server.prod.js",
+    "start": "npm run build && node build/server/server.js",
     "version": "node -v",
     "coverage": "nyc report --reporter=text-lcov > lcov.info",
     "cleanOldContainers": "node scripts/cleanOldContainers.js"
