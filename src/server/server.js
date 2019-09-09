@@ -1,14 +1,13 @@
 import path from 'path'
-const cache = require('express-cache-headers')
-const expressWinston = require('express-winston')
-const winston = require('winston')
-const express = require('express')
-const webRoutes = require('./client/routes')
-
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const webpack = require('webpack')
-const webpackConfig = require('../../webpack.dev.config')
+import cache from 'express-cache-headers'
+import expressWinston from 'express-winston'
+import winston from 'winston'
+import express from 'express'
+import webRoutes from './client/routes'
+import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import webpack from 'webpack'
+import webpackConfig from '../../webpack.dev.config'
 
 const log = new winston.Logger({
   transports: [new winston.transports.Console({ timestamp: true })]
@@ -17,6 +16,11 @@ const log = new winston.Logger({
 const port = 8080
 
 const app = express()
+
+const winstonConsoleBase = {
+  colorize: true,
+  timestamp: true
+}
 
 app.set('view engine', 'ejs')
 
@@ -39,9 +43,8 @@ app.use(
   expressWinston.logger({
     transports: [
       new winston.transports.Console({
-        msg: 'HTTP {{req.method}} {{req.url}}',
-        colorize: true,
-        timestamp: true
+        ...winstonConsoleBase,
+        msg: 'HTTP {{req.method}} {{req.url}}'
       })
     ]
   })
@@ -61,9 +64,8 @@ app.use(
   expressWinston.errorLogger({
     transports: [
       new winston.transports.Console({
-        json: true,
-        colorize: true,
-        timestamp: true
+        ...winstonConsoleBase,
+        json: true
       })
     ]
   })
