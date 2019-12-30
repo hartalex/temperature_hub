@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import winston from 'winston';
-import webpackConfig from '../../webpack.dev.config';
+import webpackConfig from '../../webpack.config';
 import webRoutes from './client/routes';
 
 const winstonConsoleBase = {

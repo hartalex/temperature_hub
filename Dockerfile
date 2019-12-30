@@ -10,6 +10,7 @@ COPY ./package.json .
 RUN npm install --production
 COPY ./build ./build
 COPY ./views ./views
+COPY ./webpack.config.js ./webpack.config.js
 EXPOSE 8220
 EXPOSE 443
 ENTRYPOINT ["node","build/server/server.js"]
