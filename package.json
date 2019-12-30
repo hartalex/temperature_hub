@@ -44,7 +44,12 @@
     "request": "^2.83.0",
     "socket.io-client": "^2.2.0",
     "whatwg-fetch": "^2.0.3",
-    "winston": "2.4.0"
+    "winston": "2.4.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2",
+    "webpack-hot-middleware": "^2.21.2",
+    "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",
@@ -79,12 +84,7 @@
     "simple-mock": "^0.8.0",
     "style-loader": "^0.20.3",
     "supertest": "^4.0.2",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2",
-    "webpack-hot-middleware": "^2.21.2",
-    "webpack-node-externals": "^1.6.0"
+    "url-loader": "^1.0.1"
   },
   "jest": {
     "collectCoverageFrom": [
