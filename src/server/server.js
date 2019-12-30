@@ -22,7 +22,7 @@ const {
   env: {NODE_ENV},
 } = process;
 
-const port = 8080;
+const port = 8220;
 
 const app = express();
 
